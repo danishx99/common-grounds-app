@@ -15,28 +15,28 @@
 
 <body class="bg-[#001B0C] flex items-center justify-center p-[2%]">
 
-    <section class="px-14 w-[60%] flex flex-col items-center pt-[2%]">
+    <section class="px-14 w-[60%] flex flex-col items-center pt-[2%] max-sm:w-[90%] max-md:w-[80%] md:w-[75%]">
 
         <header class="mb-9 ml-5">
             <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
         </header>
 
-        <form class="bg-white rounded-3xl py-6 px-9 w-[50%]" id="create-new-acc" action="#">
+        <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%] id=" create-new-acc"
+            action="#">
 
             <h2 class="font-black text-center text-3xl text-gray-600 mb-[10%]">Create New Account</h2>
 
             <section class="form-main flex flex-col">
 
-                <section class="flex mb-[5%] ">
-                    <section class="flex flex-col">
+                <section class="flex mb-[5%] w-full justify-between">
+                    <section class="flex flex-col w-[50%]">
                         <label for="fname" class="text-xs mb-[2.5%]">First Name</label>
-                        <input type="text" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] w-[95%]" id="fname" name="fname">
+                        <input type="text" class="p-2 text-xs rounded-3xl bg-[#EFEFEF]" id="fname" name="fname">
                     </section>
 
-                    <section class="flex flex-col">
+                    <section class="flex flex-col w-[50%]">
                         <label for="lname" class="text-xs mb-[2.5%] ml-2">Last Name</label>
-                        <input type="text" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] w-[95%] ml-2" id="lname"
-                            name="lname">
+                        <input type="text" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] ml-2" id="lname" name="lname">
                     </section>
                 </section>
 
@@ -53,7 +53,8 @@
                 </select>
 
                 <label for="psw" class="mb-[2.5%] text-xs">Create Password</label>
-                <input type="password" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]" id="psw" name="psw" required>
+                <input type="password" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]" id="psw" name="psw"
+                    required>
 
                 <label class="mb-[2.5%] text-xs" for="psw-confirm">Confirm Password</label>
                 <input type="password" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-4" id="psw-confirm"
@@ -66,12 +67,12 @@
 
             <section class="form-footer">
                 <p class="text-center text-xs">Already have an account? <a class="font-bold underline"
-                        href="login.html">Login</a></p>
+                        href="login">Login</a></p>
             </section>
         </form>
     </section>
 
-    <article class="right-pane w-[40%] flex items-center justify-start">
+    <article class="right-pane w-[40%] items-center justify-start md:flex hidden">
         <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
     </article>
 

@@ -586,6 +586,10 @@ video {
   margin-left: 1.25rem;
 }
 
+.ml-\[7\.5\%\] {
+  margin-left: 7.5%;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -600,6 +604,10 @@ video {
 
 .w-4 {
   width: 1rem;
+}
+
+.w-\[40\%\] {
+  width: 40%;
 }
 
 .w-\[50\%\] {
@@ -624,6 +632,10 @@ video {
 
 .items-center {
   align-items: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
 }
 
 .justify-center {
@@ -741,4 +753,5 @@ video {
   padding: 100;
   box-sizing: border-box;
   font-family: "Nunito", sans-serif;
+  /* border: 1px solid white; */
 }

@@ -590,6 +590,10 @@ video {
   margin-right: 0.5rem;
 }
 
+.mt-\[2\%\] {
+  margin-top: 2%;
+}
+
 .flex {
   display: flex;
 }
@@ -600,6 +604,10 @@ video {
 
 .h-12 {
   height: 3rem;
+}
+
+.h-full {
+  height: 100%;
 }
 
 .w-4 {
@@ -678,10 +686,6 @@ video {
   padding: 0.5rem;
 }
 
-.p-5 {
-  padding: 1.25rem;
-}
-
 .p-\[2\%\] {
   padding: 2%;
 }
@@ -699,6 +703,10 @@ video {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.pb-\[2\%\] {
+  padding-bottom: 2%;
 }
 
 .pt-\[2\%\] {
@@ -765,17 +773,38 @@ video {
   padding: 100;
   box-sizing: border-box;
   font-family: "Nunito", sans-serif;
-  overflow: hidden;
-  /* border: 1px solid white; */
+  overflow: visible;
+}
+
+body::-webkit-scrollbar {
+  width: 5px;
+  /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: blue;
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid white;
+  /* creates padding around scroll thumb */
 }
 
 @media not all and (min-width: 768px) {
   .max-md\:w-\[80\%\] {
     width: 80%;
   }
+
+  .max-md\:w-\[90\%\] {
+    width: 90%;
+  }
 }
 
 @media not all and (min-width: 640px) {
+  .max-sm\:w-\[100\%\] {
+    width: 100%;
+  }
+
   .max-sm\:w-\[90\%\] {
     width: 90%;
   }

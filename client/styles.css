@@ -7,6 +7,18 @@
     padding: 100;
     box-sizing: border-box;
     font-family: "Nunito", sans-serif;
-    overflow: hidden;
-    /* border: 1px solid white; */
+     overflow: visible;
+
+}
+
+body::-webkit-scrollbar {
+  width: 5px;               /* width of the entire scrollbar */
+}
+
+
+
+body::-webkit-scrollbar-thumb {
+  background-color: blue;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid white;  /* creates padding around scroll thumb */
 }

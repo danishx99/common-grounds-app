@@ -658,6 +658,10 @@ video {
   justify-content: space-between;
 }
 
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
 .rounded-3xl {
   border-radius: 1.5rem;
 }

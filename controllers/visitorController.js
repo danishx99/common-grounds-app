@@ -15,7 +15,7 @@ exports.createVisitor = async (req, res) => {
 exports.getVisitors = async (req, res) => {
   try {
     const visitors = await Visitor.find();
-    res.json("authenticted");
+    res.json("authenticated");
   } catch (error) {
     console.error('Error getting visitors:', error);
     res.status(500).json({ error: 'Error getting visitors' });

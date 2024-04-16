@@ -7,9 +7,14 @@
     padding: 100;
     box-sizing: border-box;
     font-family: "Nunito", sans-serif;
-     overflow: visible;
+    overflow: visible;
+    /* border: 1px solid white; */
 
 }
+
+html,body {
+  height: 100%
+} 
 
 body::-webkit-scrollbar {
   width: 5px;               /* width of the entire scrollbar */

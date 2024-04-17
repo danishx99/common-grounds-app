@@ -1,76 +1,99 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - propertymanagementproject
+name: Build and deploy Node.js app to Azure Web App
 
 on:
   push:
     branches:
       - main
+      - testing
   workflow_dispatch:
 
 jobs:
+
   build:
     runs-on: windows-latest
     defaults:
-       run:
-         working-directory: ./server
-
+      run:
+        working-directory: ./server
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
           cache: 'npm'
           cache-dependency-path: './server/package-lock.json'
-
       - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
-
       - name: Zip artifact for deployment
         run: Compress-Archive -Path ./* -DestinationPath release.zip
-      
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
           path: ./server/release.zip
 
-  deploy:
+  deploy-testing:
     runs-on: windows-latest
     needs: build
     environment:
       name: 'Testing'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    if: github.ref == 'refs/heads/testing'
     permissions:
-      id-token: write #This is required for requesting the JWT
-
+      id-token: write
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: node-app
-      
       - name: Unzip artifact for deployment
         run: Expand-Archive -Path release.zip -DestinationPath .
-      
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BD91243AA28640D98529E42D55CAC322 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_423840D28D0C47E6BC3C01330604C57A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_25E039E03C644A08B6DD4255E8CC6E61 }}
-
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_TESTING }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_TESTING }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_TESTING }}
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'propertymanagementproject'
+          app-name: 'propertymanagementproject-testing'
           slot-name: 'Testing'
           package: .
-          
+
+  deploy-production:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      id-token: write
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: node-app
+      - name: Unzip artifact for deployment
+        run: Expand-Archive -Path release.zip -DestinationPath .
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_PRODUCTION }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_PRODUCTION }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_PRODUCTION }}
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp
+        with:
+          app-name: 'propertymanagementproject-prod'
+          slot-name: 'Production'
+          package: .

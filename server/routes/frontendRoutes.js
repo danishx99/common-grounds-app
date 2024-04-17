@@ -8,7 +8,8 @@ const path = require("path");
 //login route 
 router.get("/login", (req, res) => {
    
-    res.sendFile(path.join(__dirname, '../client/login.html'));
+    console.log(__dirname)
+    res.sendFile(path.join(__dirname, '../../client/login.html'));
     
   });
   
@@ -20,7 +21,7 @@ router.get("/login", (req, res) => {
   
   //user registration route
   router.get("/register", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/register.html'));
+    res.sendFile(path.join(__dirname, '../../client/register.html'));
   });
 
 

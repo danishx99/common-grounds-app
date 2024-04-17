@@ -1,14 +1,14 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
-const dotenv = require("dotenv");
-const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-const visitorRoutes = require("./routes/visitorRoutes");
-const issueRoutes = require("./routes/issueRoutes");
-const fineRoutes = require("./routes/fineRoutes");
-const noticeRoutes = require("./routes/noticeRoutes");
-const frontendRoutes = require("./routes/frontendRoutes");
+const express = require("./server/node_modules/express");
+const mongoose = require("./server/node_modules/mongoose");
+const cookieParser = require("./server/node_modules/cookie-parser");
+const dotenv = require("./server/node_modules/dotenv");
+const authRoutes = require("./server/routes/authRoutes");
+const userRoutes = require("./server/routes/userRoutes");
+const visitorRoutes = require("./server/routes/visitorRoutes");
+const issueRoutes = require("./server/routes/issueRoutes");
+const fineRoutes = require("./server/routes/fineRoutes");
+const noticeRoutes = require("./server/routes/noticeRoutes");
+const frontendRoutes = require("./server/routes/frontendRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;

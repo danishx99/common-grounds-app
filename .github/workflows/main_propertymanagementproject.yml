@@ -21,7 +21,8 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install, build, and test
+      - name: npm install, build, and test (in ./server directory)
+        working-directory: ./server 
         run: |
           npm install
           npm run build --if-present
@@ -29,7 +30,7 @@ jobs:
 
       - name: Zip artifact for deployment
         run: Compress-Archive -Path ./* -DestinationPath release.zip
-      
+        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -50,10 +51,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
-      
+          
       - name: Unzip artifact for deployment
         run: Expand-Archive -Path release.zip -DestinationPath .
-      
+        
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -67,5 +68,4 @@ jobs:
         with:
           app-name: 'propertymanagementproject'
           slot-name: 'Production'
-          package: .
-          
+          package: . 

@@ -1,10 +1,7 @@
 var submitButton = document.getElementById('submitButton');
 
-
-
 submitButton.addEventListener('click', function(event) {
     event.preventDefault();
-
 
    console.log('Submit button clicked');
 
@@ -59,9 +56,6 @@ submitButton.addEventListener('click', function(event) {
             alert.style.display = 'block';
             alert.innerText ="You have successfully logged in";
         }
-
-         
-
          
       })
       .catch((error) => {

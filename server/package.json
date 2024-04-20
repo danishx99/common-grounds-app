@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js", 
+    "dev": "npm install & cd .. &  node app.js"
   },
   "author": "Qais",
   "license": "ISC",

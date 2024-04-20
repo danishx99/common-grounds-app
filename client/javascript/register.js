@@ -53,7 +53,7 @@ submitButton.addEventListener('click', function(event) {
             //Show success message 
             var alert = document.getElementById('alert');
             alert.style.display = 'block';
-            alert.innerText = "User registered successfully, you can now login.";
+            alert.innerText = "User registered successfully";
 
             //clear form fields
             document.getElementById('fname').value = '';
@@ -69,9 +69,6 @@ submitButton.addEventListener('click', function(event) {
             alert.style.display = 'block';
             alert.innerText = data.error;
          }
-
-         
-
          
       })
       .catch((error) => {

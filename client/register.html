@@ -13,10 +13,9 @@
     <link rel="stylesheet" href="./src/output.css">
 </head>
 
-<body class="bg-[#001B0C] flex items-center justify-center">
+<body class="bg-[#001B0C] flex items-center justify-center p-[2%]">
 
-    <section
-        class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
+    <section class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
 
         <header class="mb-9 ml-5 mt-[2%]">
             <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
@@ -25,52 +24,50 @@
         <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%]" id='create-new-acc'
             action="#">
             <!--Alert box-->
-            <div class="bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]"
+            <div class="alert-box"
                 id="alert" role="alert">
 
             </div>
 
-            <h2 class="font-black text-center text-3xl text-gray-600 mb-[10%]">Create New Account</h2>
+            <h2 class="main-heading">Create New Account</h2>
 
             <section class="flex flex-col form-main">
 
-                <section class="flex mb-[5%] w-full justify-between">
+                <section class="flex justify-between w-full">
                     <section class="flex flex-col w-[50%]">
-                        <label for="fname" class="text-xs mb-[2.5%]">First Name</label>
-                        <input type="text" class="p-2 text-xs rounded-3xl bg-[#EFEFEF]" id="fname" name="fname">
+                        <label for="fname" class="standard-label">First Name</label>
+                        <input type="text" class="standard-input" id="fname" name="fname">
                     </section>
 
                     <section class="flex flex-col w-[50%]">
-                        <label for="lname" class="text-xs mb-[2.5%] ml-2">Last Name</label>
-                        <input type="text" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] ml-2" id="lname" name="lname">
+                        <label for="lname" class="ml-2 standard-label">Last Name</label>
+                        <input type="text" class="ml-2 standard-input" id="lname" name="lname">
                     </section>
                 </section>
 
 
-                <label class="mb-[2.5%] text-xs" for="email">Email</label>
-                <input type="email" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]" id="email" name="email">
+                <label class="standard-label" for="email">Email</label>
+                <input type="email" class="standard-input" id="email" name="email">
 
                 <!-- drop-down menu -->
-                <label class="mb-[2.5%] text-xs" for="acc_type">Select Account Type</label>
-                <select class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]" name="account_types" id="acc-type">
+                <label class="standard-label" for="acc_type">Select Account Type</label>
+                <select class="standard-input" name="account_types" id="acc-type">
                     <option value="Resident">Resident</option>
                     <option value="Staff">Staff</option>
                     <option value="Admin">Admin</option>
                 </select>
 
-                <label for="psw" class="mb-[2.5%] text-xs">Create Password</label>
-                <input type="password" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]" id="psw" name="psw"
+                <label for="psw" class="standard-label">Create Password</label>
+                <input type="password" class="standard-input" id="psw" name="psw"
                     required>
 
-                <label class="mb-[2.5%] text-xs" for="psw-confirm">Confirm Password</label>
-                <input type="password" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-4" id="psw-confirm"
+                <label class="standard-label" for="psw-confirm">Confirm Password</label>
+                <input type="password" class="mb-4 standard-input" id="psw-confirm"
                     name="psw-confirm" required>
 
-                <button type="button" id="submitButton"
-                    class="flex items-center justify-center mb-2 bg-[#004621] rounded-3xl text-white p-2 font-bold">
-                    Create Account
+                <button type="button" id="submitButton" class="green-button">Create Account
                     <svg aria-hidden="true"
-                        class="w-8 h-8 ml-2 hidden text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]"
+                        class="w-6 h-6 ml-2 hidden text-green-200 animate-spin dark:text-gray-600 fill-[#004621]"
                         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loader">
                         <path
                             d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
@@ -85,13 +82,12 @@
             </section>
 
             <section class="form-footer">
-                <p class="text-xs text-center">Already have an account? <a class="font-bold underline"
-                        href="login.html">Login</a></p>
+                <p class="text-xs text-center">Already have an account? <a class="font-bold underline hover:text-green-700" href="login.html">Login</a></p>
             </section>
         </form>
     </section>
 
-    <article class="w-[40%] items-center justify-center md:flex hidden h-full mr-[5%] mt-[7.5%]">
+    <article class="right-logo">
         <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
     </article>
 

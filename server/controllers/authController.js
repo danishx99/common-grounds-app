@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const User = require("../models/User");
 const validateEmail = require("../utils/emailUtils");
+const valPassComplexity = require("../utils/passwordUtils");
 const transporter = require("../utils/mailer");
 
 dotenv.config();
@@ -70,6 +71,20 @@ exports.registerUser = async (req, res) => {
     if (password !== confirmPassword) {
       return res.status(400).json({error: "Passwords do not match"});
     }
+
+    // Validate the password complexity
+    const isValidPassword = await valPassComplexity.checkPassword(password)
+
+    //console.log(isValidPassword)
+
+    if(!isValidPassword) {
+      return res.status(400).json({error: "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"});
+    }
+
+
+    
+
+
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -194,8 +209,11 @@ exports.forgetPassword = async (req, res) => {
       {expiresIn: "1h"}
     );
 
+    var url = req.protocol + '://' + req.get('host');
+    
+
     // Send the password reset email
-    await transporter.sendMail({
+    let mail = await transporter.sendMail({
       from: "noreply@yourapp.com",
       to: user.email,
       subject: "Password Reset Request",
@@ -205,14 +223,18 @@ exports.forgetPassword = async (req, res) => {
         We received a request to reset your password. If you did not make this request, please ignore this email.
 
         To reset your password, please click the following link:
-        ${process.env.FRONTEND_URL}/reset-password?token=${resetToken}
+        ${url}/reset-password?token=${resetToken}
 
         This link will expire in 1 hour.
 
         Best regards,
-        Your App Team
+        Commongrounds Admin Team
       `,
     });
+
+    console.log(`Email sent to ${user.email}: ${mail.messageId}`);
+
+    
 
     res.json({
       message: "Password reset instructions have been sent to your email",
@@ -244,15 +266,40 @@ exports.forgetPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   try {
-    const {resetToken, newPassword, confirmPassword} = req.body;
+
+   
+   
+    const {resetToken, password, confirmPassword} = req.body
+
+    console.log("Reset token : " + resetToken)
+
+    console.log("New password : " + password)
+
+    console.log("Confirm password : " + confirmPassword)
+    
 
     // Verify if the newPassword and confirmPassword match
-    if (newPassword !== confirmPassword) {
+    if (password !== confirmPassword) {
+      console.log("Passwords do not match")
       return res.status(400).json({error: "Passwords do not match"});
     }
 
+    // Validate the password complexity
+    const isValidPassword = await valPassComplexity.checkPassword(password)
+
+    
+
+    if(!isValidPassword) {
+      return res.status(400).json({error: "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"});
+    }
+
+
     // Verify the reset token
     const decoded = jwt.verify(resetToken, process.env.RESET_JWT_SECRET);
+
+    if(!decoded) {
+      return res.status(401).json({error: "Invalid reset token"});
+    }
 
     // Find the user by email
     const user = await User.findOne({email: decoded.email});
@@ -262,12 +309,12 @@ exports.resetPassword = async (req, res) => {
     }
 
     // Update the user's password
-    user.password = await bcrypt.hash(newPassword, 10);
+    user.password = await bcrypt.hash(password, 10);
     await user.save();
 
     res.json({message: "Password reset successfully"});
   } catch (error) {
-    console.error("Error resetting password:", error);
+    console.log("Error resetting password:", error);
     res.status(500).json({error: "Error resetting password"});
   }
 };

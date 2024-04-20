@@ -22,7 +22,7 @@ router.post("/forgot-password", (req, res) =>
 
 router.post(
   "/reset-password",
-  (req, res, next) => auth.verifyResetToken(req, res, next),
+  
   (req, res) => authController.resetPassword(req, res)
 );
 

@@ -20,6 +20,12 @@ submitButton.addEventListener("click", function (event) {
   var loader = document.getElementById("loader")
   loader.style.display = "flex"
 
+  //send token password and confirm password
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+
+
   //post request to reset password
   fetch("/api/auth/reset-password", {
     method: "POST",
@@ -27,8 +33,10 @@ submitButton.addEventListener("click", function (event) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      resetToken: token,
       password: document.getElementById("psw").value,
       confirmPassword: document.getElementById("psw-confirm").value,
+
     }),
   })
     .then(response => {

@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 //login route 
 router.get("/login", (req, res) => {
    
-    console.log(__dirname)
+   
     res.sendFile(path.join(__dirname, '../../client/login.html'));
     
   });

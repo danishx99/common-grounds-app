@@ -50,13 +50,13 @@ exports.verifyToken = (req, res, next) => {
 
 exports.verifyResetToken = (req, res, next) => {
   try {
-    const resetToken = req.body.resetToken;
+    const resetToken = req.params.token;
     const decoded = jwt.verify(resetToken, process.env.RESET_JWT_SECRET);
     req.userId = decoded.userId;
     req.email = decoded.email;
     next();
   } catch (error) {
-    console.error("Error verifying reset token:", error);
+    console.log("Error verifying reset token:", error);
     res.status(401).json({error: "Invalid reset token"});
   }
 };

@@ -566,10 +566,6 @@ video {
   margin-bottom: 10%;
 }
 
-.mb-\[2\.5\%\] {
-  margin-bottom: 2.5%;
-}
-
 .mb-\[5\%\] {
   margin-bottom: 5%;
 }
@@ -697,11 +693,6 @@ video {
   background-color: rgb(0 27 12 / var(--tw-bg-opacity));
 }
 
-.bg-\[\#EFEFEF\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 239 239 / var(--tw-bg-opacity));
-}
-
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -709,10 +700,6 @@ video {
 
 .fill-\[\#004621\] {
   fill: #004621;
-}
-
-.p-2 {
-  padding: 0.5rem;
 }
 
 .p-\[2\%\] {

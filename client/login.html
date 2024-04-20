@@ -24,30 +24,30 @@
         <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%]" id="create-new-acc" action="#">
  
         <!--Alert box-->
-        <div class="bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]" id="alert" role="alert">
+        <div class="alert-box" id="alert" role="alert">
             
         </div>
 
-            <h2 class="font-black text-center text-3xl text-gray-600 mb-[10%]">Login</h2>
+            <h2 class="main-heading">Login</h2>
             <p class="font-bold text-center text-base text-gray-600">Welcome To</p>
             <p class="font-black text-center text-base text-gray-600 mb-[5%]">CommonGrounds Residential Management.</p>
 
             <section class="form-main flex flex-col">
 
-                <label class="mb-[2.5%] text-xs" for="email">Email</label>
-                <input type="email" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]" id="email" name="email">
+                <label class="standard-label" for="email">Email</label>
+                <input type="email" class="standard-input" id="email" name="email">
 
-                <label for="psw" class="mb-[2.5%] text-xs">Password</label>
-                <input type="password" class="p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]" id="psw" name="psw"
+                <label for="psw" class="standard-label">Password</label>
+                <input type="password" class="standard-input" id="psw" name="psw"
                     required>
 
                 <p class="text-right text-xs mb-[5%]"><a class="text-gray-500 underline ml-5" href="forgotPassword.html">Forgot
                         Password</a></p>
 
 
-                <button type="button" id="submitButton" class="flex items-center justify-center mb-3 bg-[#004621] rounded-3xl text-white p-1 font-bold">
+                <button type="button" id="submitButton" class="green-button">
                     Login
-                    <svg aria-hidden="true" class="w-8 h-8 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loader">
+                    <svg aria-hidden="true" class="w-6 h-6 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loader">
                         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
                         <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
                     </svg>
@@ -55,17 +55,17 @@
             </section>
 
             <section class="form-footer">
-                <p class="text-center text-xs text-gray-500 mb-[5%]">Or Continue With<a class="font-bold underline"
+                <p class="text-center text-xs text-gray-500 mt-[1%] mb-[5%]">Or Continue With<a class="font-bold underline"
                         href="#"></a></p>
             </section>
             <section class="form-main flex flex-col">
                 <button type="button"
-                    class="mb-3 bg-[#004621] rounded-3xl text-white p-1 font-bold flex justify-center items-center"><img
+                    class="green-button"><img
                         src="./assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google </button>
             </section>
 
             <section class="form-footer">
-                <p class="text-center text-xs">Don't have an account yet? <a class="font-bold underline"
+                <p class="text-center text-xs">Don't have an account yet? <a class="font-bold underline hover:text-green-700"
                         href="/register">Register Here</a></p>
             </section>
 

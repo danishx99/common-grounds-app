@@ -7,7 +7,9 @@ const path = require("path");
 //router.use(express.static("client"));
 //home route
 router.get("/", (req, res) => {
-  res.send("Welcome to the library management system");
+  
+  res.redirect("/login");
+
 });
 
 //login route 

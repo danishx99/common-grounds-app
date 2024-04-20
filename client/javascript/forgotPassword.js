@@ -55,6 +55,6 @@ submitButton.addEventListener("click", function (event) {
     .catch(error => {
       console.log("Error:", error)
       loader.style.display = "none"
-      alert("An error occurred. Please try again")
+     
     })
 })

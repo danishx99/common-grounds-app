@@ -17,7 +17,7 @@ router.post("/login-with-google", (req, res, next) => auth.verifyToken(req, res,
 
 // Password reset endpoint
 router.post("/forgot-password", (req, res) =>
-  authController.forgotPassword(req, res)
+  authController.forgetPassword(req, res)
 );
 
 router.post(

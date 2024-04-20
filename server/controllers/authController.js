@@ -11,7 +11,7 @@ const User = require("../models/User");
 const validateEmail = require("../utils/emailUtils");
 const valPassComplexity = require("../utils/passwordUtils");
 const transporter = require("../utils/mailer");
-const { Redirect } = require("twilio/lib/twiml/VoiceResponse");
+
 
 dotenv.config();
 

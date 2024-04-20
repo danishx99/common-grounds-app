@@ -598,8 +598,16 @@ video {
   margin-right: 0.5rem;
 }
 
+.mr-\[5\%\] {
+  margin-right: 5%;
+}
+
 .mt-\[2\%\] {
   margin-top: 2%;
+}
+
+.mt-\[7\.5\%\] {
+  margin-top: 7.5%;
 }
 
 .block {
@@ -666,10 +674,6 @@ video {
 
 .flex-col {
   flex-direction: column;
-}
-
-.items-start {
-  align-items: flex-start;
 }
 
 .items-center {
@@ -846,7 +850,6 @@ video {
   box-sizing: border-box;
   font-family: "Nunito", sans-serif;
   overflow: visible;
-  /* border: 1px solid white; */
 }
 
 html,body {

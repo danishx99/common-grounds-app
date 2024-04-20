@@ -47,15 +47,21 @@ submitButton.addEventListener("click", function (event) {
       //hide loader when response is received
       loader.style.display = "none"
 
-      if (data.message ==="Password reset successfully") {
-        //Show success message
-        var alert = document.getElementById("alert")
-        alert.style.display = "block"
-        alert.innerText ="Password reset successfully, you can now login."
+      
 
-        //clear form fields
-        document.getElementById("psw").value = ""
-        document.getElementById("psw-confirm").value = ""
+      if (data.message ==="Password reset successfully") {
+        // //Show success message
+        // var alert = document.getElementById("alert")
+        // alert.style.display = "block"
+        // alert.innerText ="Password reset successfully, you can now login."
+
+        // //clear form fields
+        // document.getElementById("psw").value = ""
+        // document.getElementById("psw-confirm").value = ""
+
+          window.location.href = "/login"
+        
+
       } else if (data.error) {
         //Show error message
         var alert = document.getElementById("alert")

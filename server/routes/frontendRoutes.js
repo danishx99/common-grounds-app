@@ -18,7 +18,7 @@ router.get("/login", (req, res) => {
    
     res.sendFile(path.join(__dirname, '../../client/login.html'));
     
-  });
+});
   
 // login with google route
 router.get("/login-with-google", (req, res) => {

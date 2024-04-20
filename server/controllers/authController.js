@@ -232,7 +232,7 @@ exports.forgetPassword = async (req, res) => {
       `,
     });
 
-    console.log(`Email sent to ${user.email}: ${mail.messageId}`);
+    console.log(`Email to reset password sent to ${user.email}: ${mail.messageId}`);
 
     
 
@@ -312,7 +312,36 @@ exports.resetPassword = async (req, res) => {
     user.password = await bcrypt.hash(password, 10);
     await user.save();
 
+    // Send the password reset email
+    let mail = await transporter.sendMail({
+      from: "noreply@yourapp.com",
+      to: user.email,
+      subject: "Password Reset Successful",
+      text: `
+        Hello, ${user.name},
+
+        Your password has been successfully reset.
+
+        If you did not make this request, please contact us immediately.
+
+        Best regards,
+        Commongrounds Admin Team
+        
+
+      `,
+    });
+
+    console.log(`Email confirming password reset sent to ${user.email}: ${mail.messageId}`);
+
+    
+
     res.json({message: "Password reset successfully"});
+
+    // //redirect to login page
+    // //return res.redirect("/login");
+
+    // res.status(302).setHeader('Location', '/login').end();
+
   } catch (error) {
     console.log("Error resetting password:", error);
     res.status(500).json({error: "Error resetting password"});

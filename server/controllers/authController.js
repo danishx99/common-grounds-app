@@ -11,6 +11,7 @@ const User = require("../models/User");
 const validateEmail = require("../utils/emailUtils");
 const valPassComplexity = require("../utils/passwordUtils");
 const transporter = require("../utils/mailer");
+const { Redirect } = require("twilio/lib/twiml/VoiceResponse");
 
 dotenv.config();
 
@@ -335,10 +336,14 @@ exports.resetPassword = async (req, res) => {
 
     
 
-    res.json({message: "Password reset successfully"});
+    
+
+    //console.log("Hi")
 
     // //redirect to login page
-    // //return res.redirect("/login");
+    
+
+    res.json({message: "Password reset successfully"});
 
     // res.status(302).setHeader('Location', '/login').end();
 

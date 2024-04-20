@@ -37,6 +37,23 @@
 
                 <label for="psw" class="standard-label">Password</label>
                 <input type="password" class="standard-input" id="psw" name="psw" required>
+                <img src="./assets/eye-close.png" id="eyeicon" class="w-6 cursor-pointer">
+
+                    <script>
+                        let eyeicon = document.getElementById('eyeicon');
+                        let psw = document.getElementById('psw');
+    
+                        eyeicon.addEventListener('click', () => {
+                            if (psw.type === 'password') {
+                                psw.type = 'text';
+                                eyeicon.src = './assets/eye-open.png';
+                            } else {
+                                psw.type = 'password';
+                                eyeicon.src = './assets/eye-close.png';
+                            }
+                        });
+                        
+                    </script>
 
                 <p class="text-right text-xs mb-[5%]"><a class="ml-5 font-bold underline hover:text-green-700" href="/forgot-password">Forgot Password?</a></p>
 

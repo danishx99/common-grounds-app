@@ -12,7 +12,7 @@ submitButton.addEventListener('click', function(event) {
    var password = document.getElementById('psw').value;
    var confirmPassword = document.getElementById('psw-confirm').value;
 
-   if (!fname || !lname || !email || !password || !confirmPassword) {
+   if (!fname || !lname || !email || !password || !confirmPassword || fname === "" || lname === "" || email === "" || password === "" || confirmPassword === "") {
     var alert = document.getElementById('alert');
     alert.style.display = 'block';
     alert.innerText = "Please fill in all fields";
@@ -25,7 +25,7 @@ submitButton.addEventListener('click', function(event) {
    loader.style.display = 'flex';
 
 
-   //post rqeuest to register user
+   // post request to register user
    fetch('/api/auth/register', {
       method: 'POST',
       headers: {

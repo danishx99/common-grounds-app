@@ -23,7 +23,7 @@ submitButton.addEventListener('click', function(event) {
    loader.style.display = 'flex';
 
 
-   //post rqeuest to login user
+   //post request to login user
    fetch('/api/auth/login', {
       method: 'POST',
       headers: {

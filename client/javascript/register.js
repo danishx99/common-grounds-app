@@ -65,7 +65,7 @@ submitButton.addEventListener('click', function(event) {
             // redirect to login page
             setTimeout(() => {
                window.location.href = '/login';
-            }, 3000);
+            }, 5000);
            
 
          }else if(data.error){

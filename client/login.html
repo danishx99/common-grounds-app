@@ -45,7 +45,27 @@
                 <input type="email" class="standard-input" id="email" name="email">
 
                 <label for="psw" class="standard-label">Password</label>
-                <input type="password" class="standard-input" id="psw" name="psw" required>
+                <div class="relative">
+                    <input type="password" id="psw" name="psw" required class="w-full standard-input">
+                    <img src="./assets/eye-close.png" alt="Show Password" id="eyeicon"
+                        class="absolute top-1 right-3 w-5 h-5 cursor-pointer hover:opacity-75">
+                </div>
+
+                <script>
+                    let eyeicon = document.getElementById('eyeicon');
+                    let psw = document.getElementById('psw');
+
+                    eyeicon.addEventListener('click', () => {
+                        if (psw.type === 'password') {
+                            psw.type = 'text';
+                            eyeicon.src = './assets/eye-open.png';
+                        } else {
+                            psw.type = 'password';
+                            eyeicon.src = './assets/eye-close.png';
+                        }
+                    });
+
+                </script>
 
                 <p class="text-right text-xs mb-[5%]"><a class="ml-5 font-bold underline hover:text-green-700"
                         href="/forgot-password">Forgot Password?</a></p>
@@ -71,9 +91,10 @@
                         class="font-bold underline" href="#"></a></p>
             </section>
 
-            <section class="green-button">
-                <a href="facialRecognition.html" class="flex items-center"><img src="./assets/whiteCameraIcon.png" class="w-5 mr-2" alt="logo">Camera</a>
-            </section>
+            <button class="green-button w-full">
+                <a href="facialRecognition.html" class="flex items-center"><img src="./assets/whiteCameraIcon.png"
+                        class="w-5 mr-2" alt="logo">Camera</a>
+            </button>
 
 
             <button id="login-with-google" class="green-button w-full">

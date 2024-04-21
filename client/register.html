@@ -81,8 +81,15 @@
                 </script>
 
                 <label class="standard-label" for="psw-confirm">Confirm Password</label>
-                <input type="password" class="mb-4 standard-input" id="psw-confirm" name="psw-confirm" required>
-                <img src="./assets/eye-close.png" id="eyeiconConfrim" class="w-6 cursor-pointer">
+                <div class="relative">
+                    <input type="password" class="mb-4 standard-input w-full" id="psw-confirm" name="psw-confirm"
+                        required>
+                    <img src="./assets/eye-close.png" id="eyeiconConfrim"
+                        class="absolute top-1 right-3 w-5 h-5 cursor-pointer hover:opacity-75">
+                </div>
+
+
+
 
                 <script>
                     let eyeiconConfirm = document.getElementById('eyeiconConfrim');
@@ -92,7 +99,7 @@
                         if (pswC.type === 'password') {
                             pswC.type = 'text';
                             eyeiconConfirm.src = './assets/eye-open.png';
-                            eyeiconConfirm.className += 'w-52';
+
                         } else {
                             pswC.type = 'password';
                             eyeiconConfirm.src = './assets/eye-close.png';

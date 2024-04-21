@@ -59,7 +59,10 @@ submitButton.addEventListener("click", function (event) {
         // document.getElementById("psw").value = ""
         // document.getElementById("psw-confirm").value = ""
 
-          window.location.href = "/login"
+        // redirect to login page
+          setTimeout(() => {
+              window.location.href = '/login';
+          }, 5000);
         
 
       } else if (data.error) {

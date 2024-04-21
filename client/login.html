@@ -11,20 +11,29 @@
         rel="stylesheet">
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./src/output.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
 </head>
 
 <body class="bg-[#001B0C] flex items-center justify-center p-[2%]">
 
-    <section class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
+
+    <section
+        class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
 
         <header class="mb-9 ml-5 mt-[2%]">
             <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
         </header>
 
-        <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%]" id="create-new-acc" action="#">
- 
-        <!--Alert box-->
-        <div class="alert-box" id="alert" role="alert"></div>
+        <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%]" id="create-new-acc"
+            action="#">
+
+            <!--Alert box-->
+            <div class="alert-box" id="alert" role="alert"></div>
+
+            <div id="firebaseui-auth-container"></div>
 
             <h2 class="main-heading">Login</h2>
             <p class="text-base font-bold text-center text-gray-600">Welcome To</p>
@@ -38,39 +47,59 @@
                 <label for="psw" class="standard-label">Password</label>
                 <input type="password" class="standard-input" id="psw" name="psw" required>
 
-                <p class="text-right text-xs mb-[5%]"><a class="ml-5 font-bold underline hover:text-green-700" href="/forgot-password">Forgot Password?</a></p>
+                <p class="text-right text-xs mb-[5%]"><a class="ml-5 font-bold underline hover:text-green-700"
+                        href="/forgot-password">Forgot Password?</a></p>
 
 
                 <button type="button" id="submitButton" class="green-button">
                     Login
-                    <svg aria-hidden="true" class="w-6 h-6 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loader">
-                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                    <svg aria-hidden="true"
+                        class="w-6 h-6 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]"
+                        viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loader">
+                        <path
+                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor" />
+                        <path
+                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill" />
                     </svg>
                 </button>
             </section>
 
             <section class="form-footer">
-                <p class="text-center text-xs text-gray-700 mt-[1%] mb-[5%]">Or Continue With<a class="font-bold underline"
-                        href="#"></a></p>
+                <p class="text-center text-xs text-gray-700 mt-[1%] mb-[5%]">Or Continue With<a
+                        class="font-bold underline" href="#"></a></p>
             </section>
-            <section class="green-button">
-                <a href="loginWithGoogle.html" class="flex items-center"><img src="./assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google</a>
-            </section>
+            <button id="login-with-google" class="green-button w-full">
+                <img src="./assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google <svg aria-hidden="true"
+                    class="w-6 h-6 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]"
+                    viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loaderGoogle">
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor" />
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill" />
+                </svg>
+            </button>
 
             <section class="form-footer">
-                <p class="text-xs text-center">Don't have an account yet? <a class="font-bold underline hover:text-green-700" href="/register">Register Here</a></p>
+                <p class="text-xs text-center">Don't have an account yet? <a
+                        class="font-bold underline hover:text-green-700" href="/register">Register Here</a></p>
             </section>
 
         </form>
     </section>
 
 
+
+
     <article class="w-[40%] items-center justify-start md:flex hidden h-full mr-[5%] mt-[7.5%]">
         <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
     </article>
 
-<script src="./javascript/login.js"></script>
+    <script src="./javascript/login.js"></script>
+    <script src="./javascript/loginWithGoogle.js"></script>
 </body>
 
 </html>

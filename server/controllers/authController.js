@@ -1,6 +1,7 @@
 const firebase = require("firebase/app");
 const {
   getAuth,
+  signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
 } = require("firebase/auth");
@@ -11,7 +12,6 @@ const User = require("../models/User");
 const validateEmail = require("../utils/emailUtils");
 const valPassComplexity = require("../utils/passwordUtils");
 const transporter = require("../utils/mailer");
-
 
 dotenv.config();
 
@@ -59,33 +59,31 @@ exports.registerUser = async (req, res) => {
     const isValidEmail = await validateEmail(email);
 
     if (!isValidEmail) {
-      return res.status(400).json({error: "Please provide a valid email"});
+      return res.status(400).json({ error: "Please provide a valid email" });
     }
 
     // Check if the user is already existing
-    const existing = await User.findOne({email});
+    const existing = await User.findOne({ email });
     if (existing) {
-      return res.status(400).json({error: "User already exists"});
+      return res.status(400).json({ error: "User already exists" });
     }
 
     // Verify if the password and confirm password match
     if (password !== confirmPassword) {
-      return res.status(400).json({error: "Passwords do not match"});
+      return res.status(400).json({ error: "Passwords do not match" });
     }
 
     // Validate the password complexity
-    const isValidPassword = await valPassComplexity.checkPassword(password)
+    const isValidPassword = await valPassComplexity.checkPassword(password);
 
     //console.log(isValidPassword)
 
-    if(!isValidPassword) {
-      return res.status(400).json({error: "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"});
+    if (!isValidPassword) {
+      return res.status(400).json({
+        error:
+          "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+      });
     }
-
-
-    
-
-
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -103,80 +101,76 @@ exports.registerUser = async (req, res) => {
     // Save the new user to the database
     await newUser.save();
 
-    res.status(201).json({message: "User registered successfully"});
+    res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.log("Error registering user:", error);
-    res.status(500).json({error: "Error registering user." + error});
+    res.status(500).json({ error: "Error registering user." + error });
   }
 };
 
 exports.loginUser = async (req, res) => {
   try {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
     // Find the user by email
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({error: "Invalid credentials"});
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
     // Compare the provided password with the hashed password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({error: "Invalid credentials"});
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
     // Generate a JWT token and return it as a secure cookie
     const token = jwt.sign(
-      {userId: user._id, role: user.role},
+      { userId: user._id, role: user.role },
       process.env.JWT_SECRET,
-      {expiresIn: "24h"}
+      { expiresIn: "24h" }
     );
 
     // Set token as an HttpOnly cookie
-    res.cookie("token", token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000}); // 24 hours
+    res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
 
     // Return a success message
-    res.json({success: true});
+    res.json({ success: true });
 
     //res.json({ token });
   } catch (error) {
     console.error("Error logging in user:", error);
-    res.status(500).json({error: "Error logging in user"});
+    res.status(500).json({ error: "Error logging in user" });
   }
 };
 
 exports.loginWithGoogle = async (req, res) => {
   try {
-    // Authenticate user with Google
-    const userCredential = await firebase.signInWithPopup(auth, provider);
-    const {user} = userCredential;
+    const { email} = req.body;
 
-    // Check if the user already exists in the database
-    let userDocument = await User.findOne({email: user.email});
-
-    if (!userDocument) {
-      // Create a new user in MongoDB
-      userDocument = new User({
-        name: user.displayName,
-        email: user.email,
-        role: "Resident", // Set the default role
-        biometricData: {}, // Set any default biometric data
-      });
-      await userDocument.save();
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ error: "Pease register with this Google account before attempting to login." });
     }
 
-    // Generate a JWT token
+    // Generate a JWT token and return it as a secure cookie
     const token = jwt.sign(
-      {userId: userDocument._id, role: userDocument.role},
+      { userId: user._id, role: user.role },
       process.env.JWT_SECRET,
-      {expiresIn: "24h"}
+      { expiresIn: "24h" }
     );
 
-    res.json({token});
+    // Set token as an HttpOnly cookie
+    res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
+
+    // Return a success message
+    res.json({ success: true });
+
+    //res.json({ token });
   } catch (error) {
-    console.error("Error logging in user with Google:", error);
-    res.status(500).json({error: "Error logging in user with Google"});
+    console.error("Error logging in user:", error);
+    res.status(500).json({ error: "Error logging in user" });
   }
 };
 
@@ -185,33 +179,32 @@ exports.logoutUser = async (req, res) => {
   try {
     await signOut(auth);
     res.clearCookie("token");
-    res.json({success: true});
+    res.json({ success: true });
   } catch (error) {
     console.error("Error logging out user:", error);
-    res.status(500).json({error: "Error logging out user"});
+    res.status(500).json({ error: "Error logging out user" });
   }
 };
 
 exports.forgetPassword = async (req, res) => {
   try {
-    const {email} = req.body;
+    const { email } = req.body;
 
     // Find the user by email
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({error: "User not found"});
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Generate a token for password reset
     const resetToken = jwt.sign(
-      {userId: user._id, email: user.email},
+      { userId: user._id, email: user.email },
       process.env.RESET_JWT_SECRET,
-      {expiresIn: "1h"}
+      { expiresIn: "1h" }
     );
 
-    var url = req.protocol + '://' + req.get('host');
-    
+    var url = req.protocol + "://" + req.get("host");
 
     // Send the password reset email
     let mail = await transporter.sendMail({
@@ -233,16 +226,16 @@ exports.forgetPassword = async (req, res) => {
       `,
     });
 
-    console.log(`Email to reset password sent to ${user.email}: ${mail.messageId}`);
-
-    
+    console.log(
+      `Email to reset password sent to ${user.email}: ${mail.messageId}`
+    );
 
     res.json({
       message: "Password reset instructions have been sent to your email",
     });
   } catch (error) {
     console.error("Error initiating password reset:", error);
-    res.status(500).json({error: "Error initiating password reset"});
+    res.status(500).json({ error: "Error initiating password reset" });
   }
   // try {
   //   const {email} = req.body;
@@ -267,46 +260,42 @@ exports.forgetPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   try {
+    const { resetToken, password, confirmPassword } = req.body;
 
-   
-   
-    const {resetToken, password, confirmPassword} = req.body
+    console.log("Reset token : " + resetToken);
 
-    console.log("Reset token : " + resetToken)
+    console.log("New password : " + password);
 
-    console.log("New password : " + password)
-
-    console.log("Confirm password : " + confirmPassword)
-    
+    console.log("Confirm password : " + confirmPassword);
 
     // Verify if the newPassword and confirmPassword match
     if (password !== confirmPassword) {
-      console.log("Passwords do not match")
-      return res.status(400).json({error: "Passwords do not match"});
+      console.log("Passwords do not match");
+      return res.status(400).json({ error: "Passwords do not match" });
     }
 
     // Validate the password complexity
-    const isValidPassword = await valPassComplexity.checkPassword(password)
+    const isValidPassword = await valPassComplexity.checkPassword(password);
 
-    
-
-    if(!isValidPassword) {
-      return res.status(400).json({error: "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"});
+    if (!isValidPassword) {
+      return res.status(400).json({
+        error:
+          "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+      });
     }
-
 
     // Verify the reset token
     const decoded = jwt.verify(resetToken, process.env.RESET_JWT_SECRET);
 
-    if(!decoded) {
-      return res.status(401).json({error: "Invalid reset token"});
+    if (!decoded) {
+      return res.status(401).json({ error: "Invalid reset token" });
     }
 
     // Find the user by email
-    const user = await User.findOne({email: decoded.email});
+    const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
-      return res.status(404).json({error: "User not found"});
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Update the user's password
@@ -332,23 +321,19 @@ exports.resetPassword = async (req, res) => {
       `,
     });
 
-    console.log(`Email confirming password reset sent to ${user.email}: ${mail.messageId}`);
-
-    
-
-    
+    console.log(
+      `Email confirming password reset sent to ${user.email}: ${mail.messageId}`
+    );
 
     //console.log("Hi")
 
     // //redirect to login page
-    
 
-    res.json({message: "Password reset successfully"});
+    res.json({ message: "Password reset successfully" });
 
     // res.status(302).setHeader('Location', '/login').end();
-
   } catch (error) {
     console.log("Error resetting password:", error);
-    res.status(500).json({error: "Error resetting password"});
+    res.status(500).json({ error: "Error resetting password" });
   }
 };

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facial Verification Page</title>
+
+    <style>
+        img{
+            max-width: 45%
+        }
+        canvas{
+            /* bcs we want to overlay the canvas on the image */
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <form id="upload-images">
+        <label for="imageInput">Upload First Image:</label>
+        <input type="file" accept="image/*" id="face">
+
+        <label for="imageInput-2">Upload Second Image:</label>
+        <input type="file" accept="image/*" id="new-face">
+    </form>
+
+    <script src="./face-api.min.js"></script>
+    <script src="./fr-scripts.js"></script>    
+</body>
+
+</html>
+ 

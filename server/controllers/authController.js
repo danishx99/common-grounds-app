@@ -15,33 +15,16 @@ const transporter = require("../utils/mailer");
 
 dotenv.config();
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCtpyCzfGywbnGc4MQl3Sv_jDt_3JPSxl0",
-  authDomain: "commongrounds-420608.firebaseapp.com",
-  projectId: "commongrounds-420608",
-  storageBucket: "commongrounds-420608.appspot.com",
-  messagingSenderId: "940662765230",
-  appId: "1:940662765230:web:71339aa44caa538d541f3f",
-  measurementId: "G-3ZSK3L2G23",
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCtpyCzfGywbnGc4MQl3Sv_jDt_3JPSxl0",
+//   authDomain: "commongrounds-420608.firebaseapp.com",
+//   projectId: "commongrounds-420608",
+//   storageBucket: "commongrounds-420608.appspot.com",
+//   messagingSenderId: "940662765230",
+//   appId: "1:940662765230:web:71339aa44caa538d541f3f",
+//   measurementId: "G-3ZSK3L2G23",
+// };
 
-firebase.initializeApp(firebaseConfig);
-// Get the Firebase authentication instance
-const auth = getAuth();
-
-// Create a new Google authentication provider
-const provider = new GoogleAuthProvider();
-
-// Monitor user authentication state
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in
-    console.log("User is signed in:", user);
-  } else {
-    // User is signed out
-    console.log("User is signed out");
-  }
-});
 
 exports.registerUser = async (req, res) => {
   try {
@@ -190,6 +173,14 @@ exports.forgetPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
+    // Validate the email
+
+    const isValidEmail = await validateEmail(email);
+
+    if (!isValidEmail) {
+      return res.status(400).json({ error: "Please provide a valid email" });
+    }
+
     // Find the user by email
     const user = await User.findOne({ email });
 
@@ -267,6 +258,8 @@ exports.resetPassword = async (req, res) => {
     console.log("New password : " + password);
 
     console.log("Confirm password : " + confirmPassword);
+
+    
 
     // Verify if the newPassword and confirmPassword match
     if (password !== confirmPassword) {

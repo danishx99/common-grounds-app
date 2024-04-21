@@ -43,10 +43,6 @@ submitButton.addEventListener("click", function (event) {
         alert.style.display = "block"
         alert.innerText ="Password reset instructions have been sent to your email, please check your email."
 
-        // redirect to reset password page 
-        setTimeout(() => {
-          window.location.href = "/reset-password"
-        }, 5000)
 
         //clear form fields
         document.getElementById("email").value = ""

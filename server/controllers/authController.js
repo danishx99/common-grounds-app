@@ -205,7 +205,7 @@ exports.forgetPassword = async (req, res) => {
       to: user.email,
       subject: "Password Reset Request",
       text: `
-        Hello, ${user.name},
+        Hello ${user.name},
 
         We received a request to reset your password. If you did not make this request, please ignore this email.
 
@@ -303,7 +303,7 @@ exports.resetPassword = async (req, res) => {
       to: user.email,
       subject: "Password Reset Successful",
       text: `
-        Hello, ${user.name},
+        Hello ${user.name},
 
         Your password has been successfully reset.
 

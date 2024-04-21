@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">    
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,8 @@
 
 <body class="bg-[#001B0C] flex items-center justify-center p-[2%]">
 
-    <section class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
+    <section
+        class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
 
         <header class="mb-9 ml-5 mt-[2%]">
             <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
@@ -24,8 +25,7 @@
         <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%]" id='create-new-acc'
             action="#">
             <!--Alert box-->
-            <div class="alert-box"
-                id="alert" role="alert">
+            <div class="alert-box" id="alert" role="alert">
 
             </div>
 
@@ -58,8 +58,11 @@
                 </select>
 
                 <label for="psw" class="standard-label">Create Password</label>
-                <input type="password" class="standard-input" id="psw" name="psw" required>
-                <img src="./assets/eye-close.png" id="eyeicon" class="w-6 cursor-pointer">
+                <div class="relative">
+                    <input type="password" id="psw" name="psw" required class="w-full standard-input">
+                    <img src="./assets/eye-close.png" alt="Show Password" id="eyeicon"
+                        class="absolute top-1 right-3 w-5 h-5 cursor-pointer hover:opacity-75">
+                </div>
 
                 <script>
                     let eyeicon = document.getElementById('eyeicon');
@@ -78,24 +81,24 @@
                 </script>
 
                 <label class="standard-label" for="psw-confirm">Confirm Password</label>
-                <input type="password" class="mb-4 standard-input" id="psw-confirm"
-                    name="psw-confirm" required>
-                    <img src="./assets/eye-close.png" id="eyeiconConfrim" class="w-6 cursor-pointer">
+                <input type="password" class="mb-4 standard-input" id="psw-confirm" name="psw-confirm" required>
+                <img src="./assets/eye-close.png" id="eyeiconConfrim" class="w-6 cursor-pointer">
 
-                    <script>
-                        let eyeiconConfirm = document.getElementById('eyeiconConfrim');
-                        let pswC = document.getElementById('psw-confirm');
-    
-                        eyeiconConfirm.addEventListener('click', () => {
-                            if (pswC.type === 'password') {
-                                pswC.type = 'text';
-                                eyeiconConfirm.src = './assets/eye-open.png';
-                            } else {
-                                pswC.type = 'password';
-                                eyeiconConfirm.src = './assets/eye-close.png';
-                            }
-                        });
-                    </script>
+                <script>
+                    let eyeiconConfirm = document.getElementById('eyeiconConfrim');
+                    let pswC = document.getElementById('psw-confirm');
+
+                    eyeiconConfirm.addEventListener('click', () => {
+                        if (pswC.type === 'password') {
+                            pswC.type = 'text';
+                            eyeiconConfirm.src = './assets/eye-open.png';
+                            eyeiconConfirm.className += 'w-52';
+                        } else {
+                            pswC.type = 'password';
+                            eyeiconConfirm.src = './assets/eye-close.png';
+                        }
+                    });
+                </script>
 
 
                 <button type="button" id="submitButton" class="green-button">Create Account
@@ -115,7 +118,8 @@
             </section>
 
             <section class="form-footer">
-                <p class="text-xs text-center">Already have an account? <a class="font-bold underline hover:text-green-700" href="/login">Login</a></p>
+                <p class="text-xs text-center">Already have an account? <a
+                        class="font-bold underline hover:text-green-700" href="/login">Login</a></p>
             </section>
         </form>
     </section>

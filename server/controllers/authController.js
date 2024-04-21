@@ -1,3 +1,4 @@
+// Import necessary modules from the Firebase SDK
 const firebase = require("firebase/app");
 const {
   getAuth,
@@ -5,13 +6,14 @@ const {
   GoogleAuthProvider,
   onAuthStateChanged,
 } = require("firebase/auth");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-const User = require("../models/User");
-const validateEmail = require("../utils/emailUtils");
-const valPassComplexity = require("../utils/passwordUtils");
-const transporter = require("../utils/mailer");
+
+const bcrypt = require("bcryptjs"); // For password hashing 
+const jwt = require("jsonwebtoken"); // For generating JSON Web Tokens
+const dotenv = require("dotenv"); // For accessing environment variables
+const User = require("../models/User"); // Importing User model
+const validateEmail = require("../utils/emailUtils"); // Utility function for email validation
+const valPassComplexity = require("../utils/passwordUtils"); // Importing utility function for password complexity validation
+const transporter = require("../utils/mailer"); // Transporter for sending emails
 
 dotenv.config();
 

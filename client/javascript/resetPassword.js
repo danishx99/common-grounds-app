@@ -49,15 +49,7 @@ submitButton.addEventListener("click", function (event) {
 
       
 
-      if (data.message ==="Password reset successfully") {
-        // //Show success message
-        // var alert = document.getElementById("alert")
-        // alert.style.display = "block"
-        // alert.innerText ="Password reset successfully, you can now login."
-
-        // //clear form fields
-        // document.getElementById("psw").value = ""
-        // document.getElementById("psw-confirm").value = ""
+      if (data.message ==="Password reset successfully") {""
 
         // redirect to login page
           setTimeout(() => {

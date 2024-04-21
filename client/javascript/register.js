@@ -81,6 +81,8 @@ submitButton.addEventListener("click", function (event) {
         var alert = document.getElementById("alert");
         alert.style.display = "block";
         alert.innerText = data.error;
+        alert.className =
+          "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
       }
     })
     .catch((error) => {

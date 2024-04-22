@@ -49,12 +49,19 @@ submitButton.addEventListener("click", function (event) {
 
       
 
-      if (data.message ==="Password reset successfully") {""
+      if (data.message ==="Password reset successfully") {
+
+        //Show success message
+        var alert = document.getElementById("alert")
+        alert.style.display = "block"
+        alert.innerText ="Password reset successfully, you will be redirected to login shortly."
+
+       
 
         // redirect to login page
           setTimeout(() => {
               window.location.href = '/login';
-          }, 5000);
+          }, 3500);
         
 
       } else if (data.error) {

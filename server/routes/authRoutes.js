@@ -11,18 +11,18 @@ router.post("/register", (req, res) => authController.registerUser(req, res));
 router.post("/login", (req, res) =>
   authController.loginUser(req, res)
 );
-router.post("/login-with-google", (req, res, next) => auth.verifyToken(req, res, next), (req, res) =>
+router.post("/login-with-google", (req, res) =>
   authController.loginWithGoogle(req, res)
 );
 
 // Password reset endpoint
 router.post("/forgot-password", (req, res) =>
-  authController.forgotPassword(req, res)
+  authController.forgetPassword(req, res)
 );
 
 router.post(
   "/reset-password",
-  (req, res, next) => auth.verifyResetToken(req, res, next),
+  
   (req, res) => authController.resetPassword(req, res)
 );
 

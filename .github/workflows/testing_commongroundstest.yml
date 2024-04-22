@@ -19,10 +19,10 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: npm install, build, and test (in ./server directory)
-        working-directory: ./server 
+        working-directory: ./server
         run: |
           npm install
           npm run build --if-present
@@ -30,7 +30,7 @@ jobs:
 
       - name: Zip artifact for deployment
         run: Compress-Archive -Path ./* -DestinationPath release.zip
-      
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -41,7 +41,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -51,10 +51,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
-      
+
       - name: Unzip artifact for deployment
         run: Expand-Archive -Path release.zip -DestinationPath .
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -62,11 +62,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_294AA45731FF4F3BA06DEF468268918E }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9DE1EDFBC1B343658A8AA01D68561C58 }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'commongroundstest'
-          slot-name: 'Production'
+          app-name: "commongroundstest"
+          slot-name: "Production"
           package: .
-          

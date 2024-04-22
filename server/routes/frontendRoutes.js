@@ -7,16 +7,18 @@ const path = require("path");
 //router.use(express.static("client"));
 //home route
 router.get("/", (req, res) => {
-  res.send("Welcome to the library management system");
+  
+  res.redirect("/login");
+
 });
 
 //login route 
 router.get("/login", (req, res) => {
    
-    console.log(__dirname)
+   
     res.sendFile(path.join(__dirname, '../../client/login.html'));
     
-  });
+});
   
 // login with google route
 router.get("/login-with-google", (req, res) => {

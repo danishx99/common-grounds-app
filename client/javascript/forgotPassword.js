@@ -1,23 +1,23 @@
-var submitButton = document.getElementById("requestResetLinkButton")
+var submitButton = document.getElementById("requestResetLinkButton");
 
 submitButton.addEventListener("click", function (event) {
-  event.preventDefault()
+  event.preventDefault();
 
-  console.log("Request Reset Link button clicked")
+  console.log("Request Reset Link button clicked");
 
   // Validate form fields
-  var email = document.getElementById("email").value
+  var email = document.getElementById("email").value;
 
   if (!email || email === "") {
-    var alert = document.getElementById("alert")
-    alert.style.display = "block"
-    alert.innerText = "Please fill in required field"
-    return
+    var alert = document.getElementById("alert");
+    alert.style.display = "block";
+    alert.innerText = "Please fill in required field";
+    return;
   }
 
   //show loader while waiting for response
-  var loader = document.getElementById("loader")
-  loader.style.display = "flex"
+  var loader = document.getElementById("loader");
+  loader.style.display = "flex";
 
   //post request to request reset link
   fetch("/api/auth/forgot-password", {
@@ -29,37 +29,42 @@ submitButton.addEventListener("click", function (event) {
       email: document.getElementById("email").value,
     }),
   })
-    .then(response => {
-      return response.json()
+    .then((response) => {
+      return response.json();
     })
-    .then(data => {
-      console.log(data)
+    .then((data) => {
+      console.log(data);
       //hide loader when response is received
-      loader.style.display = "none"
+      loader.style.display = "none";
 
-      if (data.message ==="Password reset instructions have been sent to your email") {
+      if (
+        data.message ===
+        "Password reset instructions have been sent to your email"
+      ) {
         //Show success message
-        var alert = document.getElementById("alert")
-        alert.style.display = "block"
-        alert.innerText ="Password reset instructions have been sent to your email, please check your email."
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        alert.innerText =
+          "Password reset instructions have been sent to your email, please check your email.";
 
-        // close tab 
+        // close tab
         setTimeout(() => {
-          window.close()
-        }, 5000)
+          window.close();
+        }, 5000);
 
         //clear form fields
-        document.getElementById("email").value = ""
+        document.getElementById("email").value = "";
       } else if (data.error) {
         //Show error message
-        var alert = document.getElementById("alert")
-        alert.style.display = "block"
-        alert.innerText = data.error
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        alert.innerText = data.error;
       }
     })
-    .catch(error => {
-      console.log("Error:", error)
-      loader.style.display = "none"
-     
-    })
-})
+    .catch((error) => {
+      console.log("Error:", error);
+      loader.style.display = "none";
+      alert.className =
+        "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+    });
+});

@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js", 
-    "dev": "npm install & cd .. &  node app.js"
+    "start": "nodemon app.js",
+    "dev": "npm install & cd .. &  node app.js",
+    "test": "jest --verbose --passWithNoTests --coverage"
   },
   "author": "Qais",
   "license": "ISC",
@@ -22,6 +23,8 @@
     "nodemailer": "^6.9.13"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest-environment-jsdom": "^29.7.0",
     "nodemon": "^3.1.0"
   }
 }

@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
     // },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     email: {
       type: String,
@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: ["Resident", "Staff", "Admin"],
+    },
+    residentId: {
+      type: String,
+      required: true,
+      unique: true,
     },
     biometricData: {
       type: Object,

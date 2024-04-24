@@ -15,6 +15,10 @@ router.post("/login-with-google", (req, res) =>
   authController.loginWithGoogle(req, res)
 );
 
+router.post("/register-with-google", (req, res) => {
+  authController.registerWithGoogle(req, res);
+});
+
 // Password reset endpoint
 router.post("/forgot-password", (req, res) =>
   authController.forgetPassword(req, res)

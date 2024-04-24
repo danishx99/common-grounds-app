@@ -37,13 +37,29 @@ body::-webkit-scrollbar-thumb {
 }
 
 .standard-label{
-  @apply mb-[2.5%] text-xs
+  @apply mb-[2%] text-xs
 }
 
 .standard-input{
-  @apply p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]
+  @apply p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[4%]
 }
 
 .right-logo {
   @apply w-[40%] items-center justify-center md:flex hidden h-full mr-[5%] mt-[7.5%]
+}
+
+.register-show-form1 {
+  @apply flex flex-col
+}
+
+.register-hide-form1 {
+  @apply hidden
+}
+
+.register-show-form2 {
+  @apply flex flex-col
+}
+
+.register-hide-form2 {
+  @apply hidden
 }

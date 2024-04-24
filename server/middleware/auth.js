@@ -2,29 +2,6 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
 dotenv.config();
-// exports.verifyToken = (req, res, next) => {
-//   try {
-//     const authHeader = req.headers.authorization;
-//     if (!authHeader) {
-//       return res.status(401).json({error: "No authorization token provided"});
-//     }
-
-//     const [bearer, token] = authHeader.split(" ");
-//     if (bearer !== "Bearer") {
-//       return res
-//         .status(401)
-//         .json({error: "Invalid authorization token format"});
-//     }
-
-//     const verified = jwt.verify(token, process.env.JWT_SECRET);
-//     req.userId = verified.userId;
-//     req.userRole = verified.role;
-//     next();
-//   } catch (error) {
-//     console.error("Error authenticating user:", error);
-//     res.status(401).json({error: "Invalid token"});
-//   }
-// };
 
 exports.verifyToken = (req, res, next) => {
   try {

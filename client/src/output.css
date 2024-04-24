@@ -774,6 +774,10 @@ video {
   fill: #004621;
 }
 
+.p-\[1\%\] {
+  padding: 1%;
+}
+
 .p-\[2\%\] {
   padding: 2%;
 }
@@ -824,6 +828,11 @@ video {
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .text-sm {

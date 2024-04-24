@@ -40,6 +40,16 @@ router.get("/register", (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/register.html'));
 });
 
+//user Facial Registration Login route
+router.get("/facialAuth", (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/facialAuth.html'));
+});
+
+//user Facial Registration Registration route
+router.get("/setUpFacialAuth", (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/setUpFacialAuth.html'));
+});
+
 
 
 module.exports = router;

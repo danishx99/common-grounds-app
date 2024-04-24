@@ -31,54 +31,70 @@ exports.changePassword = async (req, res) => {
     res.status(500).json({ error: 'Error changing password' });
   }
 };
-
-// Check if the user is an admin
-exports.isAdmin = async (req, res, next) => {
-    try {
-      const { userId } = req.user;
-      const user = await User
-        .findById(userId)
-        .select('role');
-        if (user.role !== 'admin') {
-        return res.status(403).json({ error: 'Unauthorized' });
-        }
-        next();
-    }
-    catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-        }
-    }
     
-// Approve user onboarding
-exports.approveOnboarding = async (req, res) => {
-    try {
-      const { userId } = req.params;
-      const user = await User.findByIdAndUpdate(userId, { isApproved: true }, { new: true });
-      res.status(200).json({ message: 'User onboarding approved', user });
-    } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
+// Approve user onboarding (Depends on how we gonna do it not needed for now)
+// exports.approveOnboarding = async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     const user = await User.findByIdAndUpdate(userId, { isApproved: true }, { new: true });
+//     res.status(200).json({ message: 'User onboarding approved', user });
+//   } catch (error) {
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
   
-  // Remove user access
-  exports.removeAccess = async (req, res) => {
-    try {
-      const { userId } = req.params;
-      await User.findByIdAndDelete(userId);
-      res.status(200).json({ message: 'User access revoked' });
-    } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
+// Remove user access
+exports.removeAccess = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    await User.findByIdAndDelete(userId);
+    res.status(200).json({ message: 'User access revoked' });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Change user permissions
+exports.changePermissions = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { role } = req.body;
+    const user = await User.findByIdAndUpdate(userId, { role }, { new: true });
+    res.status(200).json({ message: 'User permissions updated', user });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Get all users (or with filters)
+exports.getUsers = async (req, res) => {
+  const { name, email, role } = req.query; // Get filters from query parameters (optional)
+
+  const filters = {};
+  if (name) filters.name = { $regex: name, $options: 'i' }; // Case-insensitive name search
+  if (email) filters.email = email;
+  if (role) filters.role = role;
+
+  const users = await User.find(filters);
+  res.json(users);
+};
+
+
+// Detailed user information
+exports.getUserDetails = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId)
+      .select('-password') // Exclude password from response
+      .populate('additionalDetails'); // Include details from a related model (optional)
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
-  };
-  
-  // Change user permissions
-  exports.changePermissions = async (req, res) => {
-    try {
-      const { userId } = req.params;
-      const { role } = req.body;
-      const user = await User.findByIdAndUpdate(userId, { role }, { new: true });
-      res.status(200).json({ message: 'User permissions updated', user });
-    } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
+
+    res.json({ message: 'Successfully got user details', user });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

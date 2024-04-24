@@ -3,13 +3,16 @@ const mongoose = require('mongoose');
 const visitorSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
-  visitingTime: {
+  checkInTime: {
     type: Date,
-    required: true
+    required: true,
   },
-  residentId: {
+  checkOutTime: {
+    type: Date,
+  },
+  hostId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true

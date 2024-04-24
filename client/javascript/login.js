@@ -61,3 +61,12 @@ submitButton.addEventListener("click", function (event) {
       alert("An error occurred. Please try again");
     });
 });
+
+var cameraButton = document.getElementById("camera_button");
+cameraButton.addEventListener("click", function (event) {
+  // redirect to facialAuth page
+  setTimeout(() => {
+    window.location.href = '/facialAuth';
+    }, 0);
+
+});

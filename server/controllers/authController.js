@@ -7,7 +7,7 @@ const {
   onAuthStateChanged,
 } = require("firebase/auth");
 
-const bcrypt = require("bcryptjs"); // For password hashing 
+const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require("jsonwebtoken"); // For generating JSON Web Tokens
 const dotenv = require("dotenv"); // For accessing environment variables
 const User = require("../models/User"); // Importing User model
@@ -26,7 +26,6 @@ dotenv.config();
 //   appId: "1:940662765230:web:71339aa44caa538d541f3f",
 //   measurementId: "G-3ZSK3L2G23",
 // };
-
 
 exports.registerUser = async (req, res) => {
   try {
@@ -131,12 +130,15 @@ exports.loginUser = async (req, res) => {
 
 exports.loginWithGoogle = async (req, res) => {
   try {
-    const { email} = req.body;
+    const { email } = req.body;
 
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: "Pease register with this Google account before attempting to login." });
+      return res.status(401).json({
+        error:
+          "Pease register with this Google account before attempting to login.",
+      });
     }
 
     // Generate a JWT token and return it as a secure cookie
@@ -157,6 +159,33 @@ exports.loginWithGoogle = async (req, res) => {
     console.error("Error logging in user:", error);
     res.status(500).json({ error: "Error logging in user" });
   }
+};
+
+exports.registerWithGoogle = async (req, res) => {
+  try {
+    const { firstName, lastName, email } = req.body;
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(401).json({
+        error:
+          "This account already exists. Please login with Google using this account instead.",
+      });
+    }
+
+    // Create a new user (ROLE????????)
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+    });
+
+    // Save the new user to the database
+    await newUser.save();
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {}
 };
 
 // Logout for future user management (Sprint 2 probably)
@@ -260,8 +289,6 @@ exports.resetPassword = async (req, res) => {
     console.log("New password : " + password);
 
     console.log("Confirm password : " + confirmPassword);
-
-    
 
     // Verify if the newPassword and confirmPassword match
     if (password !== confirmPassword) {

@@ -622,6 +622,14 @@ video {
   margin-top: 7.5%;
 }
 
+.mb-\[2\%\] {
+  margin-bottom: 2%;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .block {
   display: block;
 }
@@ -951,13 +959,13 @@ body::-webkit-scrollbar-thumb {
 }
 
 .standard-label {
-  margin-bottom: 2%;
+  margin-bottom: 2.5%;
   font-size: 0.75rem;
   line-height: 1rem;
 }
 
 .standard-input {
-  margin-bottom: 4%;
+  margin-bottom: 5%;
   border-radius: 1.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(239 239 239 / var(--tw-bg-opacity));
@@ -1007,6 +1015,10 @@ body::-webkit-scrollbar-thumb {
 
 .hover\:opacity-75:hover {
   opacity: 0.75;
+}
+
+.hover\:opacity-50:hover {
+  opacity: 0.5;
 }
 
 @media not all and (min-width: 768px) {

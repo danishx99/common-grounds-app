@@ -37,11 +37,11 @@ body::-webkit-scrollbar-thumb {
 }
 
 .standard-label{
-  @apply mb-[2%] text-xs
+  @apply mb-[2.5%] text-xs
 }
 
 .standard-input{
-  @apply p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[4%]
+  @apply p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]
 }
 
 .right-logo {

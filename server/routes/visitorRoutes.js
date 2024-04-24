@@ -1,9 +1,9 @@
 const express = require('express');
 const visitorController = require('../controllers/visitorController');
 const auth = require("../middleware/auth");
-const auth = require("../middleware/isAdmin");
-const auth = require("../middleware/isStaff");
-const auth = require("../middleware/isResident");
+// const auth = require("../middleware/isAdmin");
+// const auth = require("../middleware/isStaff");
+// const auth = require("../middleware/isResident");
 
 const router = express.Router();
 

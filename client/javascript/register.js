@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var proceedButton = document.getElementById("proceedButton");
   var form1 = document.getElementById("form-p1");
   var form2 = document.getElementById("form-p2");
+  var back = document.getElementById("back");
 
   let fname = document.getElementById("fname");
   let lname = document.getElementById("lname");
@@ -86,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     form1.className = "register-hide-form1";
     form2.className = "register-show-form2";
+    back.style.display = "block";
   });
 
   submitButton.addEventListener("click", function (event) {
@@ -165,5 +167,12 @@ document.addEventListener("DOMContentLoaded", function () {
         loader.style.display = "none";
         alert("An error occurred. Please try again");
       });
+  });
+
+  back.addEventListener("click", function (event) {
+    console.log("Back button clicked");
+    form1.className = "register-show-form1";
+    form2.className = "register-hide-form2";
+    back.style.display = "none";
   });
 });

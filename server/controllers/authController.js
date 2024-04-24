@@ -36,6 +36,7 @@ exports.registerUser = async (req, res) => {
       confirmPassword,
       email,
       role,
+      code,
       biometricData,
     } = req.body;
 
@@ -79,6 +80,7 @@ exports.registerUser = async (req, res) => {
       password: hashedPassword,
       email,
       role,
+      residentId: code,
       biometricData,
     });
 

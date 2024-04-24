@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: ["Resident", "Staff", "Admin"],
     },
+    residentId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     biometricData: {
       type: Object,
     },

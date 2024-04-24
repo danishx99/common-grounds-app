@@ -3,6 +3,9 @@ var registerWithGoogle = document.getElementById("register-with-google");
 registerWithGoogle.addEventListener("click", function (event) {
   event.preventDefault();
 
+  // var role = document.getElementById("acc-type").value;
+  // var code = document.getElementById("code").value;
+
   const firebaseConfig = {
     apiKey: "AIzaSyCtpyCzfGywbnGc4MQl3Sv_jDt_3JPSxl0",
     authDomain: "commongrounds-420608.firebaseapp.com",

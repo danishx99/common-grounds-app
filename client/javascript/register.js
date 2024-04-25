@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
   var form2 = document.getElementById("form-p2");
   var back = document.getElementById("back");
 
-  let fname = document.getElementById("fname");
-  let lname = document.getElementById("lname");
-  let email = document.getElementById("email");
-  let password = document.getElementById("psw");
-  let confirmPassword = document.getElementById("psw-confirm");
-  let role = document.getElementById("acc-type");
-  let code = document.getElementById("code");
+  let fname;
+  let lname;
+  let email;
+  let password;
+  let confirmPassword;
+  let role;
+  let code;
 
   proceedButton.addEventListener("click", function (event) {
     console.log("Proceed button clicked");
@@ -97,6 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var alert = document.getElementById("alert");
     alert.style.display = "none";
+
+    code = document.getElementById("code").value;
 
     if (!code || code === "") {
       alert.style.display = "block";

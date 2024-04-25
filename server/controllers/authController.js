@@ -165,29 +165,36 @@ exports.loginWithGoogle = async (req, res) => {
 
 exports.registerWithGoogle = async (req, res) => {
   try {
-    const { firstName, lastName, email } = req.body;
+    const { name, surname, email, role, code } = req.body;
+
+    console.log(name, surname, email, role, code);
 
     // Find the user by email
     const user = await User.findOne({ email });
     if (user) {
       return res.status(401).json({
         error:
-          "This account already exists. Please login with Google using this account instead.",
+          "This account already exists. Please login using this account instead.",
       });
     }
 
-    // Create a new user (ROLE????????)
+    // Create a new user with the Google account details
     const newUser = new User({
-      firstName,
-      lastName,
+      name,
+      surname,
       email,
+      role,
+      residentId: code,
     });
 
     // Save the new user to the database
     await newUser.save();
 
     res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error logging in user:", error);
+    res.status(500).json({ error: "Error logging in user" });
+  }
 };
 
 // Logout for future user management (Sprint 2 probably)

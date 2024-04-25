@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var form1 = document.getElementById("form-p1");
   var form2 = document.getElementById("form-p2");
   var back = document.getElementById("back");
+  var registerWithGoogle = document.getElementById("register-with-google");
 
   let fname;
   let lname;
@@ -88,6 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
     form1.className = "register-hide-form1";
     form2.className = "register-show-form2";
     back.style.display = "block";
+    registerWithGoogle.style.display = "none";
+    submitButton.style.display = "flex";
   });
 
   submitButton.addEventListener("click", function (event) {

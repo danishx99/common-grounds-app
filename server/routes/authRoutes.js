@@ -9,6 +9,7 @@ router.post("/register", (req, res) => authController.registerUser(req, res));
 
 // User login endpoints
 router.post("/login", (req, res) => authController.loginUser(req, res));
+
 router.post("/login-with-google", (req, res) =>
   authController.loginWithGoogle(req, res)
 );

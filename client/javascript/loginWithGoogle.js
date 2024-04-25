@@ -58,6 +58,8 @@ loginWithGoogleButton.addEventListener("click", function (event) {
             var alert = document.getElementById("alert");
             alert.style.display = "block";
             alert.innerText = "You have successfully logged in";
+            alert.className =
+              "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
           }
         })
         .catch((error) => {

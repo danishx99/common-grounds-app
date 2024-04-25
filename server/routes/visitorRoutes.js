@@ -1,9 +1,9 @@
 const express = require('express');
 const visitorController = require('../controllers/visitorController');
 const auth = require("../middleware/auth");
-// const auth = require("../middleware/isAdmin");
-// const auth = require("../middleware/isStaff");
-// const auth = require("../middleware/isResident");
+const admin = require("../middleware/isAdmin");
+const staff = require("../middleware/isStaff");
+const resident = require("../middleware/isResident");
 
 const router = express.Router();
 
@@ -14,6 +14,4 @@ router.get('/:id', (req, res) => visitorController.getVisitorById(req, res));
 router.put('/:id', (req, res) => visitorController.updateVisitor(req, res));
 router.put('/:id', (req, res) => visitorController.checkInVisitor(req, res));
 router.delete('/:id',  (req, res) => visitorController.deleteVisitor(req, res));
-
-
 module.exports = router;

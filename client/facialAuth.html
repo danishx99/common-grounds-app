@@ -29,8 +29,13 @@
             <h2 class="main-heading">Facial Authentication</h2>
             <p class="font-black text-center text-2xl text-gray-600 mb-[5%]">Lets Verify Your Details :)</p>
 
+            <section class="flex flex-col form-main mb-4">
+                <video class="" id="facialAuthVid" width="600" height="450" autoplay>
+            </section>
+
             <section class="flex flex-col form-main">
-                <img src="./assets/underConstruction.png">
+                <button id="verifyButton" class="green-button w-full flex items-center">Verify</button>
+                <canvas id="canvas" style="display:none;"></canvas>
             </section>
 
         </form>
@@ -40,7 +45,7 @@
         <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
     </article>
 
-<script src="./javascript/login.js"></script>
+<script src="./javascript/facialAuth.js"></script>
 </body>
 
 </html>

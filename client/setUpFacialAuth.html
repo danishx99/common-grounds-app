@@ -29,10 +29,15 @@
             <h2 class="main-heading">Set Up Facial Athentication</h2>
             <p class="font-black text-center text-2xl text-gray-600 mb-[5%]"></p>
 
-            <section class="flex flex-col form-main">
-                <img src="./assets/InConstruction.jpg">
+            <section class="flex flex-col form-main mb-4">
+                <video class="rounded-xl" id="facialAuthVid" width="600" height="450" autoplay>
             </section>
 
+            <section class="flex flex-col form-main">
+                <button id="captureButton" class="green-button w-full flex items-center">Take Photo</button>
+                <canvas id="canvas" style="display:none;"></canvas>
+            </section>
+            
             <section class="form-footer">
                 <p class="text-xs text-center"><a
                         class=" text-lg font-bold underline hover:text-green-700" href="">Skip For Now</a></p>
@@ -44,7 +49,7 @@
         <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
     </article>
 
-<script src="./javascript/login.js"></script>
+<script src="./javascript/setUpFacialAuth.js"></script>
 </body>
 
 </html>

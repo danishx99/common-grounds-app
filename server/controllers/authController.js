@@ -15,6 +15,9 @@ const Code = require("../models/Code"); // Importing Code model
 const validateEmail = require("../utils/emailUtils"); // Utility function for email validation
 const valPassComplexity = require("../utils/passwordUtils"); // Importing utility function for password complexity validation
 const transporter = require("../utils/mailer"); // Transporter for sending emails
+// http for making external requests to Face API
+var http = require('http');
+var https = require('https');
 
 dotenv.config();
 
@@ -38,7 +41,7 @@ exports.registerUser = async (req, res) => {
       email,
       role,
       code,
-      biometricData,
+      faceId,
     } = req.body;
 
     // Validate the email
@@ -100,7 +103,7 @@ exports.registerUser = async (req, res) => {
       email,
       role,
       userCode: code,
-      biometricData,
+      faceId,
     });
 
     // Save the new user to the database
@@ -417,6 +420,122 @@ exports.resetPassword = async (req, res) => {
   } catch (error) {
     console.log("Error resetting password:", error);
     res.status(500).json({ error: "Error resetting password" });
+  }
+};
+
+// Register face endpoint calls this function
+
+exports.registerFace = async (req, res) => {
+    try {
+        const image = req.body.image; // Assuming the image is sent in the request body
+
+        const msDetectOptions = {
+            host: process.env.FACE_API_HOST,
+            method: 'POST',
+            port: 443,
+            path: process.env.FACE_API_PATH_DETECT,
+            headers: {
+                'Content-Type': 'application/octet-stream',
+                'Content-Length': Buffer.byteLength(image),
+                'Ocp-Apim-Subscription-Key': process.env.FACE_API_KEY
+            }
+        };
+
+        const msDetectData = await new Promise((resolve, reject) => {
+            const msDetectReq = https.request(msDetectOptions, (msDetectResponse) => {
+                msDetectResponse.setEncoding('utf8');
+                let msDetectData = '';
+                msDetectResponse.on('data', (chunk) => {
+                    msDetectData += chunk;
+                });
+                msDetectResponse.on('end', () => {
+                    resolve(JSON.parse(msDetectData));
+                });
+            });
+
+            msDetectReq.on('error', (error) => {
+                reject(error);
+            });
+
+            msDetectReq.write(image);
+            msDetectReq.end();
+        });
+
+        // Handle the response data
+        if (msDetectData.error) {
+            // Handle error
+            res.status(500).send(msDetectData.error);
+        } else {
+            // Handle success
+            // Assuming the response contains a faceId
+            const faceId = msDetectData.faceId;
+
+            // Find the user in the database and update their faceId
+            const user = await User.findById(req.user.id);// just confirm this is fine
+            user.faceId = faceId;
+            await user.save();
+
+            res.status(200).send({ message: 'Face registered successfully', faceId });
+        }
+    } catch (error) {
+        // Handle any other errors
+        res.status(500).send(error.message);
+    }
+};
+
+// verify face endpoint calls this function
+// still busy with this function
+exports.verifyFace = async (req, res) => {
+  try {
+      const { faceId1, faceId2 } = req.body; // Assuming face IDs are sent in the request body
+
+      const verifyOptions = {
+          host: process.env.FACE_API_HOST,
+          method: 'POST',
+          port: 443,
+          path: process.env.FACE_API_PATH_VERIFY,
+          headers: {
+              'Content-Type': 'application/json',
+              'Ocp-Apim-Subscription-Key': process.env.FACE_API_KEY
+          }
+      };
+
+      const verifyData = await new Promise((resolve, reject) => {
+          const verifyReq = https.request(verifyOptions, (verifyResponse) => {
+              verifyResponse.setEncoding('utf8');
+              let verifyData = '';
+              verifyResponse.on('data', (chunk) => {
+                  verifyData += chunk;
+              });
+              verifyResponse.on('end', () => {
+                  resolve(JSON.parse(verifyData));
+              });
+          });
+
+          verifyReq.on('error', (error) => {
+              reject(error);
+          });
+
+          const verifyBody = JSON.stringify({
+              faceId1: faceId1,
+              faceId2: faceId2
+          });
+
+          verifyReq.write(verifyBody);
+          verifyReq.end();
+      });
+
+      // Handle the response data
+      if (verifyData.error) {
+          // Handle error
+          res.status(500).send(verifyData.error);
+      } else {
+          // Handle success
+          res.status(200).send(verifyData);
+      }
+  } catch (error) {
+      // Handle any other errors
+      res.status(500).send(error.message);
   }
 };
 

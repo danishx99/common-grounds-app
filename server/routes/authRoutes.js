@@ -31,6 +31,15 @@ router.post("/reset-password", (req, res) =>
   authController.resetPassword(req, res)
 );
 
+// register face endpoint
+router.post("/register-face", (req, res) =>
+  authController.registerFace(req, res)
+);
+// verify face endpoint
+router.post("/verify-face", (req, res) =>
+  authController.verifyFace(req, res)
+);
+
 //admin generate code endpoint
 router.post("/generateCode", (req,res, next) => admin.isAdmin(req,res,next) , (req, res) => authController.generateCode(req, res));
 

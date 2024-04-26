@@ -27,4 +27,13 @@ router.post("/reset-password", (req, res) =>
   authController.resetPassword(req, res)
 );
 
+// register face endpoint
+router.post("/register-face", (req, res) =>
+  authController.registerFace(req, res)
+);
+// verify face endpoint
+router.post("/verify-face", (req, res) =>
+  authController.verifyFace(req, res)
+);
+
 module.exports = router;

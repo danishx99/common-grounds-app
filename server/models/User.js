@@ -38,8 +38,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    biometricData: {
-      type: Object,
+
+    // add faceId to user schema for Azure Face API
+    faceId: {
+      type: String, required:false
     },
     loginHistory: [
       {

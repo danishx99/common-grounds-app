@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
         return;
-        fetch("/api/auth/setUpFacialAuth", {
+        fetch("/api/auth/register-face", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

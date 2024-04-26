@@ -42,9 +42,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         var loader = document.getElementById("loader");
         loader.style.display = "flex";
+        console.log("Verify button clicked");
 
-        return;
-        fetch("/api/auth/facialAuth", {
+        // return;
+        
+        fetch("/api/auth/verify-face", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

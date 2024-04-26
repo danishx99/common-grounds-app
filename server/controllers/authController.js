@@ -379,14 +379,14 @@ exports.registerFace = async (req, res) => {
         const image = req.body.image; // Assuming the image is sent in the request body
 
         const msDetectOptions = {
-            host: dotenv.FACE_API_HOST,
+            host: process.env.FACE_API_HOST,
             method: 'POST',
             port: 443,
-            path: config.FACE_API_PATH_DETECT,
+            path: process.env.FACE_API_PATH_DETECT,
             headers: {
                 'Content-Type': 'application/octet-stream',
                 'Content-Length': Buffer.byteLength(image),
-                'Ocp-Apim-Subscription-Key': dotenv.FACE_API_KEY
+                'Ocp-Apim-Subscription-Key': process.env.FACE_API_KEY
             }
         };
 
@@ -416,7 +416,15 @@ exports.registerFace = async (req, res) => {
             res.status(500).send(msDetectData.error);
         } else {
             // Handle success
-            res.status(200).send(msDetectData);
+            // Assuming the response contains a faceId
+            const faceId = msDetectData.faceId;
+
+            // Find the user in the database and update their faceId
+            const user = await User.findById(req.user.id);// just confirm this is fine
+            user.faceId = faceId;
+            await user.save();
+
+            res.status(200).send({ message: 'Face registered successfully', faceId });
         }
     } catch (error) {
         // Handle any other errors
@@ -425,18 +433,19 @@ exports.registerFace = async (req, res) => {
 };
 
 // verify face endpoint calls this function
+// still busy with this function
 exports.verifyFace = async (req, res) => {
   try {
       const { faceId1, faceId2 } = req.body; // Assuming face IDs are sent in the request body
 
       const verifyOptions = {
-          host: dotenv.FACE_API_HOST,
+          host: process.env.FACE_API_HOST,
           method: 'POST',
           port: 443,
-          path: config.FACE_API_PATH_VERIFY,
+          path: process.env.FACE_API_PATH_VERIFY,
           headers: {
               'Content-Type': 'application/json',
-              'Ocp-Apim-Subscription-Key': dotenv.FACE_API_KEY
+              'Ocp-Apim-Subscription-Key': process.env.FACE_API_KEY
           }
       };
 

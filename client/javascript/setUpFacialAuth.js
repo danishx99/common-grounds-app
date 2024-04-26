@@ -92,6 +92,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-
     startWebcam();
 });

@@ -487,6 +487,7 @@ exports.registerFace = async (req, res) => {
 // still busy with this function
 exports.verifyFace = async (req, res) => {
   try {
+    
       const { faceId1, faceId2 } = req.body; // Assuming face IDs are sent in the request body
 
       const verifyOptions = {

@@ -24,6 +24,12 @@ body::-webkit-scrollbar-thumb {
   border: 3px solid white;  /* creates padding around scroll thumb */
 }
 
+#facialAuthVid {
+  border: 5px solid #004621;
+  border-radius: 8px;
+}
+
+
 .green-button{
   @apply flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white p-2 font-bold
 }

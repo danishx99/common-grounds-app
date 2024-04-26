@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const codeSchema = new mongoose.Schema({
-  residentId: {
+  userCode: {
     type: String,
     required: true,
   },

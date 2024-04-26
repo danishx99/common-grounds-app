@@ -7,13 +7,14 @@ exports.verifyToken = (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
-      return res.status(401).json({error: "You are not authorized to access this resource(no token)"});
+      return res.status(401).json({error: "You are not authorized to access this resource(Not logged in)"});
     }
+    
 
 
     const verified = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = verified.userId;
-    req.userRole = verified.role;
+    req.userCode = verified.userCode;
+    req.role = verified.role;
 
    
     next();

@@ -11,6 +11,7 @@ const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require("jsonwebtoken"); // For generating JSON Web Tokens
 const dotenv = require("dotenv"); // For accessing environment variables
 const User = require("../models/User"); // Importing User model
+const Code = require("../models/Code"); // Importing Code model
 const validateEmail = require("../utils/emailUtils"); // Utility function for email validation
 const valPassComplexity = require("../utils/passwordUtils"); // Importing utility function for password complexity validation
 const transporter = require("../utils/mailer"); // Transporter for sending emails
@@ -50,7 +51,7 @@ exports.registerUser = async (req, res) => {
     // Check if the user is already existing
     const existing = await User.findOne({ email });
     if (existing) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({ error: "A user with this email address already exists." });
     }
 
     // Verify if the password and confirm password match
@@ -61,6 +62,8 @@ exports.registerUser = async (req, res) => {
     // Validate the password complexity
     const isValidPassword = await valPassComplexity.checkPassword(password);
 
+  
+
     //console.log(isValidPassword)
 
     if (!isValidPassword) {
@@ -69,6 +72,22 @@ exports.registerUser = async (req, res) => {
           "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
       });
     }
+
+    
+    //Check if code is valid
+    const codeCheck = await Code.findOne({ userCode: code });
+
+    if (!codeCheck) {
+      return res.status(400).json({ error: "Invalid code. Please contact management for further assistance" });
+    }
+
+
+
+    //Check for mismatch between account role and type of code provided
+    if (role != codeCheck.role) {
+      return res.status(400).json({ error: "Account type and provided code do not match." });
+    }
+
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -80,12 +99,17 @@ exports.registerUser = async (req, res) => {
       password: hashedPassword,
       email,
       role,
-      residentId: code,
+      userCode: code,
       biometricData,
     });
 
     // Save the new user to the database
     await newUser.save();
+
+    //Delete the code because it has been used
+
+    await Code.deleteOne({ userCode: code });
+    
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -112,7 +136,7 @@ exports.loginUser = async (req, res) => {
 
     // Generate a JWT token and return it as a secure cookie
     const token = jwt.sign(
-      { userId: user._id, role: user.role },
+      { userCode: user.userCode, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
@@ -145,7 +169,7 @@ exports.loginWithGoogle = async (req, res) => {
 
     // Generate a JWT token and return it as a secure cookie
     const token = jwt.sign(
-      { userId: user._id, role: user.role },
+      { userCode: user.userCode, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
@@ -178,17 +202,44 @@ exports.registerWithGoogle = async (req, res) => {
       });
     }
 
+    //Check if code is valid
+    const codeCheck = await Code.findOne({ userCode: code });
+
+    if (!codeCheck) {
+      return res.status(400).json({ error: "Invalid code. Please contact management for further assistance" });
+    }
+
+
+    
+    //Check for mismatch between account role and type of code provided
+    if (role != codeCheck.role) {
+      return res.status(400).json({ error: "Account type and provided code do not match." });
+    }
+    
+
+
+
+
+
+
     // Create a new user with the Google account details
     const newUser = new User({
       name,
       surname,
       email,
       role,
-      residentId: code,
+      userCode: code,
     });
+
+
 
     // Save the new user to the database
     await newUser.save();
+
+    //Delete the code because it has been used
+
+    await Code.deleteOne({ userCode: code });
+    
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -368,3 +419,43 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ error: "Error resetting password" });
   }
 };
+
+//generate code for user registration
+
+exports.generateCode = async (req, res) => {
+
+  try {
+    const { role } = req.body;
+
+    //Generate a random 5 digit code and prefix it with the role
+    const code = role + Math.floor(10000 + Math.random() * 90000);
+
+    console.log("Generated code: ", code)
+
+    //Store code along with role in the database
+    
+    const newCode = new Code({
+      userCode : code,
+      role, 
+   });
+
+
+    await newCode.save();
+
+    res.json({ message :  code });
+
+  } catch (error) {
+    console.log("Error generating code:", error);
+    res.status(500).json({ error: "Error generating code" });
+  }
+
+
+
+
+    
+
+
+
+
+
+}

@@ -3,6 +3,11 @@ const router = express.Router();
 
 const path = require("path");
 
+const admin = require("../middleware/isAdmin");
+const staff = require("../middleware/isStaff");
+const resident = require("../middleware/isResident");
+
+
 
 //router.use(express.static("client"));
 //home route
@@ -20,6 +25,8 @@ router.get("/login", (req, res) => {
     
 });
   
+
+
 // login with google route
 router.get("/login-with-google", (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/loginWithGoogle.html'));
@@ -50,6 +57,11 @@ router.get("/setUpFacialAuth", (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/setUpFacialAuth.html'));
 });
 
+
+//Generate code page for user registration, admin only access
+router.get("/admin/generateCode", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/generateCode.html'));
+});
 
 
 module.exports = router;

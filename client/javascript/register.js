@@ -53,14 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var password = document.getElementById("psw").value;
     var confirmPassword = document.getElementById("psw-confirm").value;
 
-    // check that passwords match
-    if (password !== confirmPassword) {
-      alert.style.display = "block";
-      alert.innerText = "Passwords do not match";
-      alert.className =
-        "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
-      return;
-    }
 
     // Check if email meets requirements to be an email
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,6 +60,16 @@ document.addEventListener("DOMContentLoaded", function () {
       var alert = document.getElementById("alert");
       alert.style.display = "block";
       alert.innerText = "Please provide a valid email";
+      alert.className =
+        "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+      return;
+    }
+
+    
+    // check that passwords match
+    if (password !== confirmPassword) {
+      alert.style.display = "block";
+      alert.innerText = "Passwords do not match";
       alert.className =
         "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
       return;

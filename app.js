@@ -24,6 +24,11 @@ app.use(cookieParser());
 //Serve frontend from two folders above the current directory
 app.use(express.static("client"));
 
+const path = require("path");
+
+app.use('/admin', express.static("client"));
+
+
 //Connect to MongoDB
 mongoose
   .connect(process.env.DB_CONNECT)

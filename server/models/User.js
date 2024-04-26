@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: ["Resident", "Staff", "Admin"],
     },
-    residentId: {
+    userCode: {
       type: String,
       required: true,
       unique: true,

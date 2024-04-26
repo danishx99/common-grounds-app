@@ -2,6 +2,10 @@ const express = require("express");
 const authController = require("../controllers/authController");
 const auth = require("../middleware/auth");
 
+const admin = require("../middleware/isAdmin");
+const staff = require("../middleware/isStaff");
+const resident = require("../middleware/isResident");
+
 const router = express.Router();
 
 // User registration endpoint
@@ -26,5 +30,8 @@ router.post("/forgot-password", (req, res) =>
 router.post("/reset-password", (req, res) =>
   authController.resetPassword(req, res)
 );
+
+//admin generate code endpoint
+router.post("/generateCode", (req,res, next) => admin.isAdmin(req,res,next) , (req, res) => authController.generateCode(req, res));
 
 module.exports = router;

@@ -7,8 +7,6 @@ const admin = require("../middleware/isAdmin");
 const staff = require("../middleware/isStaff");
 const resident = require("../middleware/isResident");
 
-
-
 //router.use(express.static("client"));
 //home route
 router.get("/", (req, res) => {

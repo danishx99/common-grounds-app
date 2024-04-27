@@ -20,7 +20,8 @@
             top: 0;
             bottom: 0;
             background-color: #001B0C;
-            width: 200px; /* Adjust as needed */
+            width: 200px;
+            /* Adjust as needed */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -57,8 +58,10 @@
             max-width: 400px;
             margin: 20px auto;
             position: fixed;
-            left: 220px; /* Distance from the left border */
-            top: 120px; /* Adjust as needed */
+            left: 220px;
+            /* Distance from the left border */
+            top: 120px;
+            /* Adjust as needed */
         }
 
         .card h2 {
@@ -88,40 +91,45 @@
 
 </head>
 
-<body class="bg-[#001B0C] flex items-center justify-center p-[2%]">
+<body class="bg-[#001B0C] flex flex-col items-center justify-center ">
 
-    <nav class="nav-menu">
-        <ul>
-            <li id="user_management_link"><a href="#">User Management</a></li>
-            <li id="generate_codes_link"><a href="#">Generate Codes</a></li>
-        </ul>
-    </nav>
+    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full">
+        <img src="./assets/logo-black-transparent.png" class="h-12" alt="logo">
+        <button type="button" id="submitButton"
+            class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
+            Logout
+        </button>
+    </header>
 
+    <h1 class="text-white text-4xl mt-[3%] font-extrabold text-center">Welcome to your admin dashboard, name
+        surname!
+    </h1>
 
-    <section class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
-        <header class="mb-9 ml-5 mt-[2%]">
-            <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
-        </header>
+    <section class="mt-[3%] mx-[5%] flex gap-6">
 
-
-        <div class="card">
-            <h2>Username1</h2>
-            <p>This is some information about the user1.</p>
-            <button>delete</button>
-            <select>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-            </select>
+        <div class="cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-center items-center hover:border-4 border-green-700">
+            <h2 class="mb-[10%] font-extrabold border-b-2 border-[#001B0C]">Generate Registration Code</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores id animi distinctio quod aut atque
+                quibusdam</p>
         </div>
 
+        <div class="bg-white rounded-2xl p-4 ">
+            <h2>Generate Registration Code</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores id animi distinctio quod aut atque
+                quibusdam.</p>
 
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 ">
+            <h2>Generate Registration Code</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores id animi distinctio quod aut atque
+                quibusdam</p>
+
+        </div>
 
     </section>
 
-
-
-<script src="./javascript/admin.js"></script>
+    <script src="./javascript/admin.js"></script>
 </body>
 
 </html>

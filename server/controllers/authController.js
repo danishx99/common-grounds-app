@@ -147,8 +147,12 @@ exports.loginUser = async (req, res) => {
     // Set token as an HttpOnly cookie
     res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
 
+
+
+
+
     // Return a success message
-    res.json({ success: true });
+    res.json({ success: true , redirect: user.role });
 
     //res.json({ token });
   } catch (error) {
@@ -181,7 +185,7 @@ exports.loginWithGoogle = async (req, res) => {
     res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
 
     // Return a success message
-    res.json({ success: true });
+    res.json({ success: true , redirect: user.role });
 
     //res.json({ token });
   } catch (error) {
@@ -349,9 +353,6 @@ exports.resetPassword = async (req, res) => {
 
     console.log("Reset token : " + resetToken);
 
-    console.log("New password : " + password);
-
-    console.log("Confirm password : " + confirmPassword);
 
     // Verify if the newPassword and confirmPassword match
     if (password !== confirmPassword) {

@@ -30,8 +30,9 @@ exports.verifyResetToken = (req, res, next) => {
   try {
     const resetToken = req.params.token;
     const decoded = jwt.verify(resetToken, process.env.RESET_JWT_SECRET);
-    req.userId = decoded.userId;
-    req.email = decoded.email;
+    req.userCode = verified.userCode;
+    req.role = verified.role;
+    
     next();
   } catch (error) {
     console.log("Error verifying reset token:", error);

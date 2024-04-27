@@ -3,23 +3,24 @@ const router = express.Router();
 
 const path = require("path");
 
+
+//Middleware
 const admin = require("../middleware/isAdmin");
 const staff = require("../middleware/isStaff");
 const resident = require("../middleware/isResident");
+const {homeRedirect} = require("../middleware/homeRedirect");
 
 
 
-//router.use(express.static("client"));
 //home route
 router.get("/", (req, res) => {
   
-  res.redirect("/login");
+  homeRedirect(req,res);
 
 });
 
 //login route 
 router.get("/login", (req, res) => {
-   
    
     res.sendFile(path.join(__dirname, '../../client/login.html'));
     
@@ -56,6 +57,23 @@ router.get("/facialAuth", (req, res) => {
 router.get("/setUpFacialAuth", (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/setUpFacialAuth.html'));
 });
+
+
+//Admin frontend route
+router.get("/admin", (req,res,next)=>admin.isAdmin(req,res, next) ,(req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/admin.html'));
+}
+);
+
+//Resident frontend route
+router.get("/resident", (req,res,next)=>resident.isResident(req,res, next) ,(req, res) =>
+  res.sendFile(path.join(__dirname, '../../client/resident.html'))
+);
+
+//Staff frontend route
+router.get("/staff", (req,res,next)=>staff.isStaff(req,res, next) ,(req, res) =>
+  res.sendFile(path.join(__dirname, '../../client/staff.html'))
+);
 
 
 //Generate code page for user registration, admin only access

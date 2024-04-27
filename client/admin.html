@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Grounds Residential Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./src/output.css">
+
+    <style>
+        .nav-menu {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #001B0C;
+            width: 200px; /* Adjust as needed */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+            border-right: 2px solid white;
+        }
+
+        .nav-menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-menu li {
+            margin-bottom: 10px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+        }
+
+        .nav-menu a:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 20px auto;
+            position: fixed;
+            left: 220px; /* Distance from the left border */
+            top: 120px; /* Adjust as needed */
+        }
+
+        .card h2 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            margin-bottom: 20px;
+        }
+
+        .card button {
+            padding: 10px 20px;
+            background-color: #001B0C;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .card select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-[#001B0C] flex items-center justify-center p-[2%]">
+
+    <nav class="nav-menu">
+        <ul>
+            <li id="user_management_link"><a href="#">User Management</a></li>
+            <li id="generate_codes_link"><a href="#">Generate Codes</a></li>
+        </ul>
+    </nav>
+
+
+    <section class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
+        <header class="mb-9 ml-5 mt-[2%]">
+            <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
+        </header>
+
+
+        <div class="card">
+            <h2>Username1</h2>
+            <p>This is some information about the user1.</p>
+            <button>delete</button>
+            <select>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+        </div>
+
+
+
+    </section>
+
+
+
+<script src="./javascript/admin.js"></script>
+</body>
+
+</html>

@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loader.style.display = "flex";
 
 
-        return;
+        // return;
         fetch("/api/auth/register-face", {
             method: "POST",
             headers: {

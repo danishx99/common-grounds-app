@@ -486,60 +486,107 @@ exports.registerFace = async (req, res) => {
 
 // verify face endpoint calls this function
 // still busy with this function
+// exports.verifyFace = async (req, res) => {
+//   try {
+//     // this function takes in 2 face ID's & compares them-- do we have 2 face Id's tho?
+//       const { faceId1, faceId2 } = req.body; // Assuming face IDs are sent in the request body
+
+//       const verifyOptions = {
+//           host: process.env.FACE_API_HOST,
+//           method: 'POST',
+//           port: 443,
+//           path: process.env.FACE_API_PATH_VERIFY,
+//           headers: {
+//               'Content-Type': 'application/json',
+//               'Ocp-Apim-Subscription-Key': process.env.FACE_API_KEY
+//           }
+//       };
+
+//       const verifyData = await new Promise((resolve, reject) => {
+//           const verifyReq = https.request(verifyOptions, (verifyResponse) => {
+//               verifyResponse.setEncoding('utf8');
+//               let verifyData = '';
+//               verifyResponse.on('data', (chunk) => {
+//                   verifyData += chunk;
+//               });
+//               verifyResponse.on('end', () => {
+//                   resolve(JSON.parse(verifyData));
+//               });
+//           });
+
+//           verifyReq.on('error', (error) => {
+//               reject(error);
+//           });
+
+//           const verifyBody = JSON.stringify({
+//               faceId1: faceId1,
+//               faceId2: faceId2
+//           });
+
+//           verifyReq.write(verifyBody);
+//           verifyReq.end();
+//       });
+
+//       // Handle the response data
+//       if (verifyData.error) {
+//           // Handle error
+//           res.status(500).send(verifyData.error);
+//       } else {
+//           // Handle success
+//           res.status(200).send(verifyData);
+//       }
+//   } catch (error) {
+//       // Handle any other errors
+//       res.status(500).send(error.message);
+//   }
+// };
+
+// Verify face endpoint calls this function
+
 exports.verifyFace = async (req, res) => {
-  try {
-    
-      const { faceId1, faceId2 } = req.body; // Assuming face IDs are sent in the request body
+    const { name, surname, faceId, image } = req.body;
 
-      const verifyOptions = {
-          host: process.env.FACE_API_HOST,
-          method: 'POST',
-          port: 443,
-          path: process.env.FACE_API_PATH_VERIFY,
-          headers: {
-              'Content-Type': 'application/json',
-              'Ocp-Apim-Subscription-Key': process.env.FACE_API_KEY
-          }
-      };
+    // Validate input: either faceId or an image is required
+    if (!faceId && !image) {
+        return res.status(400).json({ message: 'Either faceId or image is required' });
+    }
 
-      const verifyData = await new Promise((resolve, reject) => {
-          const verifyReq = https.request(verifyOptions, (verifyResponse) => {
-              verifyResponse.setEncoding('utf8');
-              let verifyData = '';
-              verifyResponse.on('data', (chunk) => {
-                  verifyData += chunk;
-              });
-              verifyResponse.on('end', () => {
-                  resolve(JSON.parse(verifyData));
-              });
-          });
+    // Find user by name & surname
+    const user = await User.findOne({
+        name: { $regex: new RegExp(name, "i") },
+        surname: { $regex: new RegExp(surname, "i") }
+    }).select('username faceId');
 
-          verifyReq.on('error', (error) => {
-              reject(error);
-          });
+    if (!user) {
+        return res.status(403).json({ message: 'User not found' });
+    }
 
-          const verifyBody = JSON.stringify({
-              faceId1: faceId1,
-              faceId2: faceId2
-          });
+    let faceIdToVerify;
+    if (faceId) {
+        faceIdToVerify = faceId;
+    } else {
+        // Convert image to binary data
+        const imageData = Buffer.from(image.split(",")[1], 'base64');// must double check this image size is not too large
+        // Detect faces in the image
+        const detectedFaces = await faceApi.detect(imageData);
+        if (detectedFaces.length !== 1) {
+            return res.status(400).json({ message: 'Exactly one face must be detected in the image.' });
+        }
+        faceIdToVerify = detectedFaces[0].faceId;
+    }
 
-          verifyReq.write(verifyBody);
-          verifyReq.end();
-      });
+    // Verify face ID
+    const verificationResult = await faceApi.verify(user.faceId, faceIdToVerify);
+    if (!verificationResult.isIdentical || verificationResult.confidence < process.env.FACE_API_CONFIDENCE_TRESHOLD) {
+        return res.status(403).json({ message: 'Face verification failed.' });
+    }
 
-      // Handle the response data
-      if (verifyData.error) {
-          // Handle error
-          res.status(500).send(verifyData.error);
-      } else {
-          // Handle success
-          res.status(200).send(verifyData);
-      }
-  } catch (error) {
-      // Handle any other errors
-      res.status(500).send(error.message);
-  }
+    // Generate JWT token, ask for second opinion on this because they signed & returned as cookie
+    // const token = jwt.sign({ username: user.username }, config.SECRET);
+    // return res.json({ message: 'Login successful', token });
 };
+
+
 
 //generate code for user registration
 

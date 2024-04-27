@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var generateCode = document.getElementById("generateCode");
-  var manageUsers = document.getElementById("manageUsers");
-  var manageVistors = document.getElementById("manageVisitors");
+  var visitorCode = document.getElementById("visitorCode");
   var logout = document.getElementById("logout");
   var heading = document.getElementById("heading");
   var logo = document.getElementById("logo");
@@ -16,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => {
       console.log(data.user);
       name = data.user[0].name;
-      heading.innerText = `Welcome to your admin dashboard, ${name}!`;
+      heading.innerText = `Welcome to your resident dashboard, ${name}!`;
     })
     .catch((error) => {
       console.log("Error:", error);
@@ -32,19 +30,11 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
-  generateCode.addEventListener("click", function () {
-    window.location.href = "/admin/generateCode";
-  });
-
-  manageUsers.addEventListener("click", function () {
-    window.location.href = "/admin/manageUsers";
-  });
-
-  manageVistors.addEventListener("click", function () {
-    window.location.href = "/admin/manageVisitors";
+  visitorCode.addEventListener("click", function () {
+    window.location.href = "/resident/visitorPassword";
   });
 
   logo.addEventListener("click", function () {
-    window.location.href = "/admin";
+    window.location.href = "/resident";
   });
 });

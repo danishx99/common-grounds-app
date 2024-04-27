@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
         // Extract Base64 string from data URL
         const base64String = getBase64StringFromDataURL(photoDataUrl);
-        console.log(base64String);
+        //console.log(base64String);
 
         var loader = document.getElementById("loader");
         loader.style.display = "flex";
@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         })
         .then((data) => {
             console.log(data);
+            console.log("facial auth set up js")
             loader.style.display = "none";
 
             if (data.message === "Facial authentication set up successfully") {

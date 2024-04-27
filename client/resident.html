@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Grounds Residential Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./src/output.css">
+
+
+</head>
+
+<body class="bg-[#001B0C] flex flex-col items-center justify-center ">
+
+    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full">
+        <img id="logo" src="./assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
+        <button type="button" id="logout"
+            class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
+            Logout
+        </button>
+    </header>
+
+    <h1 id="heading" class="text-white text-4xl mt-[3%] font-extrabold text-center">Welcome to your resident dashboard!
+    </h1>
+
+    <section class="mt-[3%] mx-[5%] flex gap-12 max-md:flex-col">
+
+        <div id="visitorCode"
+            class=" cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-between items-center hover:border-4 border-green-700">
+            <h2 class="mb-[5%] font-extrabold text-2xl border-[#001B0C] text-center">Generate Visitor Code</h2>
+            <img class="w-[25%] mb-[5%]" src="./assets/access-control.png" alt="">
+            <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores id animi distinctio
+                quod aut atque
+                quibusdam</p>
+        </div>
+
+    </section>
+
+    <script src="./javascript/resident.js"></script>
+</body>
+
+</html>

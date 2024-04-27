@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var password = document.getElementById("psw").value;
     var confirmPassword = document.getElementById("psw-confirm").value;
 
-
     // Check if email meets requirements to be an email
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!EMAIL_REGEX.test(email)) {
@@ -65,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    
     // check that passwords match
     if (password !== confirmPassword) {
       alert.style.display = "block";
@@ -145,9 +143,14 @@ document.addEventListener("DOMContentLoaded", function () {
           //Show success message
           var alert = document.getElementById("alert");
           alert.style.display = "block";
-          alert.innerText = "User registered successfully";
+          alert.innerText = "User registered successfully. Redirecting..";
           alert.className =
             "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+
+          // redirect to login page
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 3000);
 
           //clear form fields
           document.getElementById("fname").value = "";

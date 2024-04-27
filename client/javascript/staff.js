@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => {
       console.log(data.user);
       name = data.user[0].name;
-      heading.innerText = `Welcome to your admin dashboard, ${name}!`;
+      heading.innerText = `Welcome to your staff dashboard, ${name}!`;
     })
     .catch((error) => {
       console.log("Error:", error);
@@ -32,19 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
-  generateCode.addEventListener("click", function () {
-    window.location.href = "/admin/generateCode";
-  });
+  generateCode.addEventListener("click", function () {});
 
-  manageUsers.addEventListener("click", function () {
-    window.location.href = "/admin/manageUsers";
-  });
+  manageUsers.addEventListener("click", function () {});
 
-  manageVistors.addEventListener("click", function () {
-    window.location.href = "/admin/manageVisitors";
-  });
+  manageVistors.addEventListener("click", function () {});
 
   logo.addEventListener("click", function () {
-    window.location.href = "/admin";
+    window.location.href = "/staff";
   });
 });

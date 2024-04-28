@@ -39,6 +39,20 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
 
+    
+    //So after generating a vistor password, its stored here. When we log out a vistor after they leave
+    //we remove this password from here or make it null, esentially making it invalid/expired. Generating new password overwrites the one 
+    //stored here
+    visitorPassword: {
+      type: String,
+      required: false,
+    },
+
+    visitorPasswordCreatedAt: {
+      type: Date,
+      required: false,
+    },
+
     // add faceId to user schema for Azure Face API
     faceId: {
       type: String, required:false

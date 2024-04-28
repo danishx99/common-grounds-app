@@ -75,11 +75,32 @@ router.get("/staff", (req,res,next)=>staff.isStaff(req,res, next) ,(req, res) =>
   res.sendFile(path.join(__dirname, '../../client/staff.html'))
 );
 
+//Admin Routes//
 
-//Generate code page for user registration, admin only access
+//Admin page for generating registration code
 router.get("/admin/generateCode", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
   res.sendFile(path.join(__dirname, '../../client/generateCode.html'));
 });
+
+//Admin page for signing in visitors
+router.get("/admin/checkInVisitor", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/checkInVisitor.html'));
+});
+
+//Admin page for managing visitors(E.g. viewing visitor details, logging them out when they leave, etc.)
+//Im thinking like a table with a list of visitors and their details,and a button to log them out
+router.get("/admin/visitors", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/visitors.html'));
+}
+);
+
+//Resident Routes//
+
+//Resident page for generating visitor password
+router.get("/resident/visitorPassword", (req, res, next) => resident.isResident(req,res,next) ,(req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/generateVisitorPassword.html'));
+}
+);
 
 
 module.exports = router;

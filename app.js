@@ -28,6 +28,8 @@ app.use(cookieParser());
 //Serve frontend from two folders above the current directory
 app.use(express.static("client"));
 app.use('/admin', express.static("client"));
+app.use('/staff', express.static("client"));
+app.use('/resident', express.static("client"));
 
 const path = require("path");
 

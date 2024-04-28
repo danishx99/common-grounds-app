@@ -40,7 +40,11 @@ router.post("/verify-face", (req, res) =>
   authController.verifyFace(req, res)
 );
 
-//admin generate code endpoint
+//admin generate registration code endpoint
 router.post("/generateCode", (req,res, next) => admin.isAdmin(req,res,next) , (req, res) => authController.generateCode(req, res));
+
+//resident generate visitor code endpoint
+router.post("/generateVisitorPassword", (req,res, next) => resident.isResident(req,res,next) , (req, res) => authController.generateVisitorPassword(req, res));
+
 
 module.exports = router;

@@ -8,18 +8,24 @@ const visitorSchema = new mongoose.Schema({
   checkInTime: {
     type: Date,
     required: true,
+    
   },
+  identificationNumber: {
+    type: String,
+    required: true,
+  },
+  cellPhoneNumber: {
+    type: String,
+    required: true,
+  },
+
   checkOutTime: {
     type: Date,
+    required: false,
   },
-  hostId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+  userCode: {
+    type: String,
     required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
 });
 

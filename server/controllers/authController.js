@@ -572,11 +572,45 @@ exports.generateCode = async (req, res) => {
 
 
 
+}
 
-    
+//generate password for visitors
+exports.generateVisitorPassword = async (req, res) => {
+  
+    try {
+      const token = req.cookies.token;
 
+      const verified = jwt.verify(token, process.env.JWT_SECRET);
+      let userCode = verified.userCode;
 
+      //Find the user corresponding to this user code
 
+      const user = await User.findOne({ userCode });
 
+      //Check if password has been generated in the last 24 hours
+      if (user.visitorPassword && (Date.now() - user.visitorPasswordCreatedAt) < 86400000) {
+        return res.status(400).json({ error: "Visitor password already generated in the last 24 hours", password: user.visitorPassword});
+      }
+
+      //Generate a 5 digit password for the visitor
+      const password = Math.floor(10000 + Math.random() * 90000);
+
+      //Store the password and current date/time in the user's record
+      user.visitorPassword = password;
+      user.visitorPasswordCreatedAt = Date.now();
+
+      await user.save();
+
+      res.json({ password : password });
+
+    } catch (error) {
+      console.log("Error generating visitor password:", error);
+      res.status(500).json({ error: "Error generating visitor password" });
+    }
 
 }
+
+      
+      
+  
+

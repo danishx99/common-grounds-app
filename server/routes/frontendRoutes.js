@@ -79,6 +79,11 @@ router.get("/admin/generateCode", (req, res, next) => admin.isAdmin(req,res,next
   res.sendFile(path.join(__dirname, '../../client/generateCode.html'));
 });
 
+//Admin page for managing users
+router.get("/admin/manageUsers", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/manageUsers.html'));
+});
+
 //Admin page for signing in visitors
 router.get("/admin/checkInVisitor", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
   res.sendFile(path.join(__dirname, '../../client/checkInVisitor.html'));

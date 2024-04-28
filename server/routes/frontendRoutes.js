@@ -72,7 +72,7 @@ router.get(
   (req, res) => res.sendFile(path.join(__dirname, "../../client/staff.html"))
 );
 
-//Admin Routes//
+/* Admin Routes */
 
 //Admin page for generating registration code
 router.get("/admin/generateCode", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
@@ -91,9 +91,10 @@ router.get("/admin/visitors", (req, res, next) => admin.isAdmin(req,res,next) ,(
 }
 );
 
-//Resident Routes//
 
-//Resident page for generating visitor password
+/* Resident Routes */
+
+//Resident page for generating visitor password and checking current visitor password if one is generated
 router.get("/resident/visitorPassword", (req, res, next) => resident.isResident(req,res,next) ,(req, res) => {
   res.sendFile(path.join(__dirname, '../../client/generateVisitorPassword.html'));
 }

@@ -95,7 +95,7 @@ router.get("/admin/visitors", (req, res, next) => admin.isAdmin(req,res,next) ,(
 /* Resident Frontend Routes */
 
 //Resident page for generating visitor password and checking current visitor password if one is generated
-router.get("/resident/visitorPassword", (req, res, next) => resident.isResident(req,res,next) ,(req, res) => {
+router.get("/resident/generatevisitorPassword", (req, res, next) => resident.isResident(req,res,next) ,(req, res) => {
   res.sendFile(path.join(__dirname, '../../client/generateVisitorPassword.html'));
 }
 );

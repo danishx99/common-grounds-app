@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   visitorCode.addEventListener("click", function () {
-    window.location.href = "/resident/visitorPassword";
+    window.location.href = "/resident/generateVisitorPassword";
   });
 
   logo.addEventListener("click", function () {

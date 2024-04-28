@@ -168,7 +168,7 @@ exports.loginWithGoogle = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         error:
-          "Pease register with this Google account before attempting to login.",
+          "Please register with this Google account before attempting to login.",
       });
     }
 

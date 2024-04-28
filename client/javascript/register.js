@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     //show loader while waiting for response
-    var loader = document.getElementById("loader");
+    var loader = document.getElementById("loader2");
     loader.style.display = "flex";
 
     // post request to register user

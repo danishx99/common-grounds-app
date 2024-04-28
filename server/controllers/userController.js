@@ -78,6 +78,7 @@ exports.getAllUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).json({ message: "Successfully got all users", users });
   } catch (error) {
+    console.log("Error getting all users:", error);
     res.status(500).json({ error: "Internal server error" });
   }
   
@@ -99,7 +100,7 @@ exports.getUserDetails = async (req, res) => {
 
     res.json({ message: "Successfully got user details", user: user });
   } catch (error) {
-    console.error("Error getting user details:", error);
+    console.log("Error getting user details:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -135,7 +136,7 @@ exports.manageUsers = async (req, res) => {
     res.status(200).json({ message: "User permissions updated" });
 
   } catch (error) {
-    console.error("Error managing user:", error);
+    console.log("Error managing user:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 }

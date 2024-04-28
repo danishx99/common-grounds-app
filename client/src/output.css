@@ -677,6 +677,14 @@ video {
   margin-top: 7.5%;
 }
 
+.mb-\[8\%\] {
+  margin-bottom: 8%;
+}
+
+.mb-\[20\%\] {
+  margin-bottom: 20%;
+}
+
 .block {
   display: block;
 }
@@ -703,6 +711,18 @@ video {
 
 .h-full {
   height: 100%;
+}
+
+.h-\[\] {
+  height: ;
+}
+
+.h-svh {
+  height: 100svh;
+}
+
+.h-\[50\%\] {
+  height: 50%;
 }
 
 .w-4 {
@@ -924,6 +944,11 @@ video {
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
 }
 
 .text-base {

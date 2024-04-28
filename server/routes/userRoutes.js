@@ -24,8 +24,8 @@ router.put(
 // Get users (accessible only to Admins? or staff also?)
 router.get(
   "/",
-  (req, res) =>
-    admin.isAdmin(req, res) /*(req, res) => userController.isAdmin(req, res),*/,
+  (req, res,next) =>
+    admin.isAdmin(req, res , next) /*(req, res) => userController.isAdmin(req, res),*/,
   (req, res) => userController.getUsers(req, res)
 );
 

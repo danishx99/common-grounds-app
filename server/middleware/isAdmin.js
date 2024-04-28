@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
 dotenv.config();
+const path = require('path');
 
 const User = require('../models/User');
 
@@ -20,7 +21,8 @@ exports.isAdmin = async (req, res, next) => {
     let role = verified.role;
 
     if(role !== "Admin"){
-      return res.status(403).json({error: "You are not authorized to access this resource"});
+      //return status 403 and send html file
+      res.status(403).sendFile(path.join(__dirname, '../../client/403forbidden.html'));
     }
 
    

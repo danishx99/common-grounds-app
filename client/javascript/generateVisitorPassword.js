@@ -35,16 +35,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert.className =
                         "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
 
-                } else if (data.error && data.password) {
+                } else if (data.message && data.password) {
                     //Show error message
                     var alert = document.getElementById("alert");
                     alert.style.display = "block";
-                    alert.innerText = data.error;
+                    alert.innerText = data.message;
                     alert.className =
-                        "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+                        "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
                          //Place password inside textbox
                          var password = document.getElementById("passPlaceholder");
                          password.value = data.password;
+
+                  
                 } 
                 else if (data.password) {
                     //Show success message

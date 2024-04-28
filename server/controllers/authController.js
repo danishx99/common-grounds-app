@@ -636,10 +636,25 @@ exports.generateVisitorPassword = async (req, res) => {
 
       const user = await User.findOne({ userCode });
 
+
+      //Check how much time is left
+      var millisecondsInAnHour = 3600000;
+
+      // Calculate time left in milliseconds
+      var timeLeftInMilliseconds = 86400000 - (Date.now() - user.visitorPasswordCreatedAt);
+
+      // Convert milliseconds to hours
+      var timeLeftInHours = timeLeftInMilliseconds / millisecondsInAnHour;
+
+      // Round to the nearest half hour
+      var timeLeftInHalfHours = Math.round(timeLeftInHours * 2) / 2;
+
       //Check if password has been generated in the last 24 hours
       if (user.visitorPassword && (Date.now() - user.visitorPasswordCreatedAt) < 86400000) {
-        return res.status(400).json({ error: "Visitor password already generated in the last 24 hours", password: user.visitorPassword});
+        return res.status(400).json({ message: `See visitor password below. It remains valid for about ${timeLeftInHalfHours} more hours.`, password: user.visitorPassword});
       }
+
+      //A visitor password has already been generated recently. Please note that it remains valid for 24 hours from its initial generation.
 
       //Generate a 5 digit password for the visitor
       const password = Math.floor(10000 + Math.random() * 90000);

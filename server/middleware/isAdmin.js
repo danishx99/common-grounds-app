@@ -20,7 +20,7 @@ exports.isAdmin = async (req, res, next) => {
     let role = verified.role;
 
     if(role !== "Admin"){
-      return res.status(401).json({error: "You are not authorized to access this resource"});
+      return res.status(403).json({error: "You are not authorized to access this resource"});
     }
 
    

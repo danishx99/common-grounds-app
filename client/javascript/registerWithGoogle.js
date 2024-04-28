@@ -107,9 +107,14 @@ document.addEventListener("DOMContentLoaded", function () {
               //Show success login message
               var alert = document.getElementById("alert");
               alert.style.display = "block";
-              alert.innerText = "You have successfully registered with Google";
+              alert.innerText =
+                "You have successfully registered with Google. Redirecting...";
               alert.className =
                 "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+              // redirect to login page
+              setTimeout(() => {
+                window.location.href = "/login";
+              }, 3000);
             }
           })
           .catch((error) => {

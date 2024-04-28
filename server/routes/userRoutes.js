@@ -7,44 +7,18 @@ const resident = require("../middleware/isResident");
 
 const router = express.Router();
 
-// Password change endpoint (can be accessible by admin and the user) (they don't to be authenticated since they are already logged in)
-router.put(
-  "/change-password",
-  /*, (req, res,next) =>auth.verifyToken(req, res,next)*/ (req, res) =>
-    userController.changePassword(req, res)
-);
+// User-related routes
 
-// Approve user onboarding (accessible only to Admins)
-// router.post(
-//   "/:userId",
-//   (req, res) => userController.isAdmin(req, res),
-//   (req, res) => userController.approveOnboarding(req, res)
-// );
-
-// Get users (accessible only to Admins? or staff also?)
-router.get(
-  "/",
-  (req, res,next) =>
-    admin.isAdmin(req, res , next) /*(req, res) => userController.isAdmin(req, res),*/,
-  (req, res) => userController.getUsers(req, res)
-);
-
-// Get detailed user information (accessible only to Admins? or staff also?)
+// Get current user information(Currently logged in user)
 router.get("/getCurrentUser", (req, res) =>
   userController.getUserDetails(req, res)
 );
 
-// Remove user access (accessible only to Admins)
-router.delete(
-  "/:userId",
-  (req, res) => admin.isAdmin(req, res),
-  (req, res) => userController.removeAccess(req, res)
-);
-// Change user permissions (accessible only to Admins)
-router.put(
-  "/:userId",
-  (req, res) => admin.isAdmin(req, res),
-  (req, res) => userController.changePermissions(req, res)
-);
+// Get all users (accessible only to Admins)
+router.get("/getAllUsers", (req, res, next)=> admin.isAdmin(req, res, next) ,(req, res) => userController.getAllUsers(req, res));
+
+
+//Manage users (accessible only to Admins)
+router.post("/manageUsers", (req, res, next)=> admin.isAdmin(req, res, next) ,(req, res) => userController.manageUsers(req, res));
 
 module.exports = router;

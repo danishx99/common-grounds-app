@@ -630,10 +630,6 @@ video {
   margin-bottom: 10%;
 }
 
-.mb-\[15\%\] {
-  margin-bottom: 15%;
-}
-
 .mb-\[2\.5\%\] {
   margin-bottom: 2.5%;
 }
@@ -682,6 +678,10 @@ video {
   margin-top: 1%;
 }
 
+.mt-\[15\%\] {
+  margin-top: 15%;
+}
+
 .mt-\[2\%\] {
   margin-top: 2%;
 }
@@ -692,18 +692,6 @@ video {
 
 .mt-\[7\.5\%\] {
   margin-top: 7.5%;
-}
-
-.mb-\[1\%\] {
-  margin-bottom: 1%;
-}
-
-.mt-\[20\%\] {
-  margin-top: 20%;
-}
-
-.mt-\[15\%\] {
-  margin-top: 15%;
 }
 
 .block {

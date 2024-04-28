@@ -112,8 +112,6 @@
 
 <body class="bg-[#001B0C] flex flex-col justify-start items-center h-svh">
 
-
-
     <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full sticky top-0 z-10 ">
         <img id="logo" src="./assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
         <button type="button" id="logout"
@@ -129,6 +127,24 @@
         <div class="shadow"></div>
         <div class="shadow"></div>
         <div class="shadow"></div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Oops! Something went wrong.</h5>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeModal" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="userInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
@@ -235,7 +251,17 @@
         </table>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="./javascript/manageUsers.js"></script>
+
+    <script>
+        // close Modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            $('#errorModal').modal('hide');
+        });
+    </script>
 
 </body>
 

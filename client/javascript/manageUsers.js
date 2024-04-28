@@ -2,6 +2,17 @@ let logo = document.getElementById("logo");
 const mainLoader = document.getElementById("mainLoader");
 const userInfo = document.getElementById("userInfo");
 
+// Function to display error modal with a message
+function showErrorModal(message) {
+  // Set error message
+  document.getElementById("errorMessage").textContent = message;
+  // Show modal
+  $("#errorModal").modal("show");
+}
+
+// Example usage:
+// showErrorModal('An error occurred. Please try again later.');
+
 logo.addEventListener("click", () => {
   window.location.href = "/admin";
 });
@@ -12,6 +23,18 @@ function getRoles(role) {
   //retunr roles array without role
   return roles.filter((r) => r !== role);
 }
+
+var logout = document.getElementById("logout");
+
+logout.addEventListener("click", function () {
+  //get request to /clear
+  fetch("/clear")
+    .then((res) => res.text())
+    .then((data) => {
+      console.log(data);
+      window.location.href = "/";
+    });
+});
 
 mainLoader.classList.remove("hidden");
 userInfo.classList.add("hidden");
@@ -135,6 +158,24 @@ fetch("/api/users/getAllUsers")
         })
           .then((res) => res.json())
           .then((data) => {
+            if (data.error) {
+              //hide loader
+              document
+                .getElementById(`updateLoader_${userCode}`)
+                .classList.add("hidden");
+              //show cross for 3 seconds
+              document
+                .getElementById(`crossUpdate_${userCode}`)
+                .classList.remove("hidden");
+              setTimeout(function () {
+                document
+                  .getElementById(`crossUpdate_${userCode}`)
+                  .classList.add("hidden");
+              }, 1500);
+              showErrorModal(data.error);
+              return;
+            }
+
             //hide loader
             document
               .getElementById(`updateLoader_${userCode}`)
@@ -164,6 +205,8 @@ fetch("/api/users/getAllUsers")
                 .getElementById(`crossUpdate_${userCode}`)
                 .classList.add("hidden");
             }, 1500);
+
+            showErrorModal(error.message);
             console.log("Error:", error);
           });
       } else if (event.target && event.target.id.startsWith("delete_")) {
@@ -191,6 +234,23 @@ fetch("/api/users/getAllUsers")
         })
           .then((res) => res.json())
           .then((data) => {
+            if (data.error) {
+              // Hide the loader
+              document
+                .getElementById(`loader_${userCode}`)
+                .classList.add("hidden");
+              //show cross for 3 seconds
+              document
+                .getElementById(`crossDelete_${userCode}`)
+                .classList.remove("hidden");
+              setTimeout(function () {
+                document
+                  .getElementById(`crossDelete_${userCode}`)
+                  .classList.add("hidden");
+              }, 1500);
+              showErrorModal(data.error);
+              return;
+            }
             // Hide the loader
             document
               .getElementById(`loader_${userCode}`)
@@ -213,6 +273,7 @@ fetch("/api/users/getAllUsers")
                 .getElementById(`crossDelete_${userCode}`)
                 .classList.add("hidden");
             }, 1500);
+            showErrorModal(error.message);
             console.log("Error:", error);
           });
       }

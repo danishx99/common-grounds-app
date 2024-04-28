@@ -11,29 +11,25 @@ const fineRoutes = require("./server/routes/fineRoutes");
 const noticeRoutes = require("./server/routes/noticeRoutes");
 const frontendRoutes = require("./server/routes/frontendRoutes");
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 dotenv.config();
 
-
 // Middleware
 // Increase the payload size limit
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true })); 
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 //Cookie parser
 app.use(cookieParser());
 
 //Serve frontend from two folders above the current directory
 app.use(express.static("client"));
-app.use('/admin', express.static("client"));
-app.use('/staff', express.static("client"));
-app.use('/resident', express.static("client"));
+app.use("/admin", express.static("client"));
+app.use("/staff", express.static("client"));
+app.use("/resident", express.static("client"));
 
 const path = require("path");
-
-
 
 //Connect to MongoDB
 mongoose
@@ -53,6 +49,11 @@ app.use("/api/visitors", visitorRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/fines", fineRoutes);
 app.use("/api/notices", noticeRoutes);
+
+app.use((req, res, next) => {
+  // Send the HTML file for unknown routes
+  res.sendFile(path.join(__dirname, "./client/404notFound.html"));
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

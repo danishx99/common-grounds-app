@@ -23,16 +23,19 @@
             <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
         </header>
 
-        <section class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%] h-[50%] flex flex-col justify-center" id="create-new-acc"
-            action="#">
+        <section
+            class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%] h-[50%] flex flex-col justify-center"
+            id="create-new-acc" action="#">
 
 
-            <h2 class="font-black text-center text-gray-600 mb-[10%] text-5xl">401</h2>
+            <h2 class="font-black text-center text-gray-600 mb-[10%] text-5xl">404</h2>
 
-            <p class="text-base font-bold text-center text-gray-600 mb-[20%]">You are not logged in!</p>
+            <p class="text-base font-bold text-center text-gray-600 mb-[20%]">Sorry, the page you are looking for could
+                not be found!
+            </p>
 
-            <button id="login" class="green-button w-full">
-                Login
+            <button id="home" class="green-button w-full">
+                Home
             </button>
 
 
@@ -45,9 +48,9 @@
     </article>
 
     <script>
-        let login = document.getElementById('login');
-        login.addEventListener('click', () => {
-            window.location.href = '/login';
+        let home = document.getElementById('home');
+        home.addEventListener('click', () => {
+            window.location.href = '/';
         });
     </script>
 

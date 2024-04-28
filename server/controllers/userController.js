@@ -117,7 +117,7 @@ exports.manageUsers = async (req, res) => {
 
     //{user: userCode, actions: [role, email, name, delete], del: true}
 
-    const { userCode, actions, del } = req.body;
+    const { userCode, role, del } = req.body;
 
     //Check if delete is true, if it is, delete the user
     if (del == true) {
@@ -134,6 +134,6 @@ exports.manageUsers = async (req, res) => {
     res.status(200).json({ message: "User permissions updated" });
   } catch (error) {
     console.log("Error managing user:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error." });
   }
 };

@@ -47,8 +47,6 @@ exports.changePassword = async (req, res) => {
 //   }
 // };
 
-
-
 // Remove user access
 exports.removeAccess = async (req, res) => {
   try {
@@ -76,12 +74,13 @@ exports.changePermissions = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).json({ message: "Successfully got all users", users });
+    res
+      .status(200)
+      .json({ message: "Successfully got all users", users: users });
   } catch (error) {
     console.log("Error getting all users:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-  
 };
 
 // Logged in user information
@@ -109,7 +108,6 @@ exports.getUserDetails = async (req, res) => {
 
 exports.manageUsers = async (req, res) => {
   try {
-
     //maybe instead of having differnt endpoints for like deleting and updating we can have one endpoint that does all of that, but we
     //can have a field in the request body that tells us what we want to do, like delete, update, etc.
     //So for example. if the request body has a field called action that is set to delete, we can delete the user.
@@ -134,9 +132,8 @@ exports.manageUsers = async (req, res) => {
     await userToUpdate.save();
 
     res.status(200).json({ message: "User permissions updated" });
-
   } catch (error) {
     console.log("Error managing user:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};

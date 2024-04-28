@@ -8,7 +8,7 @@
     box-sizing: border-box;
     font-family: "Nunito", sans-serif;
     overflow: visible;
-    /* border: 1px solid white; */
+    /* border: 1px solid black; */
 
 }
 
@@ -19,7 +19,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: blue;    /* color of the scroll thumb */
+  background-color: rgb(255, 255, 255);    /* color of the scroll thumb */
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 3px solid white;  /* creates padding around scroll thumb */
 }
@@ -48,6 +48,11 @@ body::-webkit-scrollbar-thumb {
 
 .standard-input{
   @apply p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]
+}
+
+.standard-input:focus {
+  outline: none;
+  /* Remove the default outline */
 }
 
 .right-logo {

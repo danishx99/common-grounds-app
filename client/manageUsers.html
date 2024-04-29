@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Grounds Residential Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.min.js"></script>
+
+    <!--Fontawesome for icons-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .wrapper {
+            width: 200px;
+            height: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .circle {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            border-radius: 50%;
+            background-color: #fff;
+            left: 15%;
+            transform-origin: 50%;
+            animation: circle7124 .5s alternate infinite ease;
+        }
+
+        @keyframes circle7124 {
+            0% {
+                top: 60px;
+                height: 5px;
+                border-radius: 50px 50px 25px 25px;
+                transform: scaleX(1.7);
+            }
+
+            40% {
+                height: 20px;
+                border-radius: 50%;
+                transform: scaleX(1);
+            }
+
+            100% {
+                top: 0%;
+            }
+        }
+
+        .circle:nth-child(2) {
+            left: 45%;
+            animation-delay: .2s;
+        }
+
+        .circle:nth-child(3) {
+            left: auto;
+            right: 15%;
+            animation-delay: .3s;
+        }
+
+        .shadow {
+            width: 20px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: rgba(35, 82, 3, 0.9);
+            position: absolute;
+            top: 62px;
+            transform-origin: 50%;
+            z-index: -1;
+            left: 15%;
+            filter: blur(1px);
+            animation: shadow046 .5s alternate infinite ease;
+        }
+
+        @keyframes shadow046 {
+            0% {
+                transform: scaleX(1.5);
+            }
+
+            40% {
+                transform: scaleX(1);
+                opacity: .7;
+            }
+
+            100% {
+                transform: scaleX(.2);
+                opacity: .4;
+            }
+        }
+
+        .shadow:nth-child(4) {
+            left: 45%;
+            animation-delay: .2s
+        }
+
+        .shadow:nth-child(5) {
+            left: auto;
+            right: 15%;
+            animation-delay: .3s;
+        }
+    </style>
+
+</head>
+
+<body class="bg-[#001B0C] flex flex-col justify-start items-center h-svh">
+
+    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full sticky top-0 z-10 ">
+        <img id="logo" src="./assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
+        <button type="button" id="logout"
+            class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
+            Logout
+        </button>
+    </header>
+
+    <div id="mainLoader" class="wrapper mt-[15%] hidden">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Oops! Something went wrong.</h5>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeModal" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="userInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
+
+        <!-- search -->
+        <div class="flex p-3 bg-white ">
+            <div class="relative mt-1">
+
+                <input type="text" id="table-search"
+                    class="block p-2 text-xs text-black border-black rounded-3xl w-80 bg-gray-300 pl-[1%]"
+                    placeholder="Search by name ">
+                <div class="absolute left-80 inset-y-0  flex items-center ps-3 pointer-events-none  border-black">
+                    <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- table -->
+        <table id="usersTable"
+            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 table-fixed">
+
+            <!-- table head -->
+            <thead class="text-xs text-gray-700 uppercase bg-gray-300">
+                <tr>
+                    <th scope="col" class="px-3 py-3 text-center w-[15%]">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center w-[15%]">
+                        Email
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-center w-[15%]">
+                        User Code
+                    </th>
+                    <th scope="col" class="px-5 py-3 text-center min-w-[10%]">
+                        Role
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center w-[15%]">
+                        Update
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center w-[15%]">
+                        Delete
+                    </th>
+                </tr>
+            </thead>
+
+            <!-- table body -->
+            <tbody id="tbody">
+                <!-- 
+                <tr class="bg-white border-b hover:bg-gray-200">
+                    <th scope="row" class="px-3 py-1 font-medium text-gray-900 text-center">
+                        Apple MacBook Pro 17"
+                    </th>
+                    <td class="px-6 py-1 text-center">
+                        Silver
+                    </td>
+                    <td class="px-4 py-1 text-center">
+                        Laptop
+                    </td>
+                    <td class="px-5 py-1 text-center">
+                        <select class="py-1.5 text-xs rounded-3xl bg-gray-100 w-[100%] border-black text-center" name="" id="">
+                            <option value="Resident">Resident</option>
+                            <option value="Staff">Staff</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </td>
+
+                    <td class="px-6 py-1 text-center">
+                        $2999
+                    </td>
+                    <td class="px-6 py-1 text-center">
+                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    </td>
+                </tr>
+
+                <tr class="bg-white border-b hover:bg-gray-200 ">
+                    <th scope="row" class="px-3 py-1 font-medium text-gray-900 text-center">
+                        Apple MacBook Pro 17"
+                    </th>
+                    <td class="px-6 py-1 text-center">
+                        Silver
+                    </td>
+                    <td class="px-4 py-1 text-center">
+                        Laptop
+                    </td>
+                    <td class="px-5 py-1 text-center">
+                        <select class="py-1.5 text-xs rounded-3xl bg-gray-100 w-[100%]" name="" id=""></select>
+                    </td>
+
+                    <td class="px-6 py-1 text-center">
+                        $2999
+                    </td>
+                    <td class="px-6 py-1 text-center">
+                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    </td>
+                </tr> -->
+
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./javascript/manageUsers.js"></script>
+
+    <script>
+        // close Modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            $('#errorModal').modal('hide');
+        });
+    </script>
+
+</body>
+
+</html>

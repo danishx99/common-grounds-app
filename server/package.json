@@ -4,14 +4,16 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "cd .. && nodemon --watch client --watch server --watch app.js app.js",
     "dev": "npm install & cd .. &  node app.js",
-    "test": "jest --verbose --passWithNoTests --coverage"
+    "test": "jest --passWithNoTests --coverage --verbose --coverageReporters=text-summary"
   },
   "author": "Qais",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -20,7 +22,8 @@
     "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.1",
-    "nodemailer": "^6.9.13"
+    "nodemailer": "^6.9.13",
+    "text-encoding": "^0.7.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

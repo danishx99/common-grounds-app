@@ -57,12 +57,10 @@ submitButton.addEventListener("click", function (event) {
         alert.innerText ="Password reset successfully, you will be redirected to login shortly."
         alert.className = "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]"
 
-       
-
         // redirect to login page
           setTimeout(() => {
               window.location.href = '/login';
-          }, 3500);
+          }, 2500);
         
 
       } else if (data.error) {

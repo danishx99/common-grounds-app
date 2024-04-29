@@ -57,8 +57,17 @@ loginWithGoogleButton.addEventListener("click", function (event) {
             //Show success login message
             var alert = document.getElementById("alert");
             alert.style.display = "block";
-            alert.innerText = "You have successfully logged in";
-          }
+            alert.innerText = "Login successful. Redirecting...";
+            alert.className =
+              "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+
+               //Check for data.redirect and redirect
+        if (data.redirect) {
+          setTimeout(() => {
+            window.location.href = data.redirect.toLowerCase();
+          }, 3000);
+        }
+      }
         })
         .catch((error) => {
           console.log("Error:", error);

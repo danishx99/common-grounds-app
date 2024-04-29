@@ -50,9 +50,16 @@ submitButton.addEventListener("click", function (event) {
         //Show success login message
         var alert = document.getElementById("alert");
         alert.style.display = "block";
-        alert.innerText = "You have successfully logged in";
+        alert.innerText = "Login successful. Redirecting...";
         alert.className =
           "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+
+        //Check for data.redirect and redirect
+        if (data.redirect) {
+          setTimeout(() => {
+            window.location.href = data.redirect.toLowerCase();
+          }, 2500);
+        }
       }
     })
     .catch((error) => {
@@ -60,4 +67,13 @@ submitButton.addEventListener("click", function (event) {
       loader.style.display = "none";
       alert("An error occurred. Please try again");
     });
+});
+
+var cameraButton = document.getElementById("camera_button");
+cameraButton.addEventListener("click", function (event) {
+  // redirect to facialAuth page
+  setTimeout(() => {
+    window.location.href = '/facialAuth';
+    }, 0);
+
 });

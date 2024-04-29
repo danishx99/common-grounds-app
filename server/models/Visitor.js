@@ -3,20 +3,29 @@ const mongoose = require('mongoose');
 const visitorSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
-  visitingTime: {
+  checkInTime: {
     type: Date,
-    required: true
+    required: true,
+    
   },
-  residentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+  identificationNumber: {
+    type: String,
+    required: true,
   },
-  createdAt: {
+  cellPhoneNumber: {
+    type: String,
+    required: true,
+  },
+
+  checkOutTime: {
     type: Date,
-    default: Date.now
+    required: false,
+  },
+  userCode: {
+    type: String,
+    required: true
   }
 });
 

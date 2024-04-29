@@ -8,7 +8,7 @@
     box-sizing: border-box;
     font-family: "Nunito", sans-serif;
     overflow: visible;
-    /* border: 1px solid white; */
+     /* border: 1px solid black;  */
 
 }
 
@@ -19,10 +19,16 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: blue;    /* color of the scroll thumb */
+  background-color: rgb(255, 255, 255);    /* color of the scroll thumb */
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 3px solid white;  /* creates padding around scroll thumb */
 }
+
+#facialAuthVid {
+  border: 5px solid #004621;
+  border-radius: 8px;
+}
+
 
 .green-button{
   @apply flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white p-2 font-bold
@@ -44,6 +50,27 @@ body::-webkit-scrollbar-thumb {
   @apply p-2 text-xs rounded-3xl bg-[#EFEFEF] mb-[5%]
 }
 
+.standard-input:focus {
+  outline: none;
+  /* Remove the default outline */
+}
+
 .right-logo {
   @apply w-[40%] items-center justify-center md:flex hidden h-full mr-[5%] mt-[7.5%]
+}
+
+.register-show-form1 {
+  @apply flex flex-col
+}
+
+.register-hide-form1 {
+  @apply hidden
+}
+
+.register-show-form2 {
+  @apply flex flex-col
+}
+
+.register-hide-form2 {
+  @apply hidden
 }

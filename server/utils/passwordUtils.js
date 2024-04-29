@@ -1,6 +1,5 @@
-const bcrypt = require('bcryptjs');
-
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+const PASSWORD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 async function checkPassword(password) {
   // Check if password meets complexity requirements
@@ -9,7 +8,6 @@ async function checkPassword(password) {
   }
 
   return true;
-
 }
 
 module.exports = { checkPassword };

@@ -150,7 +150,7 @@
     <div id="visitorInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
 
         <!-- search -->
-        <div class="flex p-3 bg-white ">
+        <div class="flex p-3 bg-white justify-between items-center">
             <div class="relative mt-1">
 
                 <input type="text" id="table-search"
@@ -164,6 +164,9 @@
                     </svg>
                 </div>
             </div>
+            <button id="checkIn" class="green-button w-[20%]">
+                Check-In Visitor
+            </button>
 
         </div>
 
@@ -188,19 +191,19 @@
                         ID/Passport Number
                     </th>
                     <th scope="col" class="px-4 py-3 text-center w-[15%]">
-                       Cellphone Number
+                        Cellphone Number
                     </th>
                     <th scope="col" class="px-5 py-3 text-center min-w-[10%]">
                         Resident
                     </th>
-                   
+
                 </tr>
             </thead>
 
             <!-- table body -->
             <tbody id="tbody">
-               
-               
+
+
 
             </tbody>
         </table>

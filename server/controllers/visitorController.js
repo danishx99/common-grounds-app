@@ -41,7 +41,7 @@ exports.checkInVisitor = async (req, res) => {
 
     //create new visitor using above format
 
-    const newVisitor = new Visitor({ name: name,
+    const newVisitor = new Visitor({ name: fname + " " + lname,
      checkInTime: Date.now(),
       identificationNumber: id,
       cellPhoneNumber: cellnum,

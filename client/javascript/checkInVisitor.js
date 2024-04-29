@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             method: "POST",
             body: JSON.stringify({
-                name: document.getElementById("fname").value,
-                surname: document.getElementById("lname").value,
+                fname: document.getElementById("fname").value,
+                lname: document.getElementById("lname").value,
                 cellnum: document.getElementById("cellnum").value,
                 id: document.getElementById("id").value,
                 password: document.getElementById("password").value,

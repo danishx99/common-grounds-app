@@ -69,6 +69,8 @@ exports.getAllVisitors = async (req, res) => {
 
     // Get all visitors and sort by check out time
     const visitors = await Visitor.find().sort({ checkOutTime: 'asc' });
+    //const visitors = await Visitor.find().sort({ checkOutTime: -1 }).sort({ checkOutTime: { $exists: false } });
+
 
     
 

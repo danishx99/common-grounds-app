@@ -196,7 +196,7 @@ exports.registerWithGoogle = async (req, res) => {
   try {
     const { name, surname, email, role, code } = req.body;
 
-    console.log(name, surname, email, role, code);
+    // console.log(name, surname, email, role, code);
 
     // Find the user by email
     const user = await User.findOne({ email });

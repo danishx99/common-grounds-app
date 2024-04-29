@@ -26,7 +26,7 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          
+          npm run test --if-present
 
       - name: Zip artifact for deployment
         run: Compress-Archive -Path ./* -DestinationPath release.zip
@@ -36,26 +36,6 @@ jobs:
         with:
           name: node-app
           path: release.zip
-
-  test: # This job is not required for deployment, but can be used to run tests (later we'll include it we just add test to the "needs" of the deploy job below)
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-
-      - name: npm install
-        working-directory: ./server
-        run: npm ci
-
-      - name: Run tests
-        working-directory: ./server
-        run: npm run test --if-present
-
 
   deploy:
     runs-on: windows-latest

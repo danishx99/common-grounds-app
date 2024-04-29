@@ -36,17 +36,6 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-// Approve user onboarding (Depends on how we gonna do it not needed for now)
-// exports.approveOnboarding = async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-//     const user = await User.findByIdAndUpdate(userId, { isApproved: true }, { new: true });
-//     res.status(200).json({ message: 'User onboarding approved', user });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
 // Remove user access
 exports.removeAccess = async (req, res) => {
   try {

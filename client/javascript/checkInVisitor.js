@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
             loader.style.display = "none";
             return;
         }
+
+        console.log(name, surname, cellnum, id, password);
         
 
         // post request to generate code

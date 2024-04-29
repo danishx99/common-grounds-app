@@ -7,6 +7,7 @@ exports.checkInVisitor = async (req, res) => {
   try {
     const { fname, lname, cellnum, id, password } = req.body;
 
+    
     const UserBeingVisited = await User.findOne({ visitorPassword: password });
 
    
@@ -38,10 +39,11 @@ exports.checkInVisitor = async (req, res) => {
     }
 
    let name = fname + " " + lname;
+   
 
     //create new visitor using above format
 
-    const newVisitor = new Visitor({ name: fname + " " + lname,
+    const newVisitor = new Visitor({name,
      checkInTime: Date.now(),
       identificationNumber: id,
       cellPhoneNumber: cellnum,
@@ -61,8 +63,12 @@ exports.checkInVisitor = async (req, res) => {
 
 exports.getAllVisitors = async (req, res) => {
   try {
+
+
     // Get all visitors and sort by check out time
     const visitors = await Visitor.find().sort({ checkOutTime: 'asc' });
+
+    
 
     res.status(200).json({ message: 'Successfully got visitors', visitors : visitors });
 

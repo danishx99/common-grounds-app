@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var lastName = user.displayName.split(" ")[1];
 
         //show loader while waiting for response
-        var loader = document.getElementById("loader");
+        var loader = document.getElementById("loaderGoogle");
         loader.style.display = "flex";
 
         //post request to register user

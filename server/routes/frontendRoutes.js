@@ -96,6 +96,11 @@ router.get("/admin/visitors", (req, res, next) => admin.isAdmin(req,res,next) ,(
 }
 );
 
+router.get("/admin/manageVisitors", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/manageVisitors.html'));
+}
+);
+
 
 /* Resident Frontend Routes */
 

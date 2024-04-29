@@ -119,7 +119,17 @@ exports.manageUsers = async (req, res) => {
     //Update user permissions, will only run if delete is not true
     const userToUpdate = await User.findOne({ userCode });
 
+    //update the user role
     userToUpdate.role = role;
+
+    //update the userCode so that the prefix becomes the new role, "Admin65738" -> "Staff65738"
+    // Split the old code into an array based on the separator
+    let parts = userToUpdate.userCode.split(/(\d+)/);
+
+    userToUpdate.userCode = role + parts[1];
+    
+
+
     await userToUpdate.save();
 
     res

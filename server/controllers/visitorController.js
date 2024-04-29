@@ -37,11 +37,11 @@ exports.checkInVisitor = async (req, res) => {
       return res.status(404).json({ error: 'Visitor already checked in.' });
     }
 
-
+   let name = fname + " " + lname;
 
     //create new visitor using above format
 
-    const newVisitor = new Visitor({ name: fname + " " + lname,
+    const newVisitor = new Visitor({ name: name,
      checkInTime: Date.now(),
       identificationNumber: id,
       cellPhoneNumber: cellnum,
@@ -56,77 +56,53 @@ exports.checkInVisitor = async (req, res) => {
   }
 };
 
-exports.getVisitors = async (req, res) => {
+
+
+
+exports.getAllVisitors = async (req, res) => {
   try {
-    const visitors = await Visitor.find();
-    res.json({ message: 'Successfully got visitors', visitors });
+    // Get all visitors and sort by check out time
+    const visitors = await Visitor.find().sort({ checkOutTime: 'asc' });
+
+    res.status(200).json({ message: 'Successfully got visitors', visitors : visitors });
+
   } catch (error) {
     console.error('Error getting visitors:', error);
     res.status(500).json({ error: 'Error getting visitors' });
   }
 };
 
-exports.getVisitorById = async (req, res) => {
+
+
+
+// Check out visitors
+exports.manageVisitors = async (req, res) => {
   try {
-    const visitor = await Visitor.findById(req.params.id);
-    if (!visitor) {
-      return res.status(404).json({ error: 'Visitor not found' });
-    }
-    res.json({ message: 'Successfully got visitor', visitor });
-  } catch (error) {
-    console.error('Error getting visitor:', error);
-    res.status(500).json({ error: 'Error getting visitor' });
-  }
-};
 
-exports.updateVisitor = async (req, res) => {
-  try {
-    const { name, checkInTime, hostId, checkOutTime } = req.body;
+    const { visitorId, del } = req.body;
 
-    const visitor = await Visitor.findByIdAndUpdate(
-      req.params.id,
-      { name, checkInTime, hostId, checkOutTime }, // Update checkOutTime if provided
-      { new: true }
-    );
-    if (!visitor) {
-      return res.status(404).json({ error: 'Visitor not found' });
-    }
-    res.json({ message: 'Successfully updated visitor', visitor });
-  } catch (error) {
-    console.error('Error updating visitor:', error);
-    res.status(500).json({ error: 'Error updating visitor' });
-  }
-};
-
-exports.deleteVisitor = async (req, res) => {
-  try {
-    const visitor = await Visitor.findByIdAndDelete(req.params.id);
-    if (!visitor) {
-      return res.status(404).json({ error: 'Visitor not found' });
-    }
-    res.json({ message: 'Visitor deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting visitor:', error);
-    res.status(500).json({ error: 'Error deleting visitor' });
-  }
-};
-
-
-exports.checkOutVisitor = async (req, res) => {
-  try {
-    const visitorId = req.params.id;
-
-    const visitor = await Visitor.findById(visitorId);
-    if (!visitor) {
-      return res.status(404).json({ error: 'Visitor not found' });
+    //Check if delete is true, if it is, delete the visitor
+    if (del == true) {
+      await Visitor.findOneAndDelete({ _id: visitorId });
+      return res.status(200).json({ message: 'Visitor checked out successfully' });
     }
 
-    visitor.checkOutTime = Date.now();
-    await visitor.save();
+    //Update visitor information, will only run if delete is not true
+    const visitorToUpdate = await Visitor.findOne({ _id: visitorId });
 
-    res.json({ message: 'Visitor checked out successfully', visitor });
+    //update the visitor role
+    visitorToUpdate.checkOutTime = Date.now();
+
+    await visitorToUpdate.save();
+
+    res.status(200).json({ message: 'Visitor checked out successfully' });
+
+   
+
+
+
   } catch (error) {
-    console.error('Error checking out visitor:', error);
-    res.status(500).json({ error: 'Error checking out visitor' });
+    console.log("Error managing user:", error);
+    res.status(500).json({ error: "Error managing user" });
   }
 };

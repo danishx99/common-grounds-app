@@ -39,13 +39,15 @@ logout.addEventListener("click", function () {
 mainLoader.classList.remove("hidden");
 userInfo.classList.add("hidden");
 
-fetch("/api/users/getAllUsers")
+fetch("/api/visitors/getAllVisitors")
   .then((res) => {
     return res.json();
   })
   .then((data) => {
     //do stuff
-    //console.log(data.users);
+    console.log(data.visitors);
+
+    return;
 
     setTimeout(function () {
       mainLoader.classList.add("hidden");
@@ -62,7 +64,6 @@ fetch("/api/users/getAllUsers")
     let checkImage = "../assets/check.svg";
     let crossImage = "../assets/cross.svg";
 
-    let i = 0;
 
     users.forEach((user) => {
       let otherRoles = getRoles(user.role);

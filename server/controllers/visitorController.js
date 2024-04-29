@@ -64,6 +64,8 @@ exports.checkInVisitor = async (req, res) => {
 exports.getAllVisitors = async (req, res) => {
   try {
 
+    // await Visitor.deleteMany({})
+
 
     // Get all visitors and sort by check out time
     const visitors = await Visitor.find().sort({ checkOutTime: 'asc' });
@@ -85,30 +87,19 @@ exports.getAllVisitors = async (req, res) => {
 exports.manageVisitors = async (req, res) => {
   try {
 
-    const { visitorId, del } = req.body;
+    const { id } = req.body;
 
-    //Check if delete is true, if it is, delete the visitor
-    if (del == true) {
-      await Visitor.findOneAndDelete({ _id: visitorId });
-      return res.status(200).json({ message: 'Visitor checked out successfully' });
-    }
+    const visitor = await Visitor.findOne({ identificationNumber: id });
 
-    //Update visitor information, will only run if delete is not true
-    const visitorToUpdate = await Visitor.findOne({ _id: visitorId });
+    visitor.checkOutTime = Date.now();
 
-    //update the visitor role
-    visitorToUpdate.checkOutTime = Date.now();
+    await visitor.save();
 
-    await visitorToUpdate.save();
-
-    res.status(200).json({ message: 'Visitor checked out successfully' });
-
-   
-
+    res.status(200).json({ message: 'Visitor checked out successfully', visitor: visitor});
 
 
   } catch (error) {
-    console.log("Error managing user:", error);
-    res.status(500).json({ error: "Error managing user" });
+    console.log("Error checking out visitor:", error);
+    res.status(500).json({ error: "Error checking out visitor" });
   }
 };

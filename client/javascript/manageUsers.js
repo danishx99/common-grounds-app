@@ -62,8 +62,6 @@ fetch("/api/users/getAllUsers")
     let checkImage = "../assets/check.svg";
     let crossImage = "../assets/cross.svg";
 
-    let i = 0;
-
     users.forEach((user) => {
       let otherRoles = getRoles(user.role);
 
@@ -227,7 +225,7 @@ fetch("/api/users/getAllUsers")
                 .classList.add("hidden");
             }, 1500);
 
-            showErrorModal(error.message);
+            showErrorModal("Error updating user role");
             console.log("Error:", error);
           });
       } else if (event.target && event.target.id.startsWith("delete_")) {

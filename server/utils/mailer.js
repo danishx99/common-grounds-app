@@ -22,7 +22,7 @@ if (!transporter) {
 // Verify the transporter connection
 transporter.verify((error, success) => {
   if (error) {
-    //console.error("Error connecting to email transporter:", error);
+    //console.log("Error connecting to email transporter:", error);
   } else {
     console.log("Email transporter connected successfully");
   }

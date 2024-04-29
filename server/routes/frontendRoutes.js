@@ -50,8 +50,7 @@ router.get("/setUpFacialAuth", (req, res) => {
 });
 
 //Admin frontend route
-router.get(
-  "/admin",
+router.get("/admin",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
     res.sendFile(path.join(__dirname, "../../client/admin.html"));

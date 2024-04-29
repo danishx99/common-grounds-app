@@ -20,7 +20,7 @@ exports.homeRedirect = async (req, res) => {
     let role = verified.role;
 
     if(role == "Admin"){
-    return res.redirect("/admin");
+    return res.redirect("/admin");  
     } else if(role == "Staff"){
     return res.redirect("/staff");
     } else if(role == "Resident"){

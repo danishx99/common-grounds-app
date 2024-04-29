@@ -1,6 +1,11 @@
 let logo = document.getElementById("logo");
 const mainLoader = document.getElementById("mainLoader");
 const userInfo = document.getElementById("userInfo");
+const checkIn = document.getElementById("checkIn");
+
+checkIn.addEventListener("click", () => {
+  window.location.href = "/admin/checkInVisitor";
+});
 
 // Function to display error modal with a message
 function showErrorModal(message) {

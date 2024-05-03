@@ -225,7 +225,7 @@ fetch("/api/users/getAllUsers")
                 .classList.add("hidden");
             }, 1500);
 
-            showErrorModal("Error updating user role");
+            showErrorModal("There was an error updating the user. Please try again later.");
             console.log("Error:", error);
           });
       } else if (event.target && event.target.id.startsWith("delete_")) {
@@ -292,7 +292,7 @@ fetch("/api/users/getAllUsers")
                 .getElementById(`crossDelete_${userCode}`)
                 .classList.add("hidden");
             }, 1500);
-            showErrorModal(error.message);
+            showErrorModal("There was an error deleting the user. Please try again later.");
             console.log("Error:", error);
           });
       }

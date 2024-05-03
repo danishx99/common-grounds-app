@@ -12,18 +12,16 @@ const issueSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      required: true,
-      enum: ["Open", "In Progress", "Closed"],
+      default: "Issued",
+      enum: ["Issued", "In Progress", "Completed"],
     },
     reportedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
     },
-    assignedTo: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    dateIssued: {
+      type: Date,
+      default: Date.now,
     },
   },
   {

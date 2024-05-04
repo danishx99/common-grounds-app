@@ -2,6 +2,30 @@ document.addEventListener("DOMContentLoaded", function () {
   var submitIssue = document.getElementById("submitIssue");
   var logout = document.getElementById("logout");
   var logo = document.getElementById("logo");
+  const textArea = document.getElementById("description");
+  const charCount = document.getElementById("char-count");
+  const back = document.getElementById("back");
+
+  back.addEventListener("click", function () {
+    window.location.href = "/resident/manageIssues";
+  });
+
+  // Update character count on input
+  textArea.addEventListener("input", () => {
+    const charactersLeft = 250 - textArea.value.length;
+    charCount.textContent = `${charactersLeft} characters remaining`;
+
+    // Optional: Disable submit button or show warning if exceeding limit
+    if (charactersLeft < 0) {
+      // Add logic to disable submit button or display a warning message
+      charCount.style.color = "red";
+      charCount.textContent = "Word limit exceeded!";
+      submitIssue.disabled = true;
+    } else {
+      charCount.style.color = "black";
+      submitIssue.disabled = false;
+    }
+  });
 
   logo.addEventListener("click", function () {
     window.location.href = "/";

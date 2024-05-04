@@ -53,7 +53,7 @@ logout.addEventListener("click", function () {
 mainLoader.classList.remove("hidden");
 issueInfo.classList.add("hidden");
 
-fetch("/api/issues/getAllIssues")
+fetch("/api/issues/getUserIssues")
   .then((res) => {
     return res.json();
   })
@@ -70,7 +70,17 @@ fetch("/api/issues/getAllIssues")
 
     let tableBody = document.getElementById("tbody");
 
+    // Define your status-color mapping
+    const statusColors = {
+      "Issued": "text-red-500",
+      "In Progress": "text-yellow-400",
+      "Completed": "text-green-500",
+    };
+
     issues.forEach((issue) => {
+
+      let color = statusColors[issue.status];
+
       tableBody.innerHTML += `
                     <tr class="bg-white border-b hover:bg-gray-200 ">
                     <th scope="row" class="px-5 py-1 font-medium text-gray-900 text-center ">
@@ -79,7 +89,7 @@ fetch("/api/issues/getAllIssues")
                     <td class="px-5 py-2.5 text-center w-[15%]">
                         ${issue.description}
                     </td>
-                    <td class="px-5 py-1 text-center w-[15%]">
+                    <td class="px-5 py-1 text-center w-[15%] font-bold ${color}" >
                         ${issue.status}
                     </td>
                     <td class="px-5 py-2.5 text-center w-[15%]">

@@ -58,7 +58,7 @@ submitButton.addEventListener("click", function (event) {
         if (data.redirect) {
           setTimeout(() => {
             window.location.href = data.redirect.toLowerCase();
-          }, 2500);
+          }, 1000);
         }
       }
     })

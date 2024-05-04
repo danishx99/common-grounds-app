@@ -1,6 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     var generatePassButton = document.getElementById("generatePassButton");  
+    const logout = document.getElementById("logout");
+    const logo = document.getElementById("logo");
+
+    logo.addEventListener("click", function () {
+        window.location.href = "/";
+    });
+
+    logout.addEventListener("click", function () {
+        //get request to /clear
+        fetch("/clear")
+            .then((res) => res.text())
+            .then((data) => {
+                console.log(data);
+                window.location.href = "/";
+            });
+    });
 
 
     generatePassButton.addEventListener("click", function (event) {

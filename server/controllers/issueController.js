@@ -22,7 +22,24 @@ exports.createIssue = async (req, res) => {
   }
 };
 
-exports.getIssues = async (req, res) => {
+exports.getUserIssues = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = decoded.userCode;
+    const issues = await Issue.find({ reportedBy: user })
+      .sort({ createdAt: "desc" })
+      .exec();
+    res
+      .status(200)
+      .json({ message: "Successfully got user issues", issues: issues });
+  } catch (error) {
+    console.error("Error getting user issues:", error);
+    res.status(500).json({ error: "Error getting user issues" });
+  }
+};
+
+exports.getAllIssues = async (req, res) => {
   try {
     // Get all issues and sort by date (latest first)
     const issues = await Issue.find().sort({ createdAt: "desc" }).exec();

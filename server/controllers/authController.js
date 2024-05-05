@@ -618,9 +618,6 @@ exports.generateCode = async (req, res) => {
     console.log("Error generating code:", error);
     res.status(500).json({ error: "Error generating code" });
   }
-
-
-
 }
 
 //generate password for visitors

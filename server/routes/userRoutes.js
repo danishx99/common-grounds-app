@@ -21,4 +21,6 @@ router.get("/getAllUsers", (req, res, next)=> admin.isAdmin(req, res, next) ,(re
 //Manage users (accessible only to Admins)
 router.post("/manageUsers", (req, res, next)=> admin.isAdmin(req, res, next) ,(req, res) => userController.manageUsers(req, res));
 
+router.post("/getUserByUserCode", (req, res, next)=> admin.isAdmin(req, res, next) ,(req, res) => userController.getUserByUserCode(req, res));
+
 module.exports = router;

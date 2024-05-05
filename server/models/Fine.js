@@ -6,18 +6,27 @@ const fineSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    reason: {
+    description: {
       type: String,
       required: true,
     },
+
+    title: {
+      type: String,
+      required: true,
+    }, 
+    
+    dateIssued: {
+      type: Date,
+      default: Date.now,
+    },
+  
     issuedTo: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
     },
     issuedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
     },
     isPaid: {

@@ -129,3 +129,22 @@ exports.manageUsers = async (req, res) => {
     res.status(500).json({ error: "Internal server error." });
   }
 };
+
+//Route to get user details, given a user code
+
+exports.getUserByUserCode = async (req, res) => {
+  try {
+    const { userCode } = req.body;
+    const user = await User.findOne({ userCode }).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ message: "User found", user: user });
+
+  } catch (error) {
+    console.log("Error getting user by user code:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+ 
+}
+

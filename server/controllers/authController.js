@@ -1,11 +1,4 @@
 // Import necessary modules from the Firebase SDK
-const firebase = require("firebase/app");
-const {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-} = require("firebase/auth");
 
 const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require("jsonwebtoken"); // For generating JSON Web Tokens

@@ -102,7 +102,6 @@ router.get(
 );
 
 //Admin page for managing visitors(E.g. viewing visitor details, logging them out when they leave, etc.)
-//Im thinking like a table with a list of visitors and their details,and a button to log them out
 router.get(
   "/admin/visitors",
   (req, res, next) => admin.isAdmin(req, res, next),
@@ -116,6 +115,15 @@ router.get(
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
     res.sendFile(path.join(__dirname, "../../client/manageVisitors.html"));
+  }
+);
+
+//admin issue fines page
+router.get(
+  "/admin/issueFine",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/issueFine.html"));
   }
 );
 
@@ -137,7 +145,9 @@ router.get(
   "/resident/manageIssues",
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/manageIssuesResident.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/manageIssuesResident.html")
+    );
   }
 );
 
@@ -156,6 +166,7 @@ router.get(
   (req, res, next) => staff.isStaff(req, res, next),
   (req, res) => {
     res.sendFile(path.join(__dirname, "../../client/manageIssuesStaff.html"));
-  });
+  }
+);
 
 module.exports = router;

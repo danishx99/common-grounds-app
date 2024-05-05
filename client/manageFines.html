@@ -147,10 +147,10 @@
         </div>
     </div>
 
-    <div id="issueInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
+    <div id="finesInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
 
         <!-- search -->
-        <div class="flex p-3 bg-white ">
+        <div class="flex p-3 bg-white justify-between items-center">
             <div class="relative mt-1">
 
                 <input type="text" id="table-search"
@@ -164,34 +164,40 @@
                     </svg>
                 </div>
             </div>
+            <button id="issueNewFine" class="green-button w-[20%]">
+                Issue New Fine
+            </button>
 
         </div>
 
 
+
         <!-- table -->
-        <table id="issueTable"
+        <table id="finesTable"
             class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 table-fixed">
 
             <!-- table head -->
             <thead class="text-xs text-gray-700 uppercase bg-gray-300">
                 <tr>
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
-                        Issue
+                    <th scope="col" class="px-3 py-3 text-center w-[15%]">
+                        Title
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[25%]">
+                    <th scope="col" class="px-6 py-3 text-center w-[15%]">
                         Description
                     </th>
-
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
-                        Name
+                    <th scope="col" class="px-4 py-3 text-center w-[15%]">
+                        Amount
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
-                        User Code
+                    <th scope="col" class="px-4 py-3 text-center w-[15%]">
+                        Date Issued
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[15%]">
-                        Issue Date
+                    <th scope="col" class="px-5 py-3 text-center min-w-[10%]">
+                        Issued BY
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[25%]">
+                    <th scope="col" class="px-5 py-3 text-center min-w-[10%]">
+                        Issued To
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center w-[15%]">
                         Status
                     </th>
 
@@ -200,8 +206,6 @@
 
             <!-- table body -->
             <tbody id="tbody">
-
-
             </tbody>
         </table>
     </div>
@@ -209,7 +213,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./javascript/manageIssuesStaff.js"></script>
+    <script src="./javascript/manageFines.js"></script>
 
     <script>
         // close Modal

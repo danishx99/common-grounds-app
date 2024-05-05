@@ -127,6 +127,15 @@ router.get(
   }
 );
 
+//admin view fines page
+router.get(
+  "/admin/manageFines",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/manageFines.html"));
+  }
+);
+
 /* Resident Frontend Routes */
 
 //Resident page for generating visitor password and checking current visitor password if one is generated

@@ -85,13 +85,11 @@ fetch("/api/issues/getAllIssues")
     let crossImage = "../assets/cross.svg";
 
     issues.forEach((issue) => {
-
       let color = statusColors[issue._doc.status];
 
       let otherStatus = getOtherStatus(issue._doc.status);
 
       let options = "";
-
 
       otherStatus.forEach((status) => {
         options += `<option value="${status}">${status}</option>`;
@@ -114,6 +112,10 @@ fetch("/api/issues/getAllIssues")
 
                     <td class="px-5 py-2.5 text-center w-[15%]">
                         ${issue._doc.reportedBy}
+                    </td>
+
+                      <td class="px-5 py-2.5 text-center w-[15%]">
+                        ${formatDate(issue._doc.dateIssued)}
                     </td>
 
                     <td class="px-5 py-1 text-center w-[15%] font-bold" >
@@ -150,9 +152,7 @@ fetch("/api/issues/getAllIssues")
 
                     </td>
                     
-                    <td class="px-5 py-2.5 text-center w-[15%]">
-                        ${formatDate(issue._doc.dateIssued)}
-                    </td>
+
                 </tr>`;
     });
 
@@ -239,14 +239,12 @@ fetch("/api/issues/getAllIssues")
       }
 
       //listen for a change in the select element so we can update color
-        if (event.target && event.target.tagName === "SELECT") {
-            //let color = statusColors[event.target.value];
-            //console.log(color);
-            //update the class of the select element to the new color
-             
-            //event.target.classList = `py-1.5 text-center text-xs rounded-3xl bg-gray-100 w-[65%]  border-black" name="" ${color}`;
-            
-        }
+      if (event.target && event.target.tagName === "SELECT") {
+        //let color = statusColors[event.target.value];
+        //console.log(color);
+        //update the class of the select element to the new color
+        //event.target.classList = `py-1.5 text-center text-xs rounded-3xl bg-gray-100 w-[65%]  border-black" name="" ${color}`;
+      }
     });
   })
   .catch((error) => {

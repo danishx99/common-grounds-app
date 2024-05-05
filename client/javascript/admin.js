@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var logout = document.getElementById("logout");
   var heading = document.getElementById("heading");
   var logo = document.getElementById("logo");
+  var manageFines = document.getElementById("manageFines");
 
   let name = "";
 
@@ -30,6 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(data);
         window.location.href = "/";
       });
+  });
+
+  manageFines.addEventListener("click", function () {
+    window.location.href = "/admin/manageFines";
   });
 
   generateCode.addEventListener("click", function () {

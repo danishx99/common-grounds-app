@@ -150,10 +150,20 @@
     <div id="issueInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
 
         <!-- search -->
-        <div class="flex p-3 bg-white justify-end items-center">
-            <button id="logIssue" class="green-button w-[20%]">
-                Log New Issue
-            </button>
+        <div class="flex p-3 bg-white ">
+            <div class="relative mt-1">
+
+                <input type="text" id="table-search"
+                    class="block p-2 text-xs text-black border-black rounded-3xl w-80 bg-gray-300 pl-[1%]"
+                    placeholder="Search by name ">
+                <div class="absolute left-80 inset-y-0  flex items-center ps-3 pointer-events-none  border-black">
+                    <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+            </div>
 
         </div>
 
@@ -165,13 +175,20 @@
             <!-- table head -->
             <thead class="text-xs text-gray-700 uppercase bg-gray-300">
                 <tr>
-                    <th scope="col" class="px-5 py-3 text-center w-[15%]">
+                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
                         Issue
                     </th>
                     <th scope="col" class="px-5 py-3 text-center w-[25%]">
                         Description
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[15%]">
+
+                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
+                        Name
+                    </th>
+                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
+                        User Code
+                    </th>
+                    <th scope="col" class="px-5 py-3 text-center w-[25%]">
                         Status
                     </th>
                     <th scope="col" class="px-5 py-3 text-center w-[15%]">
@@ -184,7 +201,6 @@
             <tbody id="tbody">
 
 
-
             </tbody>
         </table>
     </div>
@@ -192,7 +208,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./javascript/manageIssues.js"></script>
+    <script src="./javascript/manageIssuesStaff.js"></script>
 
     <script>
         // close Modal

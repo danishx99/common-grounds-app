@@ -137,7 +137,7 @@ router.get(
   "/resident/manageIssues",
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/manageIssues.html"));
+    res.sendFile(path.join(__dirname, "../../client/manageIssuesResident.html"));
   }
 );
 
@@ -149,5 +149,13 @@ router.get(
     res.sendFile(path.join(__dirname, "../../client/logIssue.html"));
   }
 );
+
+/* Staff Frontend Routes */
+router.get(
+  "/staff/manageIssues",
+  (req, res, next) => staff.isStaff(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/manageIssuesStaff.html"));
+  });
 
 module.exports = router;

@@ -1,3 +1,6 @@
+const dotenv = require("dotenv");
+const transporter = require("../utils/mailer");
+
 jest.mock("nodemailer", () => ({
   createTransport: jest.fn().mockReturnValue({
     options: {
@@ -13,8 +16,6 @@ jest.mock("nodemailer", () => ({
   }),
 }));
 
-const dotenv = require("dotenv");
-const transporter = require("./mailer");
 
 describe("mailer.js", () => {
   beforeEach(() => {
@@ -34,9 +35,17 @@ describe("mailer.js", () => {
 
     // Assuming your code calls transporter.verify() somewhere:
     // ... (You might need to modify this based on your actual usage)
+    transporter.verify((error, success) => {
+      if (error) {
+        console.error("Error verifying transporter:", error);
+      } else {
+        console.log("Transporter verified:", success);
+      }
+    });
 
     expect(mockVerify).toHaveBeenCalled();
     // Add assertions to check if your code logs 'success' message (if applicable)
+    mockVerify.mockRestore();
   });
 
   it("should handle errors during transporter verification", () => {
@@ -45,5 +54,9 @@ describe("mailer.js", () => {
       callback(new Error("Verification Error"), null)
     );
 
+  });
+
+  afterAll(() => {
+    jest.clearAllMocks();
   });
 });

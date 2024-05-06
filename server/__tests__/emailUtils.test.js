@@ -1,4 +1,4 @@
-const validateEmail = require("./emailUtils");
+const validateEmail = require("../utils/emailUtils");
 
 // Start describing your test suite
 describe("validateEmail function", () => {

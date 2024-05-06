@@ -23,7 +23,7 @@ exports.isStaff = async (req, res, next) => {
 
     if (role !== "Staff") {
       //return status 403 and send html file
-      res
+      return res
         .status(403)
         .sendFile(path.join(__dirname, "../../client/403forbidden.html"));
     }

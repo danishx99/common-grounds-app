@@ -1,53 +1,62 @@
-const Fine = require('../models/Fine');
-
-exports.issueFine = async (req, res) => {
-  try {
-    const { amount, reason, issuedTo, issuedBy } = req.body;
-    const newFine = new Fine({ amount, reason, issuedTo, issuedBy });
-    await newFine.save();
-    res.status(201).json(newFine);
-  } catch (error) {
-    console.error('Error issuing fine:', error);
-    res.status(500).json({ error: 'Error issuing fine' });
-  }
-};
+const Fine = require("../models/Fine");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 exports.getFines = async (req, res) => {
   try {
-    const fines = await Fine.find();
-    res.json(fines);
+    //find all fines and show unpaid fines on top , and then sort by newest to oldeest
+    const fines = await Fine.find().sort({ isPaid: 1, dateIssued: -1});
+    res.status(200).json({ message: "Successfully got fines", fines: fines });
   } catch (error) {
-    console.error('Error getting fines:', error);
-    res.status(500).json({ error: 'Error getting fines' });
+    console.error("Error fetching fines:", error);
+    res.status(500).json({ error: "Error fetching fines" });
   }
 };
 
-exports.getFineById = async (req, res) => {
+exports.issueFine = async (req, res) => {
   try {
-    const fine = await Fine.findById(req.params.id);
-    if (!fine) {
-      return res.status(404).json({ error: 'Fine not found' });
+    const { userCode, title, description, amount } = req.body;
+
+    //get Current logged in user
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const issuedBy = decoded.userCode;
+
+    // Check if user exists
+    const userToFine = await User.findOne({ userCode });
+    if (!userToFine) {
+      return res.status(404).json({ error: "User not found" });
     }
-    res.json(fine);
+
+    const newFine = new Fine({
+      title,
+      amount,
+      description,
+      issuedBy,
+      issuedTo: userCode,
+    });
+    await newFine.save();
+
+    res.status(200).json({ message: "Fine issued successfully" });
   } catch (error) {
-    console.error('Error getting fine:', error);
-    res.status(500).json({ error: 'Error getting fine' });
+    console.error("Error issuing fine:", error);
+    res.status(500).json({ error: "Error issuing fine" });
   }
 };
 
-exports.payFine = async (req, res) => {
+exports.updateFineStatus = async (req, res) => {
   try {
-    const fine = await Fine.findByIdAndUpdate(
-      req.params.id,
-      { isPaid: true },
-      { new: true }
-    );
-    if (!fine) {
-      return res.status(404).json({ error: 'Fine not found' });
-    }
-    res.json(fine);
+    const { fineId } = req.body;
+
+    // Check if fine exists
+    const fine = await Fine.findById(fineId);
+
+    fine.isPaid = true;
+    await fine.save();
+
+    res.status(200).json({ message: "Fine status updated successfully" });
   } catch (error) {
-    console.error('Error paying fine:', error);
-    res.status(500).json({ error: 'Error paying fine' });
+    console.error("Error updating fine status:", error);
+    res.status(500).json({ error: "Error updating fine status" });
   }
 };

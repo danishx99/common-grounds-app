@@ -50,7 +50,8 @@ router.get("/setUpFacialAuth", (req, res) => {
 });
 
 //Admin frontend route
-router.get("/admin",
+router.get(
+  "/admin",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
     res.sendFile(path.join(__dirname, "../../client/admin.html"));
@@ -74,40 +75,107 @@ router.get(
 /* Admin Frontend Routes */
 
 //Admin page for generating registration code
-router.get("/admin/generateCode", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/generateCode.html'));
-});
+router.get(
+  "/admin/generateCode",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/generateCode.html"));
+  }
+);
 
 //Admin page for managing users
-router.get("/admin/manageUsers", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/manageUsers.html'));
-});
+router.get(
+  "/admin/manageUsers",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/manageUsers.html"));
+  }
+);
 
 //Admin page for signing in visitors
-router.get("/admin/checkInVisitor", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/checkInVisitor.html'));
-});
+router.get(
+  "/admin/checkInVisitor",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/checkInVisitor.html"));
+  }
+);
 
 //Admin page for managing visitors(E.g. viewing visitor details, logging them out when they leave, etc.)
-//Im thinking like a table with a list of visitors and their details,and a button to log them out
-router.get("/admin/visitors", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/visitors.html'));
-}
+router.get(
+  "/admin/visitors",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/visitors.html"));
+  }
 );
 
-router.get("/admin/manageVisitors", (req, res, next) => admin.isAdmin(req,res,next) ,(req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/manageVisitors.html'));
-}
+router.get(
+  "/admin/manageVisitors",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/manageVisitors.html"));
+  }
 );
 
+//admin issue fines page
+router.get(
+  "/admin/issueFine",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/issueFine.html"));
+  }
+);
+
+//admin view fines page
+router.get(
+  "/admin/manageFines",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/manageFines.html"));
+  }
+);
 
 /* Resident Frontend Routes */
 
 //Resident page for generating visitor password and checking current visitor password if one is generated
-router.get("/resident/generatevisitorPassword", (req, res, next) => resident.isResident(req,res,next) ,(req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/generateVisitorPassword.html'));
-}
+router.get(
+  "/resident/generatevisitorPassword",
+  (req, res, next) => resident.isResident(req, res, next),
+  (req, res) => {
+    res.sendFile(
+      path.join(__dirname, "../../client/generateVisitorPassword.html")
+    );
+  }
 );
 
+//Resident page for managing issues
+router.get(
+  "/resident/manageIssues",
+  (req, res, next) => resident.isResident(req, res, next),
+  (req, res) => {
+    res.sendFile(
+      path.join(__dirname, "../../client/manageIssuesResident.html")
+    );
+  }
+);
+
+//Resident page for logging an issue
+router.get(
+  "/resident/logIssue",
+  (req, res, next) => resident.isResident(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/logIssue.html"));
+  }
+);
+
+/* Staff Frontend Routes */
+router.get(
+  "/staff/manageIssues",
+  (req, res, next) => staff.isStaff(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/manageIssuesStaff.html"));
+  }
+);
 
 module.exports = router;

@@ -3,8 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
   var logout = document.getElementById("logout");
   var heading = document.getElementById("heading");
   var logo = document.getElementById("logo");
+  var logIssue = document.getElementById("logIssue");
 
   let name = "";
+
+  logIssue.addEventListener("click", function () {
+    window.location.href = "/resident/manageIssues";
+  });
 
   //get request to /api/users/getCurrentUser
   fetch("/api/users/getCurrentUser")

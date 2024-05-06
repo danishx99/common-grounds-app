@@ -20,8 +20,6 @@ dotenv.config();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-
-
 //Cookie parser
 app.use(cookieParser());
 
@@ -30,6 +28,7 @@ app.use(express.static("client"));
 app.use("/admin", express.static("client"));
 app.use("/staff", express.static("client"));
 app.use("/resident", express.static("client"));
+app.use("/admin", express.static("client"));
 
 const path = require("path");
 
@@ -55,6 +54,7 @@ app.use("/api/notices", noticeRoutes);
 app.use((req, res, next) => {
   // Send the HTML file for unknown routes
   res.sendFile(path.join(__dirname, "./client/404notFound.html"));
+  
 });
 
 app.listen(PORT, () => {

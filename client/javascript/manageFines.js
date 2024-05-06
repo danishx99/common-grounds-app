@@ -223,3 +223,5 @@ fetch("/api/fines/getAllFines")
     //show error in form of modal
     showErrorModal("An error occurred. Please try again later.");
   });
+
+  

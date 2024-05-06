@@ -68,8 +68,8 @@ exports.getAllVisitors = async (req, res) => {
     // await Visitor.deleteMany({})
 
     // Get all visitors and sort by check out time
-    const visitors = await Visitor.find().sort({ checkOutTime: "asc" }).exec();
-    //const visitors = await Visitor.find().sort({ checkOutTime: -1 }).sort({ checkOutTime: { $exists: false } });
+    //const visitors = await Visitor.find().sort({ checkOutTime: "asc" }).exec();
+    const visitors = await Visitor.find().sort({ checkOutTime: -1 });
 
     res
       .status(200)

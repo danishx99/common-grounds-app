@@ -100,5 +100,14 @@ fetch("/api/issues/getUserIssues")
 
   })
   .catch((error) => {
+    
+    issueInfo.classList.add("hidden");
+    mainLoader.classList.add("hidden");
+   
+
     console.log("Error:", error);
+    //show error in form of modal
+    showErrorModal("An error occurred. Please try again later.");
+    
+
   });

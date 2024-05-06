@@ -300,4 +300,7 @@ fetch("/api/users/getAllUsers")
   })
   .catch((error) => {
     console.log("Error:", error);
+    
+    //show error in form of modal
+    showErrorModal("An error occurred. Please try again later.");
   });

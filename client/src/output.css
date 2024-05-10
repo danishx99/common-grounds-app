@@ -802,6 +802,30 @@ video {
   width: 100%;
 }
 
+.w-\[6\%\] {
+  width: 6%;
+}
+
+.w-\[0\%\] {
+  width: 0%;
+}
+
+.w-\[5\%\] {
+  width: 5%;
+}
+
+.w-\[\%\] {
+  width: %;
+}
+
+.w-\[1\%\] {
+  width: 1%;
+}
+
+.w-\[55\%\] {
+  width: 55%;
+}
+
 .min-w-\[10\%\] {
   min-width: 10%;
 }
@@ -1046,6 +1070,11 @@ video {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .pb-1 {

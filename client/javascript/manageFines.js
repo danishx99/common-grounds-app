@@ -94,6 +94,17 @@ fetch("/api/fines/getAllFines")
                         ${formatDate(fine.dateIssued)}
                     </td>
 
+                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    ${
+                      //add 30 days to the date issued
+                      formatDate(
+                        new Date(fine.dateIssued).setDate(
+                          new Date(fine.dateIssued).getDate() + 30
+                        )
+                      )
+                    }
+                </td>
+
                       <td class="px-5 py-2.5 text-center w-[15%]">
                         ${fine.issuedBy}
                     </td>

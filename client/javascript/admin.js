@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var heading = document.getElementById("heading");
   var logo = document.getElementById("logo");
   var manageFines = document.getElementById("manageFines");
+  var sendNotification = document.getElementById("sendNotification");
 
   let name = "";
 
@@ -31,6 +32,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(data);
         window.location.href = "/";
       });
+  });
+
+  sendNotification.addEventListener("click", function () {
+    window.location.href = "/admin/sendNotification";
   });
 
   manageFines.addEventListener("click", function () {

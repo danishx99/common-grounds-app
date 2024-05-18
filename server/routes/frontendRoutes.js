@@ -136,6 +136,15 @@ router.get(
   }
 );
 
+//admin send notification page
+router.get(
+  "/admin/sendNotification",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/sendNotification.html"));
+  }
+);
+
 /* Resident Frontend Routes */
 
 //Resident page for generating visitor password and checking current visitor password if one is generated
@@ -178,7 +187,6 @@ router.get(
   }
 );
 
-
 /* Staff Frontend Routes */
 router.get(
   "/staff/manageIssues",
@@ -188,5 +196,12 @@ router.get(
   }
 );
 
+router.get(
+  "/staff/sendNotification",
+  (req, res, next) => staff.isStaff(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/sendNotification.html"));
+  }
+);
 
 module.exports = router;

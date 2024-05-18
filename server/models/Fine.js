@@ -14,13 +14,13 @@ const fineSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-    }, 
-    
+    },
+
     dateIssued: {
       type: Date,
       default: Date.now,
     },
-  
+
     issuedTo: {
       type: String,
       required: true,
@@ -30,6 +30,11 @@ const fineSchema = new mongoose.Schema(
       required: true,
     },
     isPaid: {
+      type: Boolean,
+      default: false,
+    },
+
+    isRead: {
       type: Boolean,
       default: false,
     },

@@ -14,13 +14,17 @@ router.get(
   (req, res) => fineController.getFines(req, res)
 );
 
+router.get(
+  "/hasUnreadFines",
+  (req, res, next) => resident.isResident(req, res, next),
+  (req, res) => fineController.hasUnreadFines(req, res)
+);
 
 router.post(
   "/issueFine",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => fineController.issueFine(req, res)
 );
-
 
 router.post(
   "/updateFineStatus",
@@ -34,6 +38,5 @@ router.get(
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => fineController.getUserFines(req, res)
 );
-
 
 module.exports = router;

@@ -169,6 +169,16 @@ router.get(
   }
 );
 
+//Resident page for viewing fines
+router.get(
+  "/resident/viewFines",
+  (req, res, next) => resident.isResident(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/viewFines.html"));
+  }
+);
+
+
 /* Staff Frontend Routes */
 router.get(
   "/staff/manageIssues",
@@ -177,5 +187,6 @@ router.get(
     res.sendFile(path.join(__dirname, "../../client/manageIssuesStaff.html"));
   }
 );
+
 
 module.exports = router;

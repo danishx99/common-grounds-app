@@ -5,10 +5,17 @@ document.addEventListener("DOMContentLoaded", function () {
   var logo = document.getElementById("logo");
   var logIssue = document.getElementById("logIssue");
 
+  var viewFines = document.getElementById("viewFines");
+
   let name = "";
 
   logIssue.addEventListener("click", function () {
     window.location.href = "/resident/manageIssues";
+  });
+
+  //url to view fines
+  viewFines.addEventListener("click", function () {
+    window.location.href = "/resident/viewFines";
   });
 
   //get request to /api/users/getCurrentUser

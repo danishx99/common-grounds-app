@@ -13,6 +13,8 @@ exports.getFines = async (req, res) => {
   }
 };
 
+
+
 exports.issueFine = async (req, res) => {
   try {
     const { userCode, title, description, amount } = req.body;
@@ -58,5 +60,21 @@ exports.updateFineStatus = async (req, res) => {
   } catch (error) {
     console.error("Error updating fine status:", error);
     res.status(500).json({ error: "Error updating fine status" });
+  }
+};
+
+exports.getUserFines = async (req, res) => {
+  try {
+    //get Current logged in user
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userCode = decoded.userCode;
+
+    const fines = await Fine.find({ issuedTo: userCode }).sort({ dateIssued: -1 });
+    
+    res.status(200).json({ message: "Successfully got user fines", fines: fines });
+  } catch (error) {
+    console.error("Error fetching user fines:", error);
+    res.status(500).json({ error: "Error fetching user fines" });
   }
 };

@@ -7,6 +7,15 @@ jest.mock("../models/Issue");
 jest.mock("../models/User");
 jest.mock("jsonwebtoken");
 
+beforeEach(() => {
+  // Mock console.error
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterEach(() => {
+  // Restore the original console.error function
+  console.error.mockRestore();
+});
 describe("createIssue", () => {
   beforeEach(() => {
     jest.clearAllMocks();

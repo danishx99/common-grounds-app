@@ -1,6 +1,14 @@
 const { checkPassword } = require("../utils/passwordUtils");
 
+beforeEach(() => {
+  // Mock console.error
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
 
+afterEach(() => {
+  // Restore the original console.error function
+  console.error.mockRestore();
+});
 describe("checkPassword function", () => {
   it("should return true for valid passwords", async () => {
     const result1 = await checkPassword("ValidPassword1@");

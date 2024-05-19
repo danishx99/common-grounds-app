@@ -68,9 +68,12 @@ exports.getUserFines = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userCode = decoded.userCode;
 
+    //sort by date issued but unpaid fines on top
     const fines = await Fine.find({ issuedTo: userCode }).sort({
+      isPaid: 1,
       dateIssued: -1,
     });
+    
 
     fines.forEach((fine) => {
       fine.isRead = true;

@@ -187,6 +187,14 @@ router.get(
   }
 );
 
+router.get(
+  "/resident/viewNotifications",
+  (req, res, next) => resident.isResident(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/viewNotifications.html"));
+  }
+);
+
 /* Staff Frontend Routes */
 router.get(
   "/staff/manageIssues",
@@ -203,5 +211,6 @@ router.get(
     res.sendFile(path.join(__dirname, "../../client/sendNotification.html"));
   }
 );
+
 
 module.exports = router;

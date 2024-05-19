@@ -16,6 +16,7 @@
 
 </head>
 
+
 <body id="body" class="bg-[#001B0C] flex flex-col items-center justify-center ">
 
     <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full">
@@ -28,6 +29,8 @@
             <div id="dropdownHover"
                 class="hidden absolute top-full right-0 z-10 bg-gray-300 divide-y divide-gray-100 rounded-lg shadow w-52 mt-4">
                 <ul id="notificationList" class="py-2 text-sm text-black">
+                    <li><a class="block px-4 py-2 cursor-not-allowed">You have no new notifications.</a></li>
+                    <li><a class="block px-4 py-2 cursor-not-allowed">You have no new notifications.</a></li>
                 </ul>
             </div>
             <button type="button" id="logout"
@@ -90,6 +93,14 @@
             <img class="w-[20%] mb-[5%]" src="./assets/fine.png" alt="">
 
         </div>
+
+        <div id="viewNotifications"
+            class=" cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-evenly items-center hover:border-4 border-green-700">
+            <h2 class="mb-[5%] font-extrabold text-2xl border-[#001B0C] text-center">View Notifications</h2>
+            <img class="w-[20%] mb-[5%]" src="./assets/announce.png" alt="">
+
+        </div>
+
 
 
     </section>

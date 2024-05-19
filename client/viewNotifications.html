@@ -17,7 +17,7 @@
     <!--Fontawesome for icons-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-    <!-- <style>
+    <style>
         .wrapper {
             width: 200px;
             height: 60px;
@@ -107,57 +107,18 @@
             right: 15%;
             animation-delay: .3s;
         }
-    </style> -->
+    </style>
 
 </head>
 
-<body class="bg-[#001B0C] flex flex-col justify-start items-center ">
+<body class="bg-[#001B0C] flex flex-col justify-start items-center h-svh">
 
-   <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full">
+    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full sticky top-0 z-10 ">
         <img id="logo" src="./assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
-
-        <div class="flex items-center mb-2 relative">
-            <div class="relative"> <img class="w-7 h-7 cursor-pointer" src="./assets/bell.png" id="notification" alt="">
-                <span id="redCircle" class="hidden absolute bottom-0 right-0 w-3 h-3 rounded-full bg-red-500"></span>
-            </div>
-            <div id="dropdownHover"
-                class="hidden absolute top-full right-0 z-10 bg-gray-300 divide-y divide-gray-100 shadow rounded-lg w-52 mt-4">
-                <ul id="notificationList" class="py-2 text-sm text-black">
-
-                    <li><a class="block px-4 py-2 cursor-not-allowed no-underline">You have no new notifications.</a></li>
-                    <li><a class="block px-4 py-2 cursor-not-allowed">You have no new notifications.</a></li>
-                    
-                   
-                </ul>
-            </div>
-            <button type="button" id="logout"
-                class="flex items-center ml-2 justify-center bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
-                Logout
-            </button>
-        </div>
-
-
-        <script>
-            const notificationIcon = document.getElementById("notification");
-            const dropdownHover = document.getElementById("dropdownHover");
-
-
-            notificationIcon.addEventListener("click", () => {
-                dropdownHover.classList.toggle("hidden");
-            });
-
-            //click anywhere on the screen to close the dropdown
-            window.addEventListener("click", (e) => {
-                if (!notificationIcon.contains(e.target)) {
-                    dropdownHover.classList.add("hidden");
-                }
-            });
-
-
-        </script>
-
-
-
+        <button type="button" id="logout"
+            class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
+            Logout
+        </button>
     </header>
 
     <div id="mainLoader" class="wrapper mt-[15%] hidden">

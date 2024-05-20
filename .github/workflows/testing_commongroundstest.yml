@@ -64,18 +64,15 @@ jobs:
       - name: Unzip artifact for deployment
         run: Expand-Archive -Path release.zip -DestinationPath .
 
+      - name: Restart Azure Web App
+        run: az webapp restart --name "commongroundstest" --resource-group "property-management-app_group"
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E7DEFF92714042DA93868B3E0102C1F8 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_294AA45731FF4F3BA06DEF468268918E }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9DE1EDFBC1B343658A8AA01D68561C58 }}
-
-      - name: Shutdown Azure Web App
-        run: az webapp stop --name "commongroundstest" --resource-group "property-management-app_group"
-  
-      - name: Start Azure Web App
-        run: az webapp start --name "commongroundstest" --resource-group "property-management-app_group"
 
       - name: "Deploy to Azure Web App"
         uses: azure/webapps-deploy@v3

@@ -75,30 +75,48 @@ fetch("/api/fines/getAllFines")
     let pay = "../assets/pay.png";
 
     fines.forEach((fine) => {
+
+      // get current date and date 30 days from issue date
+      const currentDate = new Date();
+      const issueDate = new Date(fine.dateIssued);
+      const dueDate = new Date(issueDate.setDate(issueDate.getDate() + 30));
+
       tableBody.innerHTML += `
                     <tr class="bg-white border-b hover:bg-gray-200 ">
 
-                    <th scope="row" class="px-5 py-1 font-medium text-gray-900 text-center ">
+                    <th scope="row" class="px-3 py-1 font-medium text-gray-900 text-center ">
                         ${fine.title}   
                     </th>
 
-                    <td class="px-5 py-2.5 text-center w-[10%]">
+                    <td class="px-4 py-2.5 text-center w-[25%]">
                         ${fine.description}
                     </td>
 
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-4 py-2.5 text-center w-[10%]">
                         R${fine.amount}
                     </td>
 
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-4 py-2.5 text-center w-[10%]">
                         ${formatDate(fine.dateIssued)}
                     </td>
 
-                      <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-4 py-2.5 text-center w-[10%]">
+                    ${
+                      // show due date, and if fine is overdue, show overdue message in addition
+                      currentDate > dueDate
+                        ? `${formatDate(dueDate)} <div class='text-red-500 font-bold'>Overdue</div>`
+                        : formatDate(dueDate)
+
+
+
+                    }
+                </td>
+
+                      <td class="px-4 py-2.5 text-center w-[10%]">
                         ${fine.issuedBy}
                     </td>
 
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-4 py-2.5 text-center w-[10%]">
                         ${fine.issuedTo}
                     </td>
 
@@ -219,9 +237,7 @@ fetch("/api/fines/getAllFines")
   })
   .catch((error) => {
     console.log("Error:", error);
-   
+
     //show error in form of modal
     showErrorModal("An error occurred. Please try again later.");
   });
-
-  

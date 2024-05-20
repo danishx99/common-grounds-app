@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var heading = document.getElementById("heading");
   var logo = document.getElementById("logo");
   var manageFines = document.getElementById("manageFines");
+  var sendNotification = document.getElementById("sendNotification");
+  var viewReports = document.getElementById("viewReports");
 
   let name = "";
 
@@ -33,6 +35,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
+  sendNotification.addEventListener("click", function () {
+    window.location.href = "/admin/sendNotification";
+  });
+
   manageFines.addEventListener("click", function () {
     window.location.href = "/admin/manageFines";
   });
@@ -52,4 +58,23 @@ document.addEventListener("DOMContentLoaded", function () {
   logo.addEventListener("click", function () {
     window.location.href = "/admin";
   });
+
+  viewReports.addEventListener("click", function () {
+    window.location.href = "/admin/viewReports";
+  });
+
+  //send fetch request to /api/getReports/2024
+  fetch("/api/reports/getIssueVisitorFinesReport/2021")
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log("Error:", error);
+    });
+
+  
+
 });

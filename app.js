@@ -7,9 +7,10 @@ const authRoutes = require("./server/routes/authRoutes");
 const userRoutes = require("./server/routes/userRoutes");
 const visitorRoutes = require("./server/routes/visitorRoutes");
 const issueRoutes = require("./server/routes/issueRoutes");
+const reportRoutes = require("./server/routes/reportRoutes");
 const fineRoutes = require("./server/routes/fineRoutes");
-const noticeRoutes = require("./server/routes/noticeRoutes");
 const frontendRoutes = require("./server/routes/frontendRoutes");
+const notificationRoutes = require("./server/routes/notificationRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -47,14 +48,14 @@ app.use("", frontendRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/visitors", visitorRoutes);
+app.use("/api/reports", reportRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/fines", fineRoutes);
-app.use("/api/notices", noticeRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.use((req, res, next) => {
   // Send the HTML file for unknown routes
   res.sendFile(path.join(__dirname, "./client/404notFound.html"));
-  
 });
 
 app.listen(PORT, () => {

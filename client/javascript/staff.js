@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var logo = document.getElementById("logo");
   const manageIssues = document.getElementById("manageIssues");
   var heading = document.getElementById("heading");
+  var sendNotification = document.getElementById("sendNotification");
 
   //get request to /api/users/getCurrentUser
   fetch("/api/users/getCurrentUser")
@@ -12,11 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => {
       console.log(data.user);
       name = data.user[0].name;
-      heading.innerText = `Welcome to your resident dashboard, ${name}!`;
+      heading.innerText = `Welcome to your staff dashboard, ${name}!`;
     })
     .catch((error) => {
       console.log("Error:", error);
     });
+
+  sendNotification.addEventListener("click", function () {
+    window.location.href = "/staff/sendNotification";
+  });
 
   manageIssues.addEventListener("click", function () {
     window.location.href = "/staff/manageIssues";

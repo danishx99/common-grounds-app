@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cd .. && nodemon --watch client --watch server --watch app.js app.js",
     "dev": "npm install & cd .. &  node app.js",
-    "test": "jest --passWithNoTests --coverage --verbose --coverageReporters=text-summary"
+    "test": "jest"
   },
   "author": "Qais",
   "license": "ISC",

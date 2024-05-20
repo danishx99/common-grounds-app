@@ -4,7 +4,15 @@ const visitorController = require("../controllers/visitorController");
 
 jest.mock("../models/Visitor");
 jest.mock("../models/User");
+beforeEach(() => {
+  // Mock console.error
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
 
+afterEach(() => {
+  // Restore the original console.error function
+  console.error.mockRestore();
+});
 describe("checkInVisitor", () => {
 
   it("should return visitor checked in successfully", async () => {

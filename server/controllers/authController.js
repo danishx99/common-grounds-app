@@ -34,7 +34,7 @@ exports.registerUser = async (req, res) => {
       email,
       role,
       code,
-      faceId,
+      userImage,
     } = req.body;
 
     // Validate the email
@@ -536,54 +536,52 @@ exports.registerFace = async (req, res) => {
 
 // Verify face endpoint calls this function
 
-exports.verifyFace = async (req, res) => {
-  const { name, surname, faceId, image } = req.body;
+exports.verifyFace = async()=>{
+  //we need to load our models using await
+  const { image, email} = req.body;
 
-  // Validate input: either faceId or an image is required
-  if (!faceId && !image) {
-    return res
-      .status(400)
-      .json({ message: "Either faceId or image is required" });
-  }
+  await Promise.all([
+      faceapi.nets.ssdMobilenetv1.loadFromUri('../face-models'),
+      faceapi.nets.faceLandmark68Net.loadFromUri('../face-models'),
+      faceapi.nets.faceRecognitionNet.loadFromUri('../face-models'),
+      faceapi.nets.ageGenderNet.loadFromUri('../face-models'),
+  ])
 
-  // Find user by name & surname
-  const user = await User.findOne({
-    name: { $regex: new RegExp(name, "i") },
-    surname: { $regex: new RegExp(surname, "i") },
-  }).select("username faceId");
+  // grab face & send data to detectFaces method
 
-  if (!user) {
-    return res.status(403).json({ message: "User not found" });
-  }
+  // const refImage= document.getElementById("image");// this is the image the user uploads 
 
-  let faceIdToVerify;
-  if (faceId) {
-    faceIdToVerify = faceId;
+  const facesToCheckImage = await fetchUserImageByEmail(email);
+  
+// first decode image from base64 string
+  let refImageAIData= await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors();
+  let facesToCheckImageAIData= await faceapi.detectAllFaces(facesToCheckImage).withFaceLandmarks().withFaceDescriptors();
+
+  // here we make a face matcher of the reference image & compare that to the face we want to check
+  let faceMatcher= new faceapi.FaceMatcher(refImageAIData);
+  facesToCheckImageAIData= faceapi.resizeResults(facesToCheckImageAIData, facesToCheckImage);
+  
+
+  //loop all faces in image to check & compare faces
+  facesToCheckImageAIData.forEach(face=>{
+      
+      const {descriptor, detection}= face;
+
+      // make a label using the default 
+      let label= faceMatcher.findBestMatch(descriptor).toString();
+      console.log(label);
+
+      // If the face belongs to the person (not "unknown")
+  if (!label.includes("unknown")) {
+      // login user
+      console.log("User logged in.");
+      
   } else {
-    // Convert image to binary data
-    const imageData = Buffer.from(image.split(",")[1], "base64"); // must double check this image size is not too large
-    // Detect faces in the image
-    const detectedFaces = await faceApi.detect(imageData);
-    if (detectedFaces.length !== 1) {
-      return res
-        .status(400)
-        .json({ message: "Exactly one face must be detected in the image." });
-    }
-    faceIdToVerify = detectedFaces[0].faceId;
+      alert('Face did not match. Please try again.');
   }
+  })
+  
 
-  // Verify face ID
-  const verificationResult = await faceApi.verify(user.faceId, faceIdToVerify);
-  if (
-    !verificationResult.isIdentical ||
-    verificationResult.confidence < process.env.FACE_API_CONFIDENCE_TRESHOLD
-  ) {
-    return res.status(403).json({ message: "Face verification failed." });
-  }
-
-  // Generate JWT token, ask for second opinion on this because they signed & returned as cookie
-  // const token = jwt.sign({ username: user.username }, config.SECRET);
-  // return res.json({ message: 'Login successful', token });
 };
 
 //generate code for user registration

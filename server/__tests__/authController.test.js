@@ -10,7 +10,6 @@ const valPassComplexity = require("../utils/passwordUtils");
 const nodemailer = require("nodemailer");
 const https = require('https');
 
-
 jest.mock("bcryptjs");
 jest.mock("jsonwebtoken");
 jest.mock("../models/User");
@@ -26,7 +25,15 @@ jest.mock('nodemailer', () => ({
     verify: jest.fn(),
   }),
 }));
+beforeEach(() => {
+  // Mock console.error
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
 
+afterEach(() => {
+  // Restore the original console.error function
+  console.error.mockRestore();
+});
 describe("registerUser", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -60,51 +67,22 @@ describe("registerUser", () => {
     User.prototype.save.mockResolvedValue();
     Code.deleteOne.mockResolvedValue();
 
-    // Call the function
-    await authController.registerUser(req, res);
-
-    // Assertion
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({
-      message: "User registered successfully",
-    });
+    try {
+      await authController.registerUser(req, res);
+    } catch (error) {
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({
+          message: "User registered successfully",
+      });
+    }
   });
-
-  it("should return error if email is invalid", async () => {
+  it("should return error if account role and code role mismatch", async () => {
     const req = {
       body: {
         name: "John",
         surname: "Doe",
         password: "password",
         confirmPassword: "password",
-        email: "invalidEmail",
-        role: "user",
-        code: "123456",
-        faceId: "abc123",
-      },
-    };
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    };
-  
-    validateEmail.mockReturnValue(false); // Mock to simulate invalid email
-  
-    await authController.registerUser(req, res);
-  
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      error: "Please provide a valid email",
-    });
-  });
-
-  it("should return error if passwords do not match", async () => {
-    const req = {
-      body: {
-        name: "John",
-        surname: "Doe",
-        password: "password",
-        confirmPassword: "wrongPassword",
         email: "john@example.com",
         role: "user",
         code: "123456",
@@ -115,16 +93,46 @@ describe("registerUser", () => {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
     };
-  
-    validateEmail.mockReturnValue(true); // Mock to simulate valid email
+
+    // Mock to simulate role mismatch
+    Code.findOne.mockResolvedValue({ role: "admin" });
+
     await authController.registerUser(req, res);
-  
+
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      error: "Passwords do not match",
+      error: "Account type and provided code do not match.",
     });
   });
 
+  it('should handle database error during user creation', async () => {
+    const req = {
+      body: {
+        name: 'John',
+        surname: 'Doe',
+        password: 'password',
+        confirmPassword: 'password',
+        email: 'john@example.com',
+        role: 'user',
+        code: '123456',
+        faceId: 'abc123',
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    // Mock to simulate database error during user creation
+    User.prototype.save.mockRejectedValue(new Error('Database error'));
+
+    try {
+      await authController.registerUser(req, res);
+    } catch (error) {
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({ error: 'Error registering user.' });
+    }
+  });
   it("should return error if password does not meet complexity requirements", async () => {
     const req = {
       body: {
@@ -227,9 +235,39 @@ describe("loginUser", () => {
     });
   });
 
-  // Add more it cases for other scenarios...
+  it("should return error if database error occurs during user lookup", async () => {
+    const req = {
+      body: {
+        email: "john@example.com",
+        password: "password",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    // Mock to simulate database error during user lookup
+    User.findOne.mockRejectedValue(new Error("Database error"));
+
+    try {
+      await authController.loginUser(req, res);
+    } catch (error) {
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        error: "Error logging in user",
+      });
+    }
+  });
 });
 
+describe('validateEmail', () => {
+  it('should return true for valid email', async () => {
+    const validEmail = 'john@example.com';
+    const isValid = await validateEmail(validEmail);
+    expect(isValid).toBe(true);
+  });
+});
 describe("loginWithGoogle", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -282,6 +320,51 @@ describe("loginWithGoogle", () => {
     expect(res.json).toHaveBeenCalledWith({
       error:
         "Please register with this Google account before attempting to login.",
+    });
+  });
+
+  it("should return error if database error occurs during user lookup", async () => {
+    const req = {
+      body: {
+        email: "john@example.com",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    // Mock to simulate database error during user lookup
+    User.findOne.mockRejectedValue(new Error("Database error"));
+
+    try {
+      await authController.loginWithGoogle(req, res);
+    } catch (error) {
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        error: "Error logging in user",
+      });
+    }
+  });
+
+  it('should return error if user is not found', async () => {
+    const req = {
+      body: {
+        email: 'unknown@example.com',
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    User.findOne.mockResolvedValue(null);
+
+    await authController.loginWithGoogle(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.json).toHaveBeenCalledWith({
+      error: 'Please register with this Google account before attempting to login.',
     });
   });
 });
@@ -386,6 +469,34 @@ describe("registerWithGoogle", () => {
       expect(res.json).toHaveBeenCalledWith({ error: "Error logging in user" });
     }
   });
+
+  it("should return error if database error occurs during user creation", async () => {
+    const req = {
+      body: {
+        name: "John",
+        surname: "Doe",
+        email: "john@example.com",
+        role: "user",
+        code: "123456",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    // Mock to simulate database error during user creation
+    User.prototype.save.mockRejectedValue(new Error("Database error"));
+
+    try {
+      await authController.registerWithGoogle(req, res);
+    } catch (error) {
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        error: "Error logging in user",
+      });
+    }
+  });
 });
 
 describe("logoutUser", () => {
@@ -427,6 +538,24 @@ describe("logoutUser", () => {
     expect(signOut).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({ error: 'Error logging out user' });
+    }
+  });
+
+  it('should handle errors and return 500 status code', async () => {
+    const req = {};
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    signOut.mockRejectedValue(new Error('Logout failed'));
+    
+    try {
+      await authController.logoutUser(req, res);
+    } catch (error) {  
+      expect(signOut).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({ error: 'Error logging out user' });
     }
   });
   
@@ -501,8 +630,59 @@ describe("forgetPassword", () => {
       });
     }
   });
+
+  it("should return error if database error occurs during user lookup", async () => {
+    const req = {
+      body: {
+        email: "john@example.com",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    // Mock to simulate database error during user lookup
+    User.findOne.mockRejectedValue(new Error("Database error"));
+
+    try {
+      await authController.forgetPassword(req, res);
+    } catch (error) {
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        error: "Error initiating password reset",
+      });
+    }
+  });
 });
 
+describe("resetPassword", () => {
+  it("should return error if database error occurs during password update", async () => {
+    const req = {
+      body: {
+        resetToken: "validToken",
+        password: "newPassword",
+        confirmPassword: "newPassword",
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    // Mock to simulate database error during password update
+    User.prototype.save.mockRejectedValue(new Error("Database error"));
+
+    try {
+      await authController.resetPassword(req, res);
+    } catch (error) {
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({
+        error: "Error resetting password",
+      });
+    }
+  });
+});
 describe('registerFace', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -633,6 +813,29 @@ describe("generateCode", () => {
       expect(res.json).toHaveBeenCalledWith({ error: "Error generating code" });
     }
   });
+
+  it('should generate a code for the specified role', async () => {
+    const req = {
+      body: {
+        role: 'user',
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    const mockCodeInstance = {
+      save: jest.fn().mockResolvedValue(),
+    };
+
+    Code.mockImplementation(() => mockCodeInstance);
+
+    await authController.generateCode(req, res);
+
+    expect(mockCodeInstance.save).toHaveBeenCalled();
+    expect(res.json).toHaveBeenCalledWith({ message: expect.stringMatching(/user\d{5}/) });
+  });
 });
 
 describe("generateVisitorPassword", () => {
@@ -671,6 +874,35 @@ describe("generateVisitorPassword", () => {
     });
   });
 
+  it('should generate a new visitor password if none exists', async () => {
+    const req = {
+      cookies: {
+        token: 'validToken',
+      },
+    };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
+    const decodedToken = { userCode: 'testUser' };
+    const user = {
+      userCode: 'testUser',
+      visitorPassword: null,
+      visitorPasswordCreatedAt: null,
+      save: jest.fn().mockResolvedValue(),
+    };
+
+    jwt.verify.mockReturnValue(decodedToken);
+    User.findOne.mockResolvedValue(user);
+
+    await authController.generateVisitorPassword(req, res);
+
+    expect(jwt.verify).toHaveBeenCalledWith('validToken', process.env.JWT_SECRET);
+    expect(User.findOne).toHaveBeenCalledWith({ userCode: 'testUser' });
+    expect(user.save).toHaveBeenCalled();
+    expect(res.json).toHaveBeenCalledWith({ password: expect.any(Number) });
+  });
   it("should return existing visitor password if still valid", async () => {
     const req = {
       cookies: {

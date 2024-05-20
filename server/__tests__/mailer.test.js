@@ -16,7 +16,15 @@ jest.mock("nodemailer", () => ({
   }),
 }));
 
+beforeEach(() => {
+  // Mock console.error
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
 
+afterEach(() => {
+  // Restore the original console.error function
+  console.error.mockRestore();
+});
 describe("mailer.js", () => {
   beforeEach(() => {
     dotenv.config();

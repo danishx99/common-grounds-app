@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     
         // Convert the canvas to a data URL for further use
-        const photoDataUrl = canvas.toDataURL('image/png');
+        const photoDataUrl = canvas.toDataURL('image/png');// is this the image we want to use?
     
         // Function to convert data URL to Base64 string
         const getBase64StringFromDataURL = (dataURL) =>
@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loader.style.display = "flex";
         console.log("Verify button clicked");
 
+        
+
         // return;
         
         fetch("/api/auth/verify-face", {
@@ -53,6 +55,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             },
             body: JSON.stringify({
                 image: base64String,
+                email: document.getElementById('email').value,
+                
             }),
         })
         .then((response) => {

@@ -3,7 +3,15 @@ const jwt = require("jsonwebtoken"); // Add this line
 const auth = require("../middleware/auth");
 
 jest.mock("jsonwebtoken");
+beforeEach(() => {
+  // Mock console.error
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
 
+afterEach(() => {
+  // Restore the original console.error function
+  console.error.mockRestore();
+});
 describe("verifyToken", () => {
   beforeEach(() => {
     dotenv.config(); // Load environment variables

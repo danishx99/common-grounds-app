@@ -53,8 +53,8 @@ const userSchema = new mongoose.Schema(
       required: false,
     },
 
-    // add faceId to user schema for Azure Face API
-    faceId: {
+    // store image when registering face as base64 string
+    userImage: {
       type: String, required:false
     },
     loginHistory: [

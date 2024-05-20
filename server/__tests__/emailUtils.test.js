@@ -1,5 +1,13 @@
 const validateEmail = require("../utils/emailUtils");
+beforeEach(() => {
+  // Mock console.error
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
 
+afterEach(() => {
+  // Restore the original console.error function
+  console.error.mockRestore();
+});
 // Start describing your test suite
 describe("validateEmail function", () => {
   // Individual test cases for valid emails

@@ -145,6 +145,15 @@ router.get(
   }
 );
 
+//admin view reports
+router.get(
+  "/admin/viewReports",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/viewReports.html"));
+  }
+);
+
 /* Resident Frontend Routes */
 
 //Resident page for generating visitor password and checking current visitor password if one is generated
@@ -186,6 +195,8 @@ router.get(
     res.sendFile(path.join(__dirname, "../../client/viewFines.html"));
   }
 );
+
+
 
 router.get(
   "/resident/viewNotifications",

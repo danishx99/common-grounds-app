@@ -72,8 +72,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_423840D28D0C47E6BC3C01330604C57A }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_25E039E03C644A08B6DD4255E8CC6E61 }}
       
-      - name: Restart Azure Web App
-        run: az webapp restart --name "propertymanagementproject" --resource-group "property-management-app_group"
+      
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3

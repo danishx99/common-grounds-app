@@ -71,8 +71,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_294AA45731FF4F3BA06DEF468268918E }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9DE1EDFBC1B343658A8AA01D68561C58 }}
       
-      - name: Restart Azure Web App
-        run: az webapp restart --name "commongroundstest" --resource-group "property-management-app_group"
+      
   
 
       - name: "Deploy to Azure Web App"

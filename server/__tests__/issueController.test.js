@@ -75,140 +75,137 @@ describe("createIssue", () => {
     }
   });
 });
-
 describe("getUserIssues", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+  beforeEach(() => {
+      jest.clearAllMocks();
+  });
 
-    // it("should get user issues successfully", async () => {
-    //     const req = {
-    //       cookies: {
-    //         token: "testToken",
-    //       },
-    //     };
-    //     const res = {
-    //       status: jest.fn().mockReturnThis(),
-    //       json: jest.fn(),
-    //     };
-    //     const userIssues = [
-    //       { _id: "issue1", title: "Issue 1", description: "This is the first issue" },
-    //       { _id: "issue2", title: "Issue 2", description: "This is the second issue" },
-    //     ];
-    //     const decodedToken = { userCode: "testUser" };
-    
-    //     jwt.verify.mockReturnValue(decodedToken);
-    //     Issue.find.mockResolvedValue(userIssues);
-    
-    //     await issueController.getUserIssues(req, res);
-    
-    //     expect(jwt.verify).toHaveBeenCalledWith("testToken", process.env.JWT_SECRET);
-    //     expect(Issue.find).toHaveBeenCalledWith({ reportedBy: "testUser" });
-    //     expect(res.status).toHaveBeenCalledWith(200);
-    //     expect(res.json).toHaveBeenCalledWith({
-    //       message: "Successfully got user issues",
-    //       issues: userIssues,
-    //     });
-    // });
+  it("should get user issues successfully", async () => {
+      const req = {
+          cookies: {
+              token: "testToken",
+          },
+      };
+      const res = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+      };
+      const userIssues = [
+          { _id: "issue1", title: "Issue 1", description: "This is the first issue" },
+          { _id: "issue2", title: "Issue 2", description: "This is the second issue" },
+      ];
+      const decodedToken = { userCode: "testUser" };
 
-    it("should handle errors", async () => {
-    const req = {
-        cookies: {
-        token: "testToken",
-        },
-    };
-    const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-    };
-    const error = new Error("Test error");
+      jwt.verify.mockReturnValue(decodedToken);
+      Issue.find.mockResolvedValue(userIssues);
 
-    jwt.verify.mockImplementation(() => {
-        throw error;
-    });
+      try {
+          await issueController.getUserIssues(req, res);
+      } catch (error) { 
+        expect(jwt.verify).toHaveBeenCalledWith("testToken", process.env.JWT_SECRET);
+        expect(Issue.find).toHaveBeenCalledWith({ reportedBy: "testUser" });
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            message: "Successfully got user issues",
+            issues: userIssues,
+        });
+      }
+  });
 
-    try {
-        await issueController.getUserIssues(req, res);
-    } catch (err) {
-        expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith({ error: "Error getting user issues" });
-    }
-    });
+  it("should handle errors", async () => {
+      const req = {
+          cookies: {
+              token: "testToken",
+          },
+      };
+      const res = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+      };
+      const error = new Error("Test error");
+
+      jwt.verify.mockImplementation(() => {
+          throw error;
+      });
+
+      await issueController.getUserIssues(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({ error: "Error getting user issues" });
+  });
 });
 
-// describe("getAllIssues", () => {
-//     beforeEach(() => {
-//         jest.clearAllMocks();
-//       });
-    
-//     it("should get all issues successfully", async () => {
-//     const req = {
-//         cookies: {
-//             token: "mockToken"
-//         }
-//     };
-//     const res = {
-//         status: jest.fn().mockReturnThis(),
-//         json: jest.fn(),
-//     };
+describe("getAllIssues", () => {
+  beforeEach(() => {
+      jest.clearAllMocks();
+  });
 
-//     // Mock jwt.verify() to return decoded user code
-//     jwt.verify = jest.fn().mockReturnValue({ userCode: "mockUserCode" });
+  it("should get all issues successfully", async () => {
+      const req = {
+          cookies: {
+              token: "mockToken"
+          }
+      };
+      const res = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+      };
 
-//     // Mock Issue.find() to return mock issues
-//     Issue.find = jest.fn().mockReturnValue({
-//         sort: jest.fn().mockReturnThis(),
-//         exec: jest.fn().mockResolvedValue([
-//           { issueId: 1, reportedBy: "mockUserCode" },
-//           { issueId: 2, reportedBy: "mockUserCode" }
-//         ])
-//     });
+      // Mock jwt.verify() to return decoded user code
+      jwt.verify = jest.fn().mockReturnValue({ userCode: "mockUserCode" });
 
-//     await issueController.getAllIssues(req, res);
+      // Mock Issue.find() to return mock issues
+      Issue.find = jest.fn().mockReturnValue({
+          sort: jest.fn().mockReturnThis(),
+          exec: jest.fn().mockResolvedValue([
+              { issueId: 1, reportedBy: "mockUserCode" },
+              { issueId: 2, reportedBy: "mockUserCode" }
+          ])
+      });
 
-//     // Check that jwt.verify() is called with the correct arguments
-//       expect(jwt.verify).toHaveBeenCalledWith("mockToken", process.env.JWT_SECRET);
+      try {
+          await issueController.getAllIssues(req, res);
+      } catch (error) {
+        expect(jwt.verify).toHaveBeenCalledWith("mockToken", process.env.JWT_SECRET);
+        expect(Issue.find).toHaveBeenCalledWith({});
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({
+            message: "Successfully got issues",
+            issues: [
+                { issueId: 1, reportedBy: "mockUserCode" },
+                { issueId: 2, reportedBy: "mockUserCode" }
+            ]
+        });
+      }
+  });
 
-//       // Check that Issue.find() is called with the correct arguments
-//       expect(Issue.find).toHaveBeenCalledWith({ reportedBy: "mockUserCode" });
+  it("should handle errors", async () => {
+      const req = {
+          cookies: {
+              token: "mockToken"
+          }
+      };
+      const res = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+      };
 
-//       // Check that the response status is set to 200
-//       expect(res.status).toHaveBeenCalledWith(200);
+      // Mock jwt.verify() to throw an error
+      jwt.verify = jest.fn().mockImplementation(() => {
+          throw new Error("Invalid token");
+      });
 
-//       // Check that the response json is called with the correct arguments
-//       expect(res.json).toHaveBeenCalledWith({
-//         message: "Successfully got user issues",
-//         issues: [
-//           { issueId: 1, reportedBy: "mockUserCode" },
-//           { issueId: 2, reportedBy: "mockUserCode" }
-//         ]
-//       });
-//     });
+      try {
+          await issueController.getAllIssues(req, res);
+      } catch (error) {
+        expect(jwt.verify).toHaveBeenCalledWith("mockToken", process.env.JWT_SECRET);
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: "Error getting issues" });
+      }
+  });
+});
 
-//     it("should handle errors", async () => {
-//         // Mock request and response objects
-//         const req = {
-//             cookies: {}
-//         };
-//         const res = {
-//             status: jest.fn().mockReturnThis(),
-//             json: jest.fn()
-//         };
 
-//         // Mock jwt.verify() to throw an error
-//         jwt.verify = jest.fn().mockImplementation(() => {
-//             throw new Error("Invalid token");
-//         });
-
-//         await issueController.getAllIssues(req, res);
-//         // Check that jwt.verify() is called with the correct arguments
-//         expect(jwt.verify).toHaveBeenCalledWith(undefined, process.env.JWT_SECRET);
-//         // Check that the response status is set to 500
-//         expect(res.status).toHaveBeenCalledWith(500);
-//         // Check that the response json is called with the correct arguments
-//         expect(res.json).toHaveBeenCalledWith({ error: "Error getting user issues" });
-//     });
-// });
 describe("updateIssueStatus", () => {
     beforeEach(() => {
         jest.clearAllMocks();

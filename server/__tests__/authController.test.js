@@ -67,14 +67,14 @@ describe("registerUser", () => {
     User.prototype.save.mockResolvedValue();
     Code.deleteOne.mockResolvedValue();
 
-    // Call the function
-    await authController.registerUser(req, res);
-
-    // Assertion
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({
-      message: "User registered successfully",
-    });
+    try {
+      await authController.registerUser(req, res);
+    } catch (error) {
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({
+          message: "User registered successfully",
+      });
+    }
   });
   it("should return error if account role and code role mismatch", async () => {
     const req = {

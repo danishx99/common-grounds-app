@@ -71,6 +71,12 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_294AA45731FF4F3BA06DEF468268918E }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9DE1EDFBC1B343658A8AA01D68561C58 }}
 
+      - name: Shutdown Azure Web App
+        run: az webapp stop --name "commongroundstest" --resource-group "property-management-app_group"
+  
+      - name: Start Azure Web App
+        run: az webapp start --name "commongroundstest" --resource-group "property-management-app_group"
+
       - name: "Deploy to Azure Web App"
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp

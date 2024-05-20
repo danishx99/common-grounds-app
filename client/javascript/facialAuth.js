@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loader.style.display = "flex";
         console.log("Verify button clicked");
 
+        
+
         // return;
         
         fetch("/api/auth/verify-face", {
@@ -53,6 +55,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             },
             body: JSON.stringify({
                 image: base64String,
+                email: document.getElementById('email').value,
+                
             }),
         })
         .then((response) => {

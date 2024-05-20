@@ -57,9 +57,6 @@ run()
 // fetch user image by email
 // feel like there is a lot of redundant code here- check wit team
 async function fetchUserImageByEmail(email) {
-    // Placeholder for MongoDB connection details
-    const uri = "mongodb+srv://<username>:<password>@cluster0.mongodb.net/test?retryWrites=true&w=majority";
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
         await client.connect();

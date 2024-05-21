@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./src/output.css">
 
+    <style>
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
 
 </head>
 
@@ -26,63 +32,44 @@
         </button>
     </header>
 
-    <h1 id="heading" class="text-white text-4xl mt-[3%] font-extrabold text-center">Welcome to your admin dashboard!
-    </h1>
+   <h1 id="heading" class="text-white text-3xl md:text-4xl lg:text-5xl mt-8 font-extrabold text-center">
+    Welcome to your admin dashboard!
+</h1>
 
-    <section class="mt-[3%] mx-[5%] flex-col max-md:flex-col">
-
-        <div class="flex max-md:flex-col mb-[5%] justify-center gap-12">
-
-            <div id="generateCode"
-                class="w-[20%] cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-evenly items-center hover:border-4 border-green-700">
-                <h2 class="mb-[5%] font-extrabold text-2xl border-[#001B0C] text-center">Generate Registration Code</h2>
-                <img class="w-[25%] mb-[5%]" src="./assets/password-entry.png" alt="">
+    <section class="mt-12 mx-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+            <div id="generateCode" class="w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">Generate Registration Code</h2>
+                <img class="w-16" src="./assets/password-entry.png" alt="Generate Code">
+            </div>
+                
+            <div id="manageUsers" class="w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">Manage Users</h2>
+                <img class="w-16" src="./assets/profile.png" alt="Manage Users">
+            </div>
+            
+            <div id="manageVisitors" class="w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">Manage Visitors</h2>
+                <img class="w-16" src="./assets/access-control.png" alt="Manage Visitors">
+            </div>
+            
+            <div id="manageFines" class="w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">Manage Fines</h2>
+                <img class="w-16" src="./assets/fine.png" alt="Manage Fines">
             </div>
 
-            <div id="manageUsers"
-                class=" w-[20%] cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-evenly items-center hover:border-4 border-green-700">
-                <h2 class="mb-[5%] font-extrabold text-2xl border-[#001B0C] text-center">Manage Users</h2>
-                <img class="w-[25%] mb-[5%]" src="./assets/profile.png" alt="">
-
+            <div id="sendNotification" class="w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">Send Notification</h2>
+                <img class="w-16" src="./assets/announce.png" alt="Send Notification">
             </div>
 
-            <div id="manageVisitors"
-                class="w-[20%] cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-evenly items-center hover:border-4 border-green-700">
-                <h2 class="mb-[5%] font-extrabold text-2xl border-[#001B0C] text-center">Manage Visitors</h2>
-                <img class="w-[25%] mb-[5%]" src="./assets/access-control.png" alt="">
-
+            <div id="viewReports" class="w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">View Reports</h2>
+                <img class="w-16" src="./assets/announce.png" alt="View Reports">
             </div>
 
-            <div id="manageFines"
-                class="w-[20%] cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-evenly items-center hover:border-4 border-green-700">
-                <h2 class="mb-[5%] font-extrabold text-2xl border-[#001B0C] text-center">Manage Fines</h2>
-                <img class="w-[25%] mb-[5%]" src="./assets/fine.png" alt="">
-            </div>
-
+            
         </div>
-        
-       
-        <div class="flex max-md:flex-col mb-[5%] justify-center">
-            <div id="sendNotification"
-                class="w-[20%] cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-evenly items-center hover:border-4 border-green-700">
-                <h2 class="mb-[5%] font-extrabold text-2xl border-[#001B0C] text-center">Send Notification</h2>
-                <img class="w-[25%] mb-[5%]" src="./assets/announce.png" alt="">
-            </div>
-        </div>
-
-        <div class="flex max-md:flex-col mb-[5%] justify-center">
-            <div id="viewReports"
-                class="w-[20%] cursor-pointer bg-white rounded-2xl p-4 flex flex-col justify-evenly items-center hover:border-4 border-green-700">
-                <h2 class="mb-[5%] font-extrabold text-2xl border-[#001B0C] text-center">View Reports</h2>
-                <img class="w-[25%] mb-[5%]" src="./assets/announce.png" alt="">
-            </div>
-        </div>
-
-        
-
-
-
-
     </section>
 
     <script src="./javascript/admin.js"></script>

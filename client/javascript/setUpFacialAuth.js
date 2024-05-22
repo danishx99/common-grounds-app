@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
         // Extract Base64 string from data URL
         const base64String = getBase64StringFromDataURL(photoDataUrl);
-        //console.log(base64String);
+        // console.log(base64String);
 
         var loader = document.getElementById("loader");
         loader.style.display = "flex";
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 // redirect to login page
                 setTimeout(() => {
-                    window.location.href = "/login";
+                    window.location.href = "/";
                 }, 5000);
             } else if (data.error) {
                 //Show error message

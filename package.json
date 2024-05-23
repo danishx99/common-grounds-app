@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^4.19.0",
+    "face-api.js": "^0.22.2"
+  }
+}

@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             body: JSON.stringify({
                 image: base64String,
                 email: document.getElementById('email').value,
-                
+
             }),
         })
         .then((response) => {
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 alert.className =
                     "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
                 setTimeout(() => {
-                    window.location.href = "/dashboard";
+                    window.location.href = "/";
                 }, 5000);
             } else if (data.error) {
                 var alert = document.getElementById("alert");

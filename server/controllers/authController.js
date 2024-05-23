@@ -1,5 +1,14 @@
 // Import necessary modules from the Firebase SDK
 
+// require('@tensorflow/tfjs-node'); // ig we kinda need this so find a way to make it work
+const faceapi = require('face-api.js');
+const canvas = require('canvas');
+const { Canvas, Image, ImageData, createCanvas, loadImage } = canvas;
+faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
+
+const path = require('path');
+
+// console.log(faceapi.nets);
 const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require("jsonwebtoken"); // For generating JSON Web Tokens
 const dotenv = require("dotenv"); // For accessing environment variables
@@ -412,157 +421,107 @@ exports.resetPassword = async (req, res) => {
 
 // Register face endpoint calls this function
 
-exports.registerFace = async (req, res) => {
-  try {
-    const image = req.body.image; // Assuming the image is sent in the request body
+exports.registerFace = async(req, res)=>{
+  console.log("Registering face");
+  // image is a  base64 string
+  const { image} = req.body;
 
-    const msDetectOptions = {
-      host: process.env.FACE_API_HOST,
-      method: "POST",
-      port: 443,
-      path: process.env.FACE_API_PATH_DETECT,
-      headers: {
-        "Content-Type": "application/octet-stream",
-        "Content-Length": Buffer.byteLength(image),
-        "Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY,
-      },
-    };
+  await Promise.all([
+    // Load the model weights from a local file
+    faceapi.nets.ssdMobilenetv1.loadFromDisk(path.join(__dirname, '../face-models')),
+    faceapi.nets.faceLandmark68Net.loadFromDisk(path.join(__dirname, '../face-models')),
+    faceapi.nets.faceRecognitionNet.loadFromDisk(path.join(__dirname, '../face-models')),
+    faceapi.nets.ageGenderNet.loadFromDisk(path.join(__dirname, '../face-models')),
+])
+  //get Current logged in user
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const currUserCode = decoded.userCode;
 
-    console.log("1");
+  // Check if user exists
+  const userToUpdate = await User.findOne({ userCode: currUserCode });
 
+  if (!userToUpdate) {
+    return res.status(404).json({ error: "User not found" });
+  } 
+  
+// Remove the data URL prefix and decode the Base64 string
+const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+const imgBuffer = Buffer.from(base64Data, 'base64');
 
-    const msDetectData = await new Promise((resolve, reject) => {
-      const msDetectReq = https.request(msDetectOptions, (msDetectResponse) => {
-        msDetectResponse.setEncoding("utf8");
-        let msDetectData = "";
-        msDetectResponse.on("data", (chunk) => {
-          msDetectData += chunk;
-        });
-        msDetectResponse.on("end", () => {
-          console.log("Face registered successfully");
-          resolve(JSON.parse(msDetectData));
-        });
-      });
+// Use canvas to load the image
+const img = await loadImage(imgBuffer);
 
-      msDetectReq.on("error", (error) => {
-        reject(error);
-      });
+// Create a canvas and draw the image onto it
+const imgCanvas = createCanvas(img.width, img.height);
+const ctx = imgCanvas.getContext('2d');
+ctx.drawImage(img, 0, 0, img.width, img.height);
 
-      msDetectReq.write(image);
-      msDetectReq.end();
-    });
+// Now you can process the image with face-api.js
+const imageAIData = await faceapi.detectSingleFace(imgCanvas);
 
-    console.log("2")
-
-    // Handle the response data
-    if (msDetectData.error) {
-      // Handle error
-      console.error("Error registering face:", msDetectData.error);
-      res.status(500).send(msDetectData.error);
-    } else {
-      // Handle success
-      // Assuming the response contains a faceId
-      const faceId = msDetectData.faceId;
-
-      // Find the user in the database and update their faceId
-      const user = await User.findById(req.user.id); // just confirm this is fine
-      user.faceId = faceId;
-      await user.save();
-
-      res.status(200).send({ message: "Face registered successfully", faceId });
-    }
-  } catch (error) {
-    // Handle any other errors
-    res.status(500).send(error.message);
+  if(!imageAIData){
+    return res.status(404).json({ error: "No face detected" });
+      
   }
+  // update userImage
+  console.log("A face detected");
+  userToUpdate.userImage= image;
+  await userToUpdate.save();
+  res.status(200).json({ message: "Facial authentication set up successfully" });
+  
 };
 
-// verify face endpoint calls this function
-// still busy with this function
-// exports.verifyFace = async (req, res) => {
-//   try {
-//     // this function takes in 2 face ID's & compares them-- do we have 2 face Id's tho?
-//       const { faceId1, faceId2 } = req.body; // Assuming face IDs are sent in the request body
-
-//       const verifyOptions = {
-//           host: process.env.FACE_API_HOST,
-//           method: 'POST',
-//           port: 443,
-//           path: process.env.FACE_API_PATH_VERIFY,
-//           headers: {
-//               'Content-Type': 'application/json',
-//               'Ocp-Apim-Subscription-Key': process.env.FACE_API_KEY
-//           }
-//       };
-
-//       const verifyData = await new Promise((resolve, reject) => {
-//           const verifyReq = https.request(verifyOptions, (verifyResponse) => {
-//               verifyResponse.setEncoding('utf8');
-//               let verifyData = '';
-//               verifyResponse.on('data', (chunk) => {
-//                   verifyData += chunk;
-//               });
-//               verifyResponse.on('end', () => {
-//                   resolve(JSON.parse(verifyData));
-//               });
-//           });
-
-//           verifyReq.on('error', (error) => {
-//               reject(error);
-//           });
-
-//           const verifyBody = JSON.stringify({
-//               faceId1: faceId1,
-//               faceId2: faceId2
-//           });
-
-//           verifyReq.write(verifyBody);
-//           verifyReq.end();
-//       });
-
-//       // Handle the response data
-//       if (verifyData.error) {
-//           // Handle error
-//           res.status(500).send(verifyData.error);
-//       } else {
-//           // Handle success
-//           res.status(200).send(verifyData);
-//       }
-//   } catch (error) {
-//       // Handle any other errors
-//       res.status(500).send(error.message);
-//   }
-// };
 
 // Verify face endpoint calls this function
 
-exports.verifyFace = async()=>{
-  //we need to load our models using await
+exports.verifyFace = async(req,res)=>{
+  console.log("Verifyiing face ...");
   const { image, email} = req.body;
-
+// should probably chnage from loading from uri to loading from disk
   await Promise.all([
-      faceapi.nets.ssdMobilenetv1.loadFromUri('../face-models'),
-      faceapi.nets.faceLandmark68Net.loadFromUri('../face-models'),
-      faceapi.nets.faceRecognitionNet.loadFromUri('../face-models'),
-      faceapi.nets.ageGenderNet.loadFromUri('../face-models'),
+     // Load the model weights from a local file
+    faceapi.nets.ssdMobilenetv1.loadFromDisk(path.join(__dirname, '../face-models')),
+    faceapi.nets.faceLandmark68Net.loadFromDisk(path.join(__dirname, '../face-models')),
+    faceapi.nets.faceRecognitionNet.loadFromDisk(path.join(__dirname, '../face-models')),
+    faceapi.nets.ageGenderNet.loadFromDisk(path.join(__dirname, '../face-models')),
   ])
 
+  const user= await User.findOne({email});
   // grab face & send data to detectFaces method
+  if(!user){
+    return res.status(404).json({ error: "User not found" });
+  }
+  if(!user.userImage){
+    return res.status(404).json({ error: "User has not registered a face" });
+  }
+  const facesToCheckImage = user.userImage;// we know you are this guy
 
-  // const refImage= document.getElementById("image");// this is the image the user uploads 
+  // Remove the data URL prefix and decode the Base64 string of the image you uploaded
+const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+const imgBuffer = Buffer.from(base64Data, 'base64');
+const img = await loadImage(imgBuffer);
+const imgCanvas = createCanvas(img.width, img.height);
+const ctx = imgCanvas.getContext('2d');
+ctx.drawImage(img, 0, 0, img.width, img.height);
 
-  const facesToCheckImage = await fetchUserImageByEmail(email);
-  
+// remove data URL prefix and decode the Base64 string from the image from db
+const base64Data2 = facesToCheckImage.replace(/^data:image\/\w+;base64,/, '');
+const imgBuffer2 = Buffer.from(base64Data2, 'base64');
+const img2 = await loadImage(imgBuffer2);
+const imgCanvas2 = createCanvas(img.width, img.height);
+const ctx2 = imgCanvas2.getContext('2d');
+ctx2.drawImage(img, 0, 0, img.width, img.height);
+
+
 // first decode image from base64 string
-  let refImageAIData= await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors();
-  let facesToCheckImageAIData= await faceapi.detectAllFaces(facesToCheckImage).withFaceLandmarks().withFaceDescriptors();
+  let refImageAIData= await faceapi.detectAllFaces(imgCanvas2).withFaceLandmarks().withFaceDescriptors();// this is the image you just uploaded
+  let facesToCheckImageAIData= await faceapi.detectAllFaces(imgCanvas).withFaceLandmarks().withFaceDescriptors();// image from db
 
   // here we make a face matcher of the reference image & compare that to the face we want to check
   let faceMatcher= new faceapi.FaceMatcher(refImageAIData);
   facesToCheckImageAIData= faceapi.resizeResults(facesToCheckImageAIData, facesToCheckImage);
   
-
-  //loop all faces in image to check & compare faces
   facesToCheckImageAIData.forEach(face=>{
       
       const {descriptor, detection}= face;
@@ -575,9 +534,22 @@ exports.verifyFace = async()=>{
   if (!label.includes("unknown")) {
       // login user
       console.log("User logged in.");
+      // Generate a JWT token and return it as a secure cookie
+    const token = jwt.sign(
+      { userCode: user.userCode, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    // Set token as an HttpOnly cookie
+    res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
+
+    // Return a success message
+    res.json({ success: true, redirect: user.role });
+
       
   } else {
-      alert('Face did not match. Please try again.');
+      alert('Face did not match. Please try again.');// show error message on the front end
   }
   })
   
@@ -662,6 +634,26 @@ exports.generateVisitorPassword = async (req, res) => {
 
 }
 
+
+async function loadImages(image){
+  try {
+    var actualImage = new Image();
+    actualImage.src = Buffer.from(image, 'base64');
+
+    // Create a promise that resolves when the image finishes loading
+    const imageLoadPromise = new Promise((resolve, reject) => {
+      actualImage.onload = resolve;
+      actualImage.onerror = reject;
+    });
+
+    // Wait for the image to finish loading
+    await imageLoadPromise;
+
+    return actualImage;
+  } catch (error) {
+    console.log("Error creating image object:", error);
+  }
+}
       
       
   

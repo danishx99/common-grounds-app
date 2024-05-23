@@ -50,7 +50,7 @@ describe("registerUser", () => {
         email: "john@example.com",
         role: "user",
         code: "123456",
-        faceId: "abc123",
+        
       },
     };
     const res = {
@@ -86,7 +86,7 @@ describe("registerUser", () => {
         email: "john@example.com",
         role: "user",
         code: "123456",
-        faceId: "abc123",
+      
       },
     };
     const res = {
@@ -115,7 +115,7 @@ describe("registerUser", () => {
         email: 'john@example.com',
         role: 'user',
         code: '123456',
-        faceId: 'abc123',
+       
       },
     };
     const res = {
@@ -143,7 +143,7 @@ describe("registerUser", () => {
         email: "john@example.com",
         role: "user",
         code: "123456",
-        faceId: "abc123",
+       
       },
     };
     const res = {
@@ -173,7 +173,7 @@ describe("registerUser", () => {
         email: "john@example.com",
         role: "user",
         code: "123456",
-        faceId: "abc123",
+       
       },
     };
     const res = {
@@ -692,7 +692,7 @@ describe('registerFace', () => {
     const req = {
       body: {
         userCode: 'user123',
-        faceId: 'face123',
+       
       },
     };
     const res = {

@@ -99,7 +99,7 @@ exports.registerUser = async (req, res) => {
       email,
       role,
       userCode: code,
-      faceId,
+      
     });
 
     // Save the new user to the database

@@ -476,7 +476,9 @@ const imageAIData = await faceapi.detectSingleFace(imgCanvas);
 // Verify face endpoint calls this function
 
 exports.verifyFace = async(req,res)=>{
-  console.log("Verifyiing face ...");
+
+  try{
+    console.log("Verifying face ...");
   const { image, email} = req.body;
 // should probably chnage from loading from uri to loading from disk
   await Promise.all([
@@ -495,7 +497,7 @@ exports.verifyFace = async(req,res)=>{
   if(!user.userImage){
     return res.status(404).json({ error: "User has not registered a face" });
   }
-  const facesToCheckImage = user.userImage;// we know you are this guy
+  const refImage = user.userImage;// we know you are this guy
 
   // Remove the data URL prefix and decode the Base64 string of the image you uploaded
 const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
@@ -505,30 +507,29 @@ const imgCanvas = createCanvas(img.width, img.height);
 const ctx = imgCanvas.getContext('2d');
 ctx.drawImage(img, 0, 0, img.width, img.height);
 
-// remove data URL prefix and decode the Base64 string from the image from db
-const base64Data2 = facesToCheckImage.replace(/^data:image\/\w+;base64,/, '');
-const imgBuffer2 = Buffer.from(base64Data2, 'base64');
-const img2 = await loadImage(imgBuffer2);
-const imgCanvas2 = createCanvas(img.width, img.height);
-const ctx2 = imgCanvas2.getContext('2d');
-ctx2.drawImage(img, 0, 0, img.width, img.height);
+// Second image processing --remove data URL prefix and decode the Base64 string from the image from db
+const base64DataSecondImage = refImage.replace(/^data:image\/\w+;base64,/, '');
+const imgBufferSecondImage = Buffer.from(base64DataSecondImage, 'base64');
+const imgSecondImage = await loadImage(imgBufferSecondImage);
+const imgCanvasSecondImage = createCanvas(imgSecondImage.width, imgSecondImage.height);
+const ctxSecondImage = imgCanvasSecondImage.getContext('2d');
+ctxSecondImage.drawImage(imgSecondImage, 0, 0, imgSecondImage.width, imgSecondImage.height);
 
-
-// first decode image from base64 string
-  let refImageAIData= await faceapi.detectAllFaces(imgCanvas2).withFaceLandmarks().withFaceDescriptors();// this is the image you just uploaded
-  let facesToCheckImageAIData= await faceapi.detectAllFaces(imgCanvas).withFaceLandmarks().withFaceDescriptors();// image from db
+  let refImageAIData= await faceapi.detectAllFaces(imgCanvasSecondImage).withFaceLandmarks().withFaceDescriptors();// image from the db
+  let faceToCheckImageAIData= await faceapi.detectAllFaces(imgCanvas).withFaceLandmarks().withFaceDescriptors();// image you uploaded
 
   // here we make a face matcher of the reference image & compare that to the face we want to check
   let faceMatcher= new faceapi.FaceMatcher(refImageAIData);
-  facesToCheckImageAIData= faceapi.resizeResults(facesToCheckImageAIData, facesToCheckImage);
+  // return res.status(200).json({ message: "I am under the water" });
+  faceToCheckImageAIData= faceapi.resizeResults(faceToCheckImageAIData, imgCanvas);
   
-  facesToCheckImageAIData.forEach(face=>{
+  faceToCheckImageAIData.forEach(face=>{
       
       const {descriptor, detection}= face;
 
       // make a label using the default 
       let label= faceMatcher.findBestMatch(descriptor).toString();
-      console.log(label);
+      // console.log(label);
 
       // If the face belongs to the person (not "unknown")
   if (!label.includes("unknown")) {
@@ -545,15 +546,20 @@ ctx2.drawImage(img, 0, 0, img.width, img.height);
     res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
 
     // Return a success message
-    res.json({ success: true, redirect: user.role });
+    // res.json({ success: true, redirect: user.role });
+    res.status(200).json({ message: "User authenticated successfully" });
 
       
   } else {
-      alert('Face did not match. Please try again.');// show error message on the front end
+      console.log('Face did not match. Please try again.');// show error message on the front end
   }
   })
+  }
+  catch (error) {
+    console.log("Error verifying user:", error);
+    res.status(500).json({ error: "Error verifying user." + error });
+  } 
   
-
 };
 
 //generate code for user registration

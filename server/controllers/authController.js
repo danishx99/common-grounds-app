@@ -1,8 +1,8 @@
 // Import necessary modules from the Firebase SDK
 
 // require('@tensorflow/tfjs-node'); // ig we kinda need this so find a way to make it work
-const faceapi = require('face-api.js');
-const canvas = require('canvas');
+const faceapi = require('../node_modules/face-api.js');
+const canvas = require('../node_modules/canvas');
 const { Canvas, Image, ImageData, createCanvas, loadImage } = canvas;
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 

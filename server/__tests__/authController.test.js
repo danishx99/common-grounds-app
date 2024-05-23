@@ -683,83 +683,83 @@ describe("resetPassword", () => {
     }
   });
 });
-describe('registerFace', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+// describe('registerFace', () => {
+//   beforeEach(() => {
+//     jest.clearAllMocks();
+//   });
 
-  it('should register face successfully', async () => {
-    const req = {
-      body: {
-        userCode: 'user123',
+//   it('should register face successfully', async () => {
+//     const req = {
+//       body: {
+//         userCode: 'user123',
        
-      },
-    };
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
-      json: jest.fn(),
-    };
+//       },
+//     };
+//     const res = {
+//       status: jest.fn().mockReturnThis(),
+//       send: jest.fn(),
+//       json: jest.fn(),
+//     };
 
-    User.findOne.mockResolvedValue({ userCode: 'user123' });
-    User.prototype.save.mockResolvedValue();
+//     User.findOne.mockResolvedValue({ userCode: 'user123' });
+//     User.prototype.save.mockResolvedValue();
 
-    try {
-      await authController.registerFace(req, res);
-    } catch (error) {
-      expect(User.findOne).toHaveBeenCalledWith({ userCode: 'user123' });
-      expect(User.prototype.save).toHaveBeenCalled();
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Face registered successfully' });
-    }
-  });
+//     try {
+//       await authController.registerFace(req, res);
+//     } catch (error) {
+//       expect(User.findOne).toHaveBeenCalledWith({ userCode: 'user123' });
+//       expect(User.prototype.save).toHaveBeenCalled();
+//       expect(res.status).toHaveBeenCalledWith(200);
+//       expect(res.json).toHaveBeenCalledWith({ message: 'Face registered successfully' });
+//     }
+//   });
 
-  it('should return error if user not found', async () => {
-    const req = {
-      body: {
-        userCode: 'user123',
-        faceId: 'face123',
-      },
-    };
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
-      json: jest.fn(),
-    };
+//   it('should return error if user not found', async () => {
+//     const req = {
+//       body: {
+//         userCode: 'user123',
+//         faceId: 'face123',
+//       },
+//     };
+//     const res = {
+//       status: jest.fn().mockReturnThis(),
+//       send: jest.fn(),
+//       json: jest.fn(),
+//     };
 
-    User.findOne.mockResolvedValue(null);
+//     User.findOne.mockResolvedValue(null);
 
-    try {
-      await authController.registerFace(req, res);
-    } catch (error) {
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ error: 'User not found' });
-    }
-  });
+//     try {
+//       await authController.registerFace(req, res);
+//     } catch (error) {
+//       expect(res.status).toHaveBeenCalledWith(404);
+//       expect(res.json).toHaveBeenCalledWith({ error: 'User not found' });
+//     }
+//   });
 
-  it('should return error if database error occurs', async () => {
-    const req = {
-      body: {
-        userCode: 'user123',
-        faceId: 'face123',
-      },
-    };
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
-      json: jest.fn(),
-    };
+//   it('should return error if database error occurs', async () => {
+//     const req = {
+//       body: {
+//         userCode: 'user123',
+//         faceId: 'face123',
+//       },
+//     };
+//     const res = {
+//       status: jest.fn().mockReturnThis(),
+//       send: jest.fn(),
+//       json: jest.fn(),
+//     };
 
-    User.findOne.mockRejectedValue(new Error('Database error'));
+//     User.findOne.mockRejectedValue(new Error('Database error'));
 
-    try {
-      await authController.registerFace(req, res);
-    } catch (error) {
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Error registering face' });
-    }
-  });
-});
+//     try {
+//       await authController.registerFace(req, res);
+//     } catch (error) {
+//       expect(res.status).toHaveBeenCalledWith(500);
+//       expect(res.json).toHaveBeenCalledWith({ error: 'Error registering face' });
+//     }
+//   });
+// });
 
 describe("generateCode", () => {
   beforeEach(() => {

@@ -106,7 +106,7 @@ exports.getExtremeWeatherNotifications = async (req, res) => {
   try {
     const apiKey = process.env.WEATHER_API_KEY;
     // Example location; replace with desired location
-    const locationName = 'Johannessburg';
+    const locationName = 'Johannesburg';
     
     // Construct the request URL
     const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${locationName}&alerts=yes`;

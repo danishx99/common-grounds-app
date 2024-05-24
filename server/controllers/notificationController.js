@@ -88,6 +88,10 @@ exports.getUnreadNotifications = async (req, res) => {
   }
 };
 
+exports.getExtremeWeatherNotifications = async (req, res) => {
+
+}
+
 
 
 

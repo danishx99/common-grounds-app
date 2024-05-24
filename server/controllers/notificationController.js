@@ -1,6 +1,7 @@
 const Notification = require("../models/Notification");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const axios = require('axios');// simplifies sending asynchronous HTTP requests to REST endpoints
 
 exports.sendNotification = async (req, res) => {
   try {
@@ -82,6 +83,7 @@ exports.getNotifications = async (req, res) => {
 
 // Get unread notifications
 exports.getUnreadNotifications = async (req, res) => {
+
   try {
     const token = req.cookies.token;
     const verified = jwt.verify(token, process.env.JWT_SECRET);
@@ -99,8 +101,40 @@ exports.getUnreadNotifications = async (req, res) => {
 };
 
 exports.getExtremeWeatherNotifications = async (req, res) => {
+  console.log("Getting weather data...");
 
+  try {
+    const apiKey = process.env.WEATHER_API_KEY;
+    // Example location; replace with desired location
+    const locationName = 'Johannessburg';
+    
+    // Construct the request URL
+    const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${locationName}&alerts=yes`;
+    
+    // Make the GET request to the WeatherAPI
+    const response = await axios.get(url);
+    
+    // how do we determine if the weather is extreme?
+    const currCondition = response.data.current.condition.text;
+    const currTemp = response.data.current.temp_c;
+
+    let extremeWeather = false;
+
+    if(currCondition.includes("rain") || currCondition.includes("storm") || currCondition.includes("hail") || currTemp > 30  || currTemp < 0){
+
+      console.log("Extreme weather alert!");
+      extremeWeather = true;
+    }else{
+      console.log("No extreme weather alert");
+    }
+    res.status(200).json({extremeWeather: extremeWeather, currCondition: currCondition});    
+
+} catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to retrieve weather data' });
 }
+
+};
 
 
 

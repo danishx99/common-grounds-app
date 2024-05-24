@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var heading = document.getElementById("heading");
   var logo = document.getElementById("logo");
   var logIssue = document.getElementById("logIssue");
+  var setUpFacialAuth = document.getElementById("setUpFacialAuth");
   const redCircle = document.getElementById("redCircle");
   const notificationList = document.getElementById("notificationList");
 
@@ -23,6 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   viewNotifications.addEventListener("click", function () {
     window.location.href = "/resident/viewNotifications";
+  });
+
+  setUpFacialAuth.addEventListener("click", function () {
+    window.location.href = "/resident/register-face";
   });
 
 

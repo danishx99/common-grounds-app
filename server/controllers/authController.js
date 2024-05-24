@@ -8,7 +8,6 @@ faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
 const path = require('path');
 
-
 // console.log(faceapi.nets);
 const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require("jsonwebtoken"); // For generating JSON Web Tokens

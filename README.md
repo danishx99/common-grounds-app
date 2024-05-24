@@ -2,3 +2,5 @@
 
 # property-management-app
 This project aims to equip the body corporates of sectional titles with a platform that seeks to make the execution of their responsibilities easy and seamless. 
+
+[![Build and deploy Node.js app to Azure Web App - commongroundstest](https://github.com/danishx99/property-management-app/actions/workflows/testing_commongroundstest.yml/badge.svg)](https://github.com/danishx99/property-management-app/actions/workflows/testing_commongroundstest.yml)

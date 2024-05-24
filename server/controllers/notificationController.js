@@ -44,15 +44,24 @@ exports.getNotifications = async (req, res) => {
         await notification.save();
       }
     });
+
+   
     
 
+    
 
-
-    for (let i = 0; i < notifications.length; i++) {
+    for (var i = 0; i < notifications.length; i++) {
       //Get the user name and surname that issued the notification
-      const userCode = notifications[i].issuedBy; 
-      const user = await(User.findOne({userCode: userCode}));
+      let userCode = notifications[i].issuedBy; 
+      let user = await User.findOne({userCode: userCode});
+      if(!user) {
+        user = {name: "Unknown", surname: "Unknown"};
+      }
+      // console.log("user", user);
+      console.log(user.name + " " + user.surname)
+
       notifications[i].issuedBy = user.name + " " + user.surname;
+
     }
     
 

@@ -1,9 +1,9 @@
 // Import necessary modules from the Firebase SDK
 
 // require('@tensorflow/tfjs-node'); // ig we kinda need this so find a way to make it work
-const faceapi = require('face-api.js');
-const canvas = require('canvas');
-const { Canvas, Image, ImageData } = canvas;
+const faceapi = require('../node_modules/face-api.js');
+const canvas = require('../node_modules/canvas');
+const { Canvas, Image, ImageData, createCanvas, loadImage } = canvas;
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
 const path = require('path');
@@ -108,7 +108,7 @@ exports.registerUser = async (req, res) => {
       email,
       role,
       userCode: code,
-      faceId,
+      
     });
 
     // Save the new user to the database
@@ -443,42 +443,22 @@ exports.registerFace = async(req, res)=>{
 
   if (!userToUpdate) {
     return res.status(404).json({ error: "User not found" });
-  }
-  //  console.log(image);
-//   var actualImage = new Image();
-
-// // Define the onload handler
-// actualImage.onload = function() {
-//   console.log("Image loaded successfully.");
-//   // Resolve the promise here if needed
-// };
-
-// // Define the onerror handler
-// actualImage.onerror = function() {
-//   console.error("Failed to load image.");
-//   // Handle error appropriately
-// };
-
-// // Set the src attribute after defining the handlers
-// // Also, check if the image is already loaded or not
-// if (!actualImage.complete || actualImage.naturalHeight === 0) {
-//   actualImage.src = await image; // Assuming 'image' is a valid Base64 string
-// } else {
-//   console.warn("Image is already loaded or invalid.");
-// }
-
-// // Wait for the image to finish loading
-// await new Promise((resolve, reject) => {
-//   actualImage.onload = resolve;
-//   actualImage.onerror = reject;
-// });
-// actualImage= Buffer.from(image, 'base64').toString('binary');
-return res.json({ message: "Facial authentication failed successfully" });
-
-// grab face & send data to detectFaces method  
-  let imageAIData= await faceapi.detectSingleFace(actualImage).withFaceLandmarks().withFaceDescriptor();
-
+  } 
   
+// Remove the data URL prefix and decode the Base64 string
+const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+const imgBuffer = Buffer.from(base64Data, 'base64');
+
+// Use canvas to load the image
+const img = await loadImage(imgBuffer);
+
+// Create a canvas and draw the image onto it
+const imgCanvas = createCanvas(img.width, img.height);
+const ctx = imgCanvas.getContext('2d');
+ctx.drawImage(img, 0, 0, img.width, img.height);
+
+// Now you can process the image with face-api.js
+const imageAIData = await faceapi.detectSingleFace(imgCanvas);
 
   if(!imageAIData){
     return res.status(404).json({ error: "No face detected" });
@@ -486,7 +466,8 @@ return res.json({ message: "Facial authentication failed successfully" });
   }
   // update userImage
   console.log("A face detected");
-  userToUpdate.userImage= actualImage;
+  userToUpdate.userImage= image;
+  await userToUpdate.save();
   res.status(200).json({ message: "Facial authentication set up successfully" });
   
 };
@@ -495,7 +476,9 @@ return res.json({ message: "Facial authentication failed successfully" });
 // Verify face endpoint calls this function
 
 exports.verifyFace = async(req,res)=>{
-  console.log("Verifyiing face ...");
+
+  try{
+    console.log("Verifying face ...");
   const { image, email} = req.body;
 // should probably chnage from loading from uri to loading from disk
   await Promise.all([
@@ -514,23 +497,39 @@ exports.verifyFace = async(req,res)=>{
   if(!user.userImage){
     return res.status(404).json({ error: "User has not registered a face" });
   }
-  const facesToCheckImage = user.userImage;
+  const refImage = user.userImage;// we know you are this guy
 
-// first decode image from base64 string
-  let refImageAIData= await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors();
-  let facesToCheckImageAIData= await faceapi.detectAllFaces(facesToCheckImage).withFaceLandmarks().withFaceDescriptors();
+  // Remove the data URL prefix and decode the Base64 string of the image you uploaded
+const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+const imgBuffer = Buffer.from(base64Data, 'base64');
+const img = await loadImage(imgBuffer);
+const imgCanvas = createCanvas(img.width, img.height);
+const ctx = imgCanvas.getContext('2d');
+ctx.drawImage(img, 0, 0, img.width, img.height);
+
+// Second image processing --remove data URL prefix and decode the Base64 string from the image from db
+const base64DataSecondImage = refImage.replace(/^data:image\/\w+;base64,/, '');
+const imgBufferSecondImage = Buffer.from(base64DataSecondImage, 'base64');
+const imgSecondImage = await loadImage(imgBufferSecondImage);
+const imgCanvasSecondImage = createCanvas(imgSecondImage.width, imgSecondImage.height);
+const ctxSecondImage = imgCanvasSecondImage.getContext('2d');
+ctxSecondImage.drawImage(imgSecondImage, 0, 0, imgSecondImage.width, imgSecondImage.height);
+
+  let refImageAIData= await faceapi.detectAllFaces(imgCanvasSecondImage).withFaceLandmarks().withFaceDescriptors();// image from the db
+  let faceToCheckImageAIData= await faceapi.detectAllFaces(imgCanvas).withFaceLandmarks().withFaceDescriptors();// image you uploaded
 
   // here we make a face matcher of the reference image & compare that to the face we want to check
   let faceMatcher= new faceapi.FaceMatcher(refImageAIData);
-  facesToCheckImageAIData= faceapi.resizeResults(facesToCheckImageAIData, facesToCheckImage);
+  // return res.status(200).json({ message: "I am under the water" });
+  faceToCheckImageAIData= faceapi.resizeResults(faceToCheckImageAIData, imgCanvas);
   
-  facesToCheckImageAIData.forEach(face=>{
+  faceToCheckImageAIData.forEach(face=>{
       
       const {descriptor, detection}= face;
 
       // make a label using the default 
       let label= faceMatcher.findBestMatch(descriptor).toString();
-      console.log(label);
+      // console.log(label);
 
       // If the face belongs to the person (not "unknown")
   if (!label.includes("unknown")) {
@@ -547,15 +546,20 @@ exports.verifyFace = async(req,res)=>{
     res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
 
     // Return a success message
-    res.json({ success: true, redirect: user.role });
+    // res.json({ success: true, redirect: user.role });
+    res.status(200).json({ message: "User authenticated successfully" });
 
       
   } else {
-      alert('Face did not match. Please try again.');
+      console.log('Face did not match. Please try again.');// show error message on the front end
   }
   })
+  }
+  catch (error) {
+    console.log("Error verifying user:", error);
+    res.status(500).json({ error: "Error verifying user." + error });
+  } 
   
-
 };
 
 //generate code for user registration
@@ -636,6 +640,26 @@ exports.generateVisitorPassword = async (req, res) => {
 
 }
 
+
+async function loadImages(image){
+  try {
+    var actualImage = new Image();
+    actualImage.src = Buffer.from(image, 'base64');
+
+    // Create a promise that resolves when the image finishes loading
+    const imageLoadPromise = new Promise((resolve, reject) => {
+      actualImage.onload = resolve;
+      actualImage.onerror = reject;
+    });
+
+    // Wait for the image to finish loading
+    await imageLoadPromise;
+
+    return actualImage;
+  } catch (error) {
+    console.log("Error creating image object:", error);
+  }
+}
       
       
   

@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: "20.x"
 
@@ -47,8 +47,13 @@ jobs:
           path: release.zip
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
+    environment:
+      name: "Production"
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
@@ -56,19 +61,23 @@ jobs:
         with:
           name: node-app
 
+      - name: Unzip artifact for deployment
+        run: Expand-Archive -Path release.zip -DestinationPath .
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E7DEFF92714042DA93868B3E0102C1F8 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_294AA45731FF4F3BA06DEF468268918E }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9DE1EDFBC1B343658A8AA01D68561C58 }}
+      
+      
+  
 
-      - name: Deploy to Azure Web App using Zip Deploy
-        run: |
-          az webapp deployment source config-zip \
-            --resource-group property-management-app_group \
-            --name commongroundstest \
-            --src release.zip
-
-      - name: Display Deployment URL
-        run: echo "Your app is deployed at https://commongroundstest.azurewebsites.net"
+      - name: "Deploy to Azure Web App"
+        uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp
+        with:
+          app-name: "commongroundstest"
+          slot-name: "Production"
+          package: .

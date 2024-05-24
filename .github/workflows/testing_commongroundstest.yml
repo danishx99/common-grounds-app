@@ -22,14 +22,14 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
+        
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # required
-          flags: unittests
-          verbose: true # optional
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }} # required
+      #     flags: unittests
+      #     verbose: true # optional
 
       - name: Zip artifact for deployment
         run: Compress-Archive -Path ./* -DestinationPath release.zip

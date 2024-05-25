@@ -598,16 +598,16 @@ video {
   top: 100%;
 }
 
-.right-5 {
-  right: 1.25rem;
+.left-0 {
+  left: 0px;
 }
 
-.right-\[2\] {
-  right: 2;
+.right-8 {
+  right: 2rem;
 }
 
-.right-\[2\%\] {
-  right: 2%;
+.top-4 {
+  top: 1rem;
 }
 
 .right-\[3\%\] {

@@ -220,6 +220,12 @@ exports.registerWithGoogle = async (req, res) => {
       });
     }
 
+    
+    // check that codeCheck was not made more than 24 hours ago
+    if (Date.now() - codeCheck.createdAt > 86400000) {
+      return res.status(400).json({ error: "Registration code has expired" });
+    }
+
     //Check for mismatch between account role and type of code provided
     if (role != codeCheck.role) {
       return res

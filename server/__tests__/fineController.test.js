@@ -67,7 +67,7 @@ describe("issueFine", () => {
         };
         const decoded = { userCode: "456" };
         jwt.verify.mockReturnValue(decoded);
-        User.findOne = jest.fn().mockResolvedValue({});
+        User.findOne.mockResolvedValue({ userCode: "123", role: "Resident" });
         const saveMock = jest.fn().mockResolvedValue({});
         Fine.mockImplementationOnce(() => ({
             save: saveMock,
@@ -84,6 +84,52 @@ describe("issueFine", () => {
         });
     });
 
+    it("should return 404 if user not found", async () => {
+        const req = {
+            body: {
+                userCode: "123",
+                title: "Fine Title",
+                description: "Fine Description",
+                amount: 100,
+            },
+            cookies: {
+                token: "token",
+            },
+        };
+        jwt.verify.mockReturnValue({ userCode: "456" });
+        User.findOne.mockResolvedValue(null);
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        await fineController.issueFine(req, res);
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({ error: "User not found" });
+    });
+
+    it("should return 400 if user is not a resident", async () => {
+        const req = {
+            body: {
+                userCode: "123",
+                title: "Fine Title",
+                description: "Fine Description",
+                amount: 100,
+            },
+            cookies: {
+                token: "token",
+            },
+        };
+        jwt.verify.mockReturnValue({ userCode: "456" });
+        User.findOne.mockResolvedValue({ userCode: "123", role: "Admin" });  // Non-resident role
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+        await fineController.issueFine(req, res);
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ error: "Cannot fine a non-resident" });
+    });
+
     it("should handle error while issuing fine", async () => {
         const req = {
             body: {
@@ -96,6 +142,8 @@ describe("issueFine", () => {
                 token: "token",
             },
         };
+        jwt.verify.mockReturnValue({ userCode: "456" });
+        User.findOne.mockRejectedValue(new Error("Database error"));
         const res = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn(),

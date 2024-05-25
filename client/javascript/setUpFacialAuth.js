@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const captureButton = document.getElementById('captureButton');
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
+    var back = document.getElementById("back");
 
 
     function startWebcam(){
@@ -92,6 +93,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             alert.className ="bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
         });
     });
+
+    back.addEventListener("click", function (event) {
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 0);
+      });
 
     startWebcam();
 });

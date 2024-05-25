@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var manageFines = document.getElementById("manageFines");
   var sendNotification = document.getElementById("sendNotification");
   var viewReports = document.getElementById("viewReports");
+  var setUpFacialAuth = document.getElementById("setUpFacialAuth");
 
   let name = "";
 
@@ -75,6 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Error:", error);
     });
 
-  
+  setUpFacialAuth.addEventListener("click", function () {
+    window.location.href = "/admin/register-face";
+  });
 
 });

@@ -199,7 +199,7 @@ router.get(
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => {
     res.sendFile(
-      path.join(__dirname, "../../html/resident/client/logIssue.html")
+      path.join(__dirname, "../../client/html/resident/logIssue.html")
     );
   }
 );

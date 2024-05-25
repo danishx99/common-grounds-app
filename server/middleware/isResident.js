@@ -22,7 +22,7 @@ exports.isResident = async (req, res, next) => {
 
     if (role !== "Resident") {
       //return status 403 and send html file
-      res
+      return res
         .status(403)
         .sendFile(path.join(__dirname, "../../client/403forbidden.html"));
     }

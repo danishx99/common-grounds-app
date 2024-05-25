@@ -258,21 +258,41 @@ fetch("/api/issues/getAllIssues")
     showErrorModal("An error occurred. Please try again later.");
   });
 
-  //Table search functionality
-  let search = document.getElementById("table-search");
-  search.addEventListener("keyup", function () {
+
+// Search functionality
+let search = document.getElementById("table-search");
+search.addEventListener("keyup", function () {
     let value = search.value.toLowerCase().trim();
     let rows = document.querySelectorAll("tbody tr");
 
     rows.forEach((row) => {
-      let rowText = row.textContent.toLowerCase().trim();
-      console.log("Row text: ", rowText); 
+        // Clone the row to manipulate and remove dropdown values
+        let rowClone = row.cloneNode(true);
+        
+        // Remove the text within dropdowns for main search
+        rowClone.querySelectorAll("select").forEach(select => select.remove());
+        
+        // Get the text content of the cloned row (without dropdown values)
+        let rowText = rowClone.textContent.toLowerCase().trim();
 
+        // Additionally get the text content of the status dropdown
+        let statusText = "";
+        let statusSelect = row.querySelector("select");
+        if (statusSelect) {
+            statusText = statusSelect.options[statusSelect.selectedIndex].text.toLowerCase().trim();
+        }
 
-      if (rowText.includes(value)) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
-      }
+        // Combine the row text and status text for searching
+        let combinedText = rowText + " " + statusText;
+
+        // Debugging: Log the row text to see the contents
+        console.log("Row text: ", combinedText);
+
+        // Check if the combined text includes the search value
+        if (combinedText.includes(value)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
     });
-  });
+});

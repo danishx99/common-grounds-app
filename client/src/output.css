@@ -623,6 +623,16 @@ video {
   margin-bottom: 1rem;
 }
 
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -747,6 +757,10 @@ video {
   display: grid;
 }
 
+.contents {
+  display: contents;
+}
+
 .hidden {
   display: none;
 }
@@ -865,6 +879,10 @@ video {
 
 .w-\[40\%\] {
   width: 40%;
+}
+
+.w-\[5\%\] {
+  width: 5%;
 }
 
 .w-\[5\%\] {

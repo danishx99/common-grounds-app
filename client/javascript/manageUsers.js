@@ -313,7 +313,12 @@ fetch("/api/users/getAllUsers")
     let rows = document.querySelectorAll("tbody tr");
 
     rows.forEach((row) => {
-      let rowText = row.textContent.toLowerCase().trim();
+      // Clone the row to manipulate and remove dropdown values
+      let rowClone = row.cloneNode(true);
+      rowClone.querySelectorAll("select").forEach(select => select.remove());
+
+      // Get the text content of the cloned row (without dropdown values)
+      let rowText = rowClone.textContent.toLowerCase().trim();
       console.log("Row text: ", rowText); 
 
 

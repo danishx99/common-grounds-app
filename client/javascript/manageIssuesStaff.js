@@ -98,27 +98,27 @@ fetch("/api/issues/getAllIssues")
       tableBody.innerHTML += `
                     <tr class="bg-white border-b hover:bg-gray-200 ">
 
-                    <th scope="row" class="px-5 py-1 font-medium text-gray-900 text-center ">
+                    <th scope="row" class="px-5 py-1 font-medium text-gray-900 text-left ">
                         ${issue._doc.title}
                     </th>
 
-                    <td class="px-5 py-2.5 text-center w-[10%]">
+                    <td class="px-5 py-2.5 text-left">
                         ${issue._doc.description}
                     </td>
 
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-5 py-2.5 text-left">
                         ${issue.name}
                     </td>
 
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-5 py-2.5 text-left">
                         ${issue._doc.reportedBy}
                     </td>
 
-                      <td class="px-5 py-2.5 text-center w-[15%]">
+                      <td class="px-5 py-2.5 text-left">
                         ${formatDate(issue._doc.dateIssued)}
                     </td>
 
-                    <td class="px-5 py-1 text-center w-[15%] font-bold" >
+                    <td class="px-5 py-1 text-center  font-bold" >
 
                     <div class="flex justify-evenly class="">
                         <select class="py-1.5 text-center text-xs rounded-3xl bg-gray-100 w-[65%]  border-black " name=""  >
@@ -256,4 +256,23 @@ fetch("/api/issues/getAllIssues")
     console.log("Error:", error);
     //show error in form of modal
     showErrorModal("An error occurred. Please try again later.");
+  });
+
+  //Table search functionality
+  let search = document.getElementById("table-search");
+  search.addEventListener("keyup", function () {
+    let value = search.value.toLowerCase().trim();
+    let rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach((row) => {
+      let rowText = row.textContent.toLowerCase().trim();
+      console.log("Row text: ", rowText); 
+
+
+      if (rowText.includes(value)) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
   });

@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
         var cellnum = document.getElementById("cellnum").value;
         var id = document.getElementById("id").value;
         var password = document.getElementById("password").value;
+        console.log(name, surname, cellnum, id, password);
+
+        
 
         if (!name || !surname || !cellnum || !id || !password) {
             var alert = document.getElementById("alert");

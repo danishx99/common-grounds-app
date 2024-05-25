@@ -14,7 +14,9 @@ exports.isStaff = async (req, res, next) => {
     if (!token) {
       return res
         .status(401)
-        .sendFile(path.join(__dirname, "../../client/401notLoggedIn.html"));
+        .sendFile(
+          path.join(__dirname, "../../client/html/error/401notLoggedIn.html")
+        );
     }
 
     const verified = jwt.verify(token, process.env.JWT_SECRET);
@@ -25,7 +27,9 @@ exports.isStaff = async (req, res, next) => {
       //return status 403 and send html file
       return res
         .status(403)
-        .sendFile(path.join(__dirname, "../../client/403forbidden.html"));
+        .sendFile(
+          path.join(__dirname, "../../client/html/error/  403forbidden.html")
+        );
     }
 
     next();

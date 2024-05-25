@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
@@ -20,10 +20,11 @@
 <body class="bg-[#001B0C] flex items-center justify-center p-[2%]">
 
 
-    <section class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
+    <section
+        class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
 
         <header class="mb-9 ml-5 mt-[2%]">
-            <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
+            <img src="../../assets/logo-white-transparent.png" class="h-12" alt="logo">
         </header>
 
         <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%]" id="create-new-acc"
@@ -46,7 +47,7 @@
                 <label for="psw" class="standard-label">Password</label>
                 <div class="relative">
                     <input type="password" id="psw" name="psw" class="w-full standard-input">
-                    <img src="./assets/eye-close.png" alt="Show Password" id="eyeicon"
+                    <img src="../../assets/eye-close.png" alt="Show Password" id="eyeicon"
                         class="absolute top-2 right-3 w-5 h-4 cursor-pointer hover:opacity-75">
                 </div>
 
@@ -57,10 +58,10 @@
                     eyeicon.addEventListener('click', () => {
                         if (psw.type === 'password') {
                             psw.type = 'text';
-                            eyeicon.src = './assets/eye-open.png';
+                            eyeicon.src = '../../assets/eye-open.png';
                         } else {
                             psw.type = 'password';
-                            eyeicon.src = './assets/eye-close.png';
+                            eyeicon.src = '../../assets/eye-close.png';
                         }
                     });
 
@@ -91,13 +92,13 @@
             </section>
 
             <button id="camera_button" class="green-button w-full flex items-center">
-                <img src="./assets/whiteCameraIcon.png" class="w-5 mr-2" alt="logo">Camera
+                <img src="../../assets/whiteCameraIcon.png" class="w-5 mr-2" alt="logo">Camera
             </button>
 
 
 
             <button id="login-with-google" class="green-button w-full">
-                <img src="./assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google <svg aria-hidden="true"
+                <img src="../../assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google <svg aria-hidden="true"
                     class="w-6 h-6 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]"
                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loaderGoogle">
                     <path
@@ -119,11 +120,11 @@
 
 
     <article class="w-[40%] items-center justify-start md:flex hidden h-full mr-[5%] mt-[7.5%]">
-        <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
+        <img class="" src="../../assets/commonGround-aesthetic.png" alt="big-logo">
     </article>
 
-    <script src="./javascript/login.js"></script>
-    <script src="./javascript/loginWithGoogle.js"></script>
+    <script src="../../javascript/login.js"></script>
+    <script src="../../javascript/loginWithGoogle.js"></script>
 </body>
 
 </html>

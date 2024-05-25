@@ -9,9 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./src/output.css">
-   
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
+
 </head>
 
 <body class="bg-[#001B0C] flex items-center justify-center p-[2%]">
@@ -20,7 +20,7 @@
         class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
 
         <header class="mb-9 ml-5 mt-[2%]">
-            <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
+            <img src="../../assets/logo-white-transparent.png" class="h-12" alt="logo">
         </header>
 
         <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%]" id='create-new-acc'
@@ -31,7 +31,7 @@
 
             <div id="firebaseui-auth-container"></div>
 
-            <img src="./assets/back-button-svgrepo-com.svg" alt="" id="back"
+            <img src="../../assets/back-button-svgrepo-com.svg" alt="" id="back"
                 class="w-6 cursor-pointer mb-[4%] mt-[2%] hidden hover:opacity-50">
             <h2 class="main-heading">Check-in visitor</h2>
 
@@ -57,17 +57,17 @@
                 <input type="number" class="standard-input" id="id" name="id" maxlength="13">
 
 
-              
+
 
                 <label class="standard-label" for="password">Visitor password</label>
                 <div class="relative mb-4">
                     <input type="password" class="standard-input w-full" id="password" name="password">
-                   
+
                 </div>
 
 
 
-               
+
 
                 <button type="button" id="proceedButton" class="green-button">Proceed
                     <svg aria-hidden="true"
@@ -83,34 +83,25 @@
                 </button>
 
 
-               </section>
-
-               <section class="form-footer">
-                <p class="text-xs text-center">The visitor is required to obtain the visitor password from a resident.</p>
             </section>
 
-               </form>
-
-
-
-
-               
-
-
-
+            <section class="form-footer">
+                <p class="text-xs text-center">The visitor is required to obtain the visitor password from a resident.
+                </p>
             </section>
 
-           
-    
+        </form>
+
+    </section>
 
     <article class="right-logo">
-        <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
+        <img class="" src="../../assets/commonGround-aesthetic.png" alt="big-logo">
 
     </article>
 
-    <script src="./javascript/checkInVisitor.js"></script>
+    <script src="../../javascript/checkInVisitor.js"></script>
 
-   
+
 </body>
 
 </html>

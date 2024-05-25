@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.min.js"></script>
 
@@ -113,7 +113,7 @@
 <body class="bg-[#001B0C] flex flex-col justify-start items-center h-svh">
 
     <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full sticky top-0 z-10 ">
-        <img id="logo" src="./assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
+        <img id="logo" src="../../assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
         <button type="button" id="logout"
             class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
             Logout
@@ -147,10 +147,10 @@
         </div>
     </div>
 
-    <div id="issueInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
+    <div id="visitorInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
 
         <!-- search -->
-        <div class="flex p-3 bg-white ">
+        <div class="flex p-3 bg-white justify-between items-center">
             <div class="relative mt-1">
 
                 <input type="text" id="table-search"
@@ -164,35 +164,37 @@
                     </svg>
                 </div>
             </div>
+            <button id="checkIn" class="green-button w-[20%]">
+                Check-In Visitor
+            </button>
 
         </div>
 
 
         <!-- table -->
-        <table id="issueTable"
+        <table id="visitorsTable"
             class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 table-fixed">
 
             <!-- table head -->
             <thead class="text-xs text-gray-700 uppercase bg-gray-300">
                 <tr>
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
-                        Issue
+                    <th scope="col" class="px-3 py-3 text-center w-[15%]">
+                        Visitor Name
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[25%]">
-                        Description
+                    <th scope="col" class="px-5 py-3 text-center min-w-[10%]">
+                        Check-In
                     </th>
-
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
-                        Name
+                    <th scope="col" class="px-6 py-3 text-center w-[15%]">
+                        Check-Out
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
-                        User Code
+                    <th scope="col" class="px-6 py-3 text-center w-[15%]">
+                        ID/Passport Number
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[15%]">
-                        Issue Date
+                    <th scope="col" class="px-4 py-3 text-center w-[15%]">
+                        Cellphone Number
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[25%]">
-                        Status
+                    <th scope="col" class="px-5 py-3 text-center min-w-[10%]">
+                        Resident
                     </th>
 
                 </tr>
@@ -202,6 +204,7 @@
             <tbody id="tbody">
 
 
+
             </tbody>
         </table>
     </div>
@@ -209,7 +212,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./javascript/manageIssuesStaff.js"></script>
+    <script src="../../javascript/manageVisitors.js"></script>
 
     <script>
         // close Modal

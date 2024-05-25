@@ -56,7 +56,7 @@ app.use("/api/notifications", notificationRoutes);
 
 app.use((req, res, next) => {
   // Send the HTML file for unknown routes
-  res.sendFile(path.join(__dirname, "./client/404notFound.html"));
+  res.sendFile(path.join(__dirname, "./client/html/error/404notFound.html"));
 });
 
 app.listen(PORT, () => {

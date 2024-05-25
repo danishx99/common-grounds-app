@@ -626,6 +626,11 @@ video {
   margin-right: auto;
 }
 
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -668,10 +673,6 @@ video {
 
 .ml-5 {
   margin-left: 1.25rem;
-}
-
-.mr-10 {
-  margin-right: 2.5rem;
 }
 
 .mr-2 {
@@ -796,6 +797,10 @@ video {
 
 .h-svh {
   height: 100svh;
+}
+
+.min-h-48 {
+  min-height: 12rem;
 }
 
 .w-16 {

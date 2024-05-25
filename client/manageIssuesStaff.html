@@ -147,22 +147,16 @@
         </div>
     </div>
 
-    <div id="issueInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
+    <div id="issueInfo" class="relative overflow-x-auto rounded-lg my-4 bg-white w-[95%]">
 
         <!-- search -->
-        <div class="flex p-3 bg-white ">
-            <div class="relative mt-1">
+        <div class="flex p-3 items-center justify-between">
+            <div class="relative my-2 w-[23%] min-w-52">
 
                 <input type="text" id="table-search"
                     class="block p-2 text-xs text-black border-black rounded-3xl w-80 bg-gray-300 pl-[1%]"
-                    placeholder="Search by name ">
-                <div class="absolute left-80 inset-y-0  flex items-center ps-3 pointer-events-none  border-black">
-                    <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
-                </div>
+                    placeholder="Search ">
+                
             </div>
 
         </div>
@@ -170,28 +164,28 @@
 
         <!-- table -->
         <table id="issueTable"
-            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 table-fixed">
+            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
 
             <!-- table head -->
             <thead class="text-xs text-gray-700 uppercase bg-gray-300">
                 <tr>
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
+                    <th scope="col" class="px-5 py-3 text-left w-[10%]  min-w-36">
                         Issue
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[25%]">
+                    <th scope="col" class="px-5 py-3 text-left w-[35%]  min-w-36">
                         Description
                     </th>
 
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
+                    <th scope="col" class="px-5 py-3 text-left w-[10%]  min-w-36">
                         Name
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[10%]">
+                    <th scope="col" class="px-5 py-3 text-left w-[10%]  min-w-36">
                         User Code
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[15%]">
+                    <th scope="col" class="px-5 py-3 text-left w-[10%]  min-w-36">
                         Issue Date
                     </th>
-                    <th scope="col" class="px-5 py-3 text-center w-[25%]">
+                    <th scope="col" class="px-5 py-3 text-center w-[25%]  min-w-48">
                         Status
                     </th>
 

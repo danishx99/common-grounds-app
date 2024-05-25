@@ -148,7 +148,7 @@
         </div>
     </div>
 
-    <div id="finesInfo" class="relative overflow-x-auto sm:rounded-lg mx-[3%] mt-10 bg-white">
+    <div id="finesInfo" class="relative overflow-x-auto rounded-lg my-4 bg-white w-[95%]">
 
         <!-- search -->
         <div class="flex p-3 bg-white justify-between items-center">
@@ -156,44 +156,38 @@
 
                 <input type="text" id="table-search"
                     class="block p-2 text-xs text-black border-black rounded-3xl w-80 bg-gray-300 pl-[1%]"
-                    placeholder="Search by name ">
-                <div class="absolute left-80 inset-y-0  flex items-center ps-3 pointer-events-none  border-black">
-                    <svg class="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
-                </div>
+                    placeholder="Search ">
+              
             </div>
            
         </div>
 
         <!-- table -->
         <table id="finesTable"
-            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 table-fixed">
+            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
 
             <!-- table head -->
             <thead class="text-xs text-gray-700 uppercase bg-gray-300">
                 <tr>
-                    <th scope="col" class="px-3 py-3 text-center w-[10%]">
+                    <th scope="col" class="px-3 py-3 text-left w-[10%] min-w-36">
                         Title
                     </th>
-                    <th scope="col" class="px-4 py-3 text-center w-[25%]">
+                    <th scope="col" class="px-4 py-3 text-left w-[30%] min-w-36">
                         Description
                     </th>
-                    <th scope="col" class="px-4 py-3 text-center w-[10%]">
+                    <th scope="col" class="px-4 py-3 text-left w-[10%] min-w-36">
                         Amount
                     </th>
-                    <th scope="col" class="px-4 py-3 text-center w-[10%]">
+                    <th scope="col" class="px-4 py-3 text-left w-[10%] min-w-36">
                         Date Issued
                     </th>
-                    <th scope="col" class="px-4 py-3 text-center w-[10%]">
+                    <th scope="col" class="px-4 py-3 text-left w-[10%] min-w-36">
                         Date Due
                     </th>
-                    <th scope="col" class="px-4 py-3 text-center w-[10%]">
+                    <th scope="col" class="px-4 py-3 text-left w-[10%] min-w-36">
                         Issued By
                     </th>
-                    <th scope="col" class="px-6 py-3 text-center w-[15%]">
+                    <th scope="col" class="px-6 py-3 text-left w-[5%] min-w-28">
                         Status
                     </th>
 

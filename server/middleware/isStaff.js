@@ -28,7 +28,7 @@ exports.isStaff = async (req, res, next) => {
       return res
         .status(403)
         .sendFile(
-          path.join(__dirname, "../../client/html/error/  403forbidden.html")
+          path.join(__dirname, "../../client/html/error/403forbidden.html")
         );
     }
 

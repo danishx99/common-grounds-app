@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(data);
       if (data.extremeWeather===true) {
         redCircle.style.display = "block";
-        notificationList.innerHTML += `<li><a id="weatherNotification" class="block px-4 py-2 hover:bg-gray-100"> ${data.currCondition}!</a></li>`;
+        notificationList.innerHTML += `<li><a id="weatherNotification" class="block px-4 py-2 hover:bg-gray-100"> ${data.event}!</a></li>`;
           document.getElementById("weatherNotification")
           .addEventListener("click", function () {
             window.location.href = "/resident/viewNotifications";

@@ -610,6 +610,22 @@ video {
   top: 100%;
 }
 
+.right-5 {
+  right: 1.25rem;
+}
+
+.right-\[2\] {
+  right: 2;
+}
+
+.right-\[2\%\] {
+  right: 2%;
+}
+
+.right-\[3\%\] {
+  right: 3%;
+}
+
 .z-10 {
   z-index: 10;
 }

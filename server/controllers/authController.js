@@ -1,12 +1,12 @@
 // Import necessary modules from the Firebase SDK
 
 // require('@tensorflow/tfjs-node'); // ig we kinda need this so find a way to make it work
-const faceapi = require('../node_modules/face-api.js');
-const canvas = require('../node_modules/canvas');
+const faceapi = require("../node_modules/face-api.js");
+const canvas = require("../node_modules/canvas");
 const { Canvas, Image, ImageData, createCanvas, loadImage } = canvas;
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
-const path = require('path');
+const path = require("path");
 
 // console.log(faceapi.nets);
 const bcrypt = require("bcryptjs"); // For password hashing
@@ -82,12 +82,15 @@ exports.registerUser = async (req, res) => {
     const codeCheck = await Code.findOne({ userCode: code });
 
     if (!codeCheck) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "Invalid code. Please contact management for further assistance",
-        });
+      return res.status(400).json({
+        error: "Invalid code. Please contact management for further assistance",
+      });
+    }
+
+    // check that codeCheck was not made more than 24 hours ago
+
+    if (Date.now() - codeCheck.createdAt > 86400000) {
+      return res.status(400).json({ error: "Registration code has expired" });
     }
 
     //Check for mismatch between account role and type of code provided
@@ -108,7 +111,6 @@ exports.registerUser = async (req, res) => {
       email,
       role,
       userCode: code,
-      
     });
 
     // Save the new user to the database
@@ -213,12 +215,9 @@ exports.registerWithGoogle = async (req, res) => {
     const codeCheck = await Code.findOne({ userCode: code });
 
     if (!codeCheck) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "Invalid code. Please contact management for further assistance",
-        });
+      return res.status(400).json({
+        error: "Invalid code. Please contact management for further assistance",
+      });
     }
 
     //Check for mismatch between account role and type of code provided
@@ -421,18 +420,26 @@ exports.resetPassword = async (req, res) => {
 
 // Register face endpoint calls this function
 
-exports.registerFace = async(req, res)=>{
+exports.registerFace = async (req, res) => {
   console.log("Registering face");
   // image is a  base64 string
-  const { image} = req.body;
+  const { image } = req.body;
 
   await Promise.all([
     // Load the model weights from a local file
-    faceapi.nets.ssdMobilenetv1.loadFromDisk(path.join(__dirname, '../face-models')),
-    faceapi.nets.faceLandmark68Net.loadFromDisk(path.join(__dirname, '../face-models')),
-    faceapi.nets.faceRecognitionNet.loadFromDisk(path.join(__dirname, '../face-models')),
-    faceapi.nets.ageGenderNet.loadFromDisk(path.join(__dirname, '../face-models')),
-])
+    faceapi.nets.ssdMobilenetv1.loadFromDisk(
+      path.join(__dirname, "../face-models")
+    ),
+    faceapi.nets.faceLandmark68Net.loadFromDisk(
+      path.join(__dirname, "../face-models")
+    ),
+    faceapi.nets.faceRecognitionNet.loadFromDisk(
+      path.join(__dirname, "../face-models")
+    ),
+    faceapi.nets.ageGenderNet.loadFromDisk(
+      path.join(__dirname, "../face-models")
+    ),
+  ]);
   //get Current logged in user
   const token = req.cookies.token;
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -443,123 +450,148 @@ exports.registerFace = async(req, res)=>{
 
   if (!userToUpdate) {
     return res.status(404).json({ error: "User not found" });
-  } 
-  
-// Remove the data URL prefix and decode the Base64 string
-const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
-const imgBuffer = Buffer.from(base64Data, 'base64');
+  }
 
-// Use canvas to load the image
-const img = await loadImage(imgBuffer);
+  // Remove the data URL prefix and decode the Base64 string
+  const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+  const imgBuffer = Buffer.from(base64Data, "base64");
 
-// Create a canvas and draw the image onto it
-const imgCanvas = createCanvas(img.width, img.height);
-const ctx = imgCanvas.getContext('2d');
-ctx.drawImage(img, 0, 0, img.width, img.height);
+  // Use canvas to load the image
+  const img = await loadImage(imgBuffer);
 
-// Now you can process the image with face-api.js
-const imageAIData = await faceapi.detectSingleFace(imgCanvas);
+  // Create a canvas and draw the image onto it
+  const imgCanvas = createCanvas(img.width, img.height);
+  const ctx = imgCanvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, img.width, img.height);
 
-  if(!imageAIData){
+  // Now you can process the image with face-api.js
+  const imageAIData = await faceapi.detectSingleFace(imgCanvas);
+
+  if (!imageAIData) {
     return res.status(404).json({ error: "No face detected" });
-      
   }
   // update userImage
   console.log("A face detected");
-  userToUpdate.userImage= image;
+  userToUpdate.userImage = image;
   await userToUpdate.save();
-  res.status(200).json({ message: "Facial authentication set up successfully" });
-  
+  res
+    .status(200)
+    .json({ message: "Facial authentication set up successfully" });
 };
-
 
 // Verify face endpoint calls this function
 
-exports.verifyFace = async(req,res)=>{
-
-  try{
+exports.verifyFace = async (req, res) => {
+  try {
     console.log("Verifying face ...");
-  const { image, email} = req.body;
-// should probably chnage from loading from uri to loading from disk
-  await Promise.all([
-     // Load the model weights from a local file
-    faceapi.nets.ssdMobilenetv1.loadFromDisk(path.join(__dirname, '../face-models')),
-    faceapi.nets.faceLandmark68Net.loadFromDisk(path.join(__dirname, '../face-models')),
-    faceapi.nets.faceRecognitionNet.loadFromDisk(path.join(__dirname, '../face-models')),
-    faceapi.nets.ageGenderNet.loadFromDisk(path.join(__dirname, '../face-models')),
-  ])
+    const { image, email } = req.body;
+    // should probably chnage from loading from uri to loading from disk
+    await Promise.all([
+      // Load the model weights from a local file
+      faceapi.nets.ssdMobilenetv1.loadFromDisk(
+        path.join(__dirname, "../face-models")
+      ),
+      faceapi.nets.faceLandmark68Net.loadFromDisk(
+        path.join(__dirname, "../face-models")
+      ),
+      faceapi.nets.faceRecognitionNet.loadFromDisk(
+        path.join(__dirname, "../face-models")
+      ),
+      faceapi.nets.ageGenderNet.loadFromDisk(
+        path.join(__dirname, "../face-models")
+      ),
+    ]);
 
-  const user= await User.findOne({email});
-  // grab face & send data to detectFaces method
-  if(!user){
-    return res.status(404).json({ error: "User not found" });
-  }
-  if(!user.userImage){
-    return res.status(404).json({ error: "User has not registered a face" });
-  }
-  const refImage = user.userImage;// we know you are this guy
+    const user = await User.findOne({ email });
+    // grab face & send data to detectFaces method
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (!user.userImage) {
+      return res.status(404).json({ error: "User has not registered a face" });
+    }
+    const refImage = user.userImage; // we know you are this guy
 
-  // Remove the data URL prefix and decode the Base64 string of the image you uploaded
-const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
-const imgBuffer = Buffer.from(base64Data, 'base64');
-const img = await loadImage(imgBuffer);
-const imgCanvas = createCanvas(img.width, img.height);
-const ctx = imgCanvas.getContext('2d');
-ctx.drawImage(img, 0, 0, img.width, img.height);
+    // Remove the data URL prefix and decode the Base64 string of the image you uploaded
+    const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+    const imgBuffer = Buffer.from(base64Data, "base64");
+    const img = await loadImage(imgBuffer);
+    const imgCanvas = createCanvas(img.width, img.height);
+    const ctx = imgCanvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
 
-// Second image processing --remove data URL prefix and decode the Base64 string from the image from db
-const base64DataSecondImage = refImage.replace(/^data:image\/\w+;base64,/, '');
-const imgBufferSecondImage = Buffer.from(base64DataSecondImage, 'base64');
-const imgSecondImage = await loadImage(imgBufferSecondImage);
-const imgCanvasSecondImage = createCanvas(imgSecondImage.width, imgSecondImage.height);
-const ctxSecondImage = imgCanvasSecondImage.getContext('2d');
-ctxSecondImage.drawImage(imgSecondImage, 0, 0, imgSecondImage.width, imgSecondImage.height);
+    // Second image processing --remove data URL prefix and decode the Base64 string from the image from db
+    const base64DataSecondImage = refImage.replace(
+      /^data:image\/\w+;base64,/,
+      ""
+    );
+    const imgBufferSecondImage = Buffer.from(base64DataSecondImage, "base64");
+    const imgSecondImage = await loadImage(imgBufferSecondImage);
+    const imgCanvasSecondImage = createCanvas(
+      imgSecondImage.width,
+      imgSecondImage.height
+    );
+    const ctxSecondImage = imgCanvasSecondImage.getContext("2d");
+    ctxSecondImage.drawImage(
+      imgSecondImage,
+      0,
+      0,
+      imgSecondImage.width,
+      imgSecondImage.height
+    );
 
-  let refImageAIData= await faceapi.detectAllFaces(imgCanvasSecondImage).withFaceLandmarks().withFaceDescriptors();// image from the db
-  let faceToCheckImageAIData= await faceapi.detectAllFaces(imgCanvas).withFaceLandmarks().withFaceDescriptors();// image you uploaded
+    let refImageAIData = await faceapi
+      .detectAllFaces(imgCanvasSecondImage)
+      .withFaceLandmarks()
+      .withFaceDescriptors(); // image from the db
+    let faceToCheckImageAIData = await faceapi
+      .detectAllFaces(imgCanvas)
+      .withFaceLandmarks()
+      .withFaceDescriptors(); // image you uploaded
 
-  // here we make a face matcher of the reference image & compare that to the face we want to check
-  let faceMatcher= new faceapi.FaceMatcher(refImageAIData);
-  // return res.status(200).json({ message: "I am under the water" });
-  faceToCheckImageAIData= faceapi.resizeResults(faceToCheckImageAIData, imgCanvas);
-  
-  faceToCheckImageAIData.forEach(face=>{
-      
-      const {descriptor, detection}= face;
+    // here we make a face matcher of the reference image & compare that to the face we want to check
+    let faceMatcher = new faceapi.FaceMatcher(refImageAIData);
+    // return res.status(200).json({ message: "I am under the water" });
+    faceToCheckImageAIData = faceapi.resizeResults(
+      faceToCheckImageAIData,
+      imgCanvas
+    );
 
-      // make a label using the default 
-      let label= faceMatcher.findBestMatch(descriptor).toString();
+    faceToCheckImageAIData.forEach((face) => {
+      const { descriptor, detection } = face;
+
+      // make a label using the default
+      let label = faceMatcher.findBestMatch(descriptor).toString();
       // console.log(label);
 
       // If the face belongs to the person (not "unknown")
-  if (!label.includes("unknown")) {
-      // login user
-      console.log("User logged in.");
-      // Generate a JWT token and return it as a secure cookie
-    const token = jwt.sign(
-      { userCode: user.userCode, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" }
-    );
+      if (!label.includes("unknown")) {
+        // login user
+        console.log("User logged in.");
+        // Generate a JWT token and return it as a secure cookie
+        const token = jwt.sign(
+          { userCode: user.userCode, role: user.role },
+          process.env.JWT_SECRET,
+          { expiresIn: "24h" }
+        );
 
-    // Set token as an HttpOnly cookie
-    res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
+        // Set token as an HttpOnly cookie
+        res.cookie("token", token, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000,
+        }); // 24 hours
 
-    // Return a success message
-    // res.json({ success: true, redirect: user.role });
-    res.status(200).json({ message: "User authenticated successfully" });
-
-      
-  } else {
-      console.log('Face did not match. Please try again.');// show error message on the front end
-  }
-  })
-  }
-  catch (error) {
+        // Return a success message
+        // res.json({ success: true, redirect: user.role });
+        res.status(200).json({ message: "User authenticated successfully" });
+      } else {
+        console.log("Face did not match. Please try again."); // show error message on the front end
+      }
+    });
+  } catch (error) {
     console.log("Error verifying user:", error);
     res.status(500).json({ error: "Error verifying user." + error });
-  } 
-  
+  }
 };
 
 //generate code for user registration
@@ -587,64 +619,66 @@ exports.generateCode = async (req, res) => {
     console.log("Error generating code:", error);
     res.status(500).json({ error: "Error generating code" });
   }
-}
+};
 
 //generate password for visitors
 exports.generateVisitorPassword = async (req, res) => {
-  
-    try {
-      const token = req.cookies.token;
+  try {
+    const token = req.cookies.token;
 
-      const verified = jwt.verify(token, process.env.JWT_SECRET);
-      let userCode = verified.userCode;
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    let userCode = verified.userCode;
 
-      //Find the user corresponding to this user code
+    //Find the user corresponding to this user code
 
-      const user = await User.findOne({ userCode });
+    const user = await User.findOne({ userCode });
 
+    //Check how much time is left
+    var millisecondsInAnHour = 3600000;
 
-      //Check how much time is left
-      var millisecondsInAnHour = 3600000;
+    // Calculate time left in milliseconds
+    var timeLeftInMilliseconds =
+      86400000 - (Date.now() - user.visitorPasswordCreatedAt);
 
-      // Calculate time left in milliseconds
-      var timeLeftInMilliseconds = 86400000 - (Date.now() - user.visitorPasswordCreatedAt);
+    // Convert milliseconds to hours
+    var timeLeftInHours = timeLeftInMilliseconds / millisecondsInAnHour;
 
-      // Convert milliseconds to hours
-      var timeLeftInHours = timeLeftInMilliseconds / millisecondsInAnHour;
+    // Round to the nearest half hour
+    var timeLeftInHalfHours = Math.round(timeLeftInHours * 2) / 2;
 
-      // Round to the nearest half hour
-      var timeLeftInHalfHours = Math.round(timeLeftInHours * 2) / 2;
-
-      //Check if password has been generated in the last 24 hours
-      if (user.visitorPassword && (Date.now() - user.visitorPasswordCreatedAt) < 86400000) {
-        return res.status(400).json({ message: `See visitor password below. It remains valid for about ${timeLeftInHalfHours} more hours.`, password: user.visitorPassword});
-      }
-
-      //A visitor password has already been generated recently. Please note that it remains valid for 24 hours from its initial generation.
-
-      //Generate a 5 digit password for the visitor
-      const password = Math.floor(10000 + Math.random() * 90000);
-
-      //Store the password and current date/time in the user's record
-      user.visitorPassword = password;
-      user.visitorPasswordCreatedAt = Date.now();
-
-      await user.save();
-
-      res.json({ password : password });
-
-    } catch (error) {
-      console.log("Error generating visitor password:", error);
-      res.status(500).json({ error: "Error generating visitor password" });
+    //Check if password has been generated in the last 24 hours
+    if (
+      user.visitorPassword &&
+      Date.now() - user.visitorPasswordCreatedAt < 86400000
+    ) {
+      return res.status(400).json({
+        message: `See visitor password below. It remains valid for about ${timeLeftInHalfHours} more hours.`,
+        password: user.visitorPassword,
+      });
     }
 
-}
+    //A visitor password has already been generated recently. Please note that it remains valid for 24 hours from its initial generation.
 
+    //Generate a 5 digit password for the visitor
+    const password = Math.floor(10000 + Math.random() * 90000);
 
-async function loadImages(image){
+    //Store the password and current date/time in the user's record
+    user.visitorPassword = password;
+    user.visitorPasswordCreatedAt = Date.now();
+
+    await user.save();
+
+    res.json({ password: password });
+  } catch (error) {
+    console.log("Error generating visitor password:", error);
+    res.status(500).json({ error: "Error generating visitor password" });
+  }
+};
+
+async function loadImages(image) {
   try {
     var actualImage = new Image();
-    actualImage.src = Buffer.from(image, 'base64');
+    actualImage.src = Buffer.from(image, "base64");
 
     // Create a promise that resolves when the image finishes loading
     const imageLoadPromise = new Promise((resolve, reject) => {
@@ -660,7 +694,3 @@ async function loadImages(image){
     console.log("Error creating image object:", error);
   }
 }
-      
-      
-  
-

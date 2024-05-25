@@ -76,7 +76,14 @@ exports.getUnreadNotifications = async (req, res) => {
       viewedBy: { $ne: userCode },
     });
 
-    res.status(200).json({ unreadNotifications: notifications.length });
+    // check that each notification was made after the user was created
+    const user = await User.findOne({ userCode: userCode });
+    const userCreatedDate = user.createdAt;
+    const unreadNotifications = notifications.filter(
+      (notification) => notification.createdAt > userCreatedDate
+    );
+
+    res.status(200).json({ unreadNotifications: unreadNotifications.length });
   } catch (error) {
     console.error("Error fetching unread notifications:", error);
     res.status(500).json({ error: "Error fetching unread notifications" });
@@ -100,22 +107,21 @@ exports.getExtremeWeatherNotifications = async (req, res) => {
     // how do we determine if the weather is extreme?
     // const currCondition = response.data.current.condition.text;
     // const currTemp = response.data.current.temp_c;
-    const alerts= response.data.current.alerts;
+    const alerts = response.data.current.alerts;
     const event = "";
 
     let extremeWeather = false;
     //|| currCondition.includes("rain") || currCondition.includes("storm") || currCondition.includes("hail") || currTemp > 30  || currTemp < 0
 
-    if(alerts != null){
+    if (alerts != null) {
       event = alerts.alert[0].event;
       console.log("Extreme weather alert!");
       extremeWeather = true;
     } else {
       console.log("No extreme weather alert");
     }
-    res.status(200).json({extremeWeather: extremeWeather, event:event});    
-
-} catch (error) {
+    res.status(200).json({ extremeWeather: extremeWeather, event: event });
+  } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to retrieve weather data" });
   }

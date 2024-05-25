@@ -98,27 +98,24 @@ exports.getExtremeWeatherNotifications = async (req, res) => {
     const response = await axios.get(url);
 
     // how do we determine if the weather is extreme?
-    const currCondition = response.data.current.condition.text;
-    const currTemp = response.data.current.temp_c;
+    // const currCondition = response.data.current.condition.text;
+    // const currTemp = response.data.current.temp_c;
+    const alerts= response.data.current.alerts;
+    const event = "";
 
     let extremeWeather = false;
+    //|| currCondition.includes("rain") || currCondition.includes("storm") || currCondition.includes("hail") || currTemp > 30  || currTemp < 0
 
-    if (
-      currCondition.includes("rain") ||
-      currCondition.includes("storm") ||
-      currCondition.includes("hail") ||
-      currTemp > 30 ||
-      currTemp < 0
-    ) {
+    if(alerts != null){
+      event = alerts.alert[0].event;
       console.log("Extreme weather alert!");
       extremeWeather = true;
     } else {
       console.log("No extreme weather alert");
     }
-    res
-      .status(200)
-      .json({ extremeWeather: extremeWeather, currCondition: currCondition });
-  } catch (error) {
+    res.status(200).json({extremeWeather: extremeWeather, event:event});    
+
+} catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to retrieve weather data" });
   }

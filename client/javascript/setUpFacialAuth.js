@@ -28,6 +28,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
       .getUserMedia({ video: true, audio: false })
       .then((stream) => {
         video.srcObject = stream;
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
       })
       .catch((err) => {
         console.log("An error occurred: " + err);
@@ -41,7 +44,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
       });
   }
 
-  captureButton.addEventListener("click", () => {
+  captureButton.addEventListener("click", (event) => {
+    event.preventDefault();
     // Dynamically set the canvas size to match the video's dimensions
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;

@@ -40,14 +40,14 @@ router.get("/register", (req, res) => {
 });
 
 //user Facial Registration Login route
-router.get("/facialAuth", (req, res) => {
+router.get("/verify-face", (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/facialAuth.html"));
 });
 
-//user Facial Registration Registration route
-router.get("/setUpFacialAuth", (req, res) => {
+/*//user Facial Registration Registration route
+router.get("/register-face", (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/setUpFacialAuth.html"));
-});
+});*/
 
 //Admin frontend route
 router.get(
@@ -222,6 +222,31 @@ router.get(
     res.sendFile(path.join(__dirname, "../../client/sendNotification.html"));
   }
 );
+
+router.get(
+  "/staff/register-face",
+  (req, res, next) =>staff.isStaff(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/setUpFacialAuth.html"));
+  }
+);
+
+router.get(
+  "/resident/register-face",
+  (req, res, next) =>resident.isResident(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/setUpFacialAuth.html"));
+  }
+);
+
+router.get(
+  "/admin/register-face",
+  (req, res, next) =>admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/setUpFacialAuth.html"));
+  }
+);
+
 
 
 module.exports = router;

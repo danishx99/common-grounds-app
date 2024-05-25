@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var heading = document.getElementById("heading");
   var logo = document.getElementById("logo");
   var logIssue = document.getElementById("logIssue");
+  var setUpFacialAuth = document.getElementById("setUpFacialAuth");
   const redCircle = document.getElementById("redCircle");
   const notificationList = document.getElementById("notificationList");
 
@@ -23,6 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   viewNotifications.addEventListener("click", function () {
     window.location.href = "/resident/viewNotifications";
+  });
+
+  setUpFacialAuth.addEventListener("click", function () {
+    window.location.href = "/resident/register-face";
   });
 
 
@@ -82,11 +87,41 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Error:", error);
     });
 
+    //get request to get extreme weather events
+    await fetch("/api/notifications/getExtremeWeatherNotifications")
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+      if (data.extremeWeather===true) {
+        redCircle.style.display = "block";
+        notificationList.innerHTML += `<li><a id="weatherNotification" class="block px-4 py-2 hover:bg-gray-100"> ${data.currCondition}!</a></li>`;
+          document.getElementById("weatherNotification")
+          .addEventListener("click", function () {
+            window.location.href = "/resident/viewNotifications";
+          });
+      }
+      if (data.error) {
+        notificationList.innerHTML += `<li><a class="block px-4 py-2 hover:bg-gray-100">An error occurred while fetching the weather conditions.</a></li>`;
+      }
+    })
+    .catch((error) => {
+      //append error message to notification list
+      notificationList.innerHTML += `<li><a class="block px-4 py-2 hover:bg-gray-100">An error occurred while fetching the weather conditions.</a></li>`;
+      console.log("Error:", error);
+    });
+
+
+
+
 
     //check if notificationList is empty
     if (notificationList.innerHTML.trim() === "") {
       notificationList.innerHTML += `<li><a class="block px-4 py-2 cursor-not-allowed">You have no new notifications.</a></li>`;
     }
+
+    
   };
 
   fetchNotifications();

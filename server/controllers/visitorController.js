@@ -25,6 +25,7 @@ exports.checkInVisitor = async (req, res) => {
       return res.status(404).json({ error: "Invalid visitor password." });
     }
 
+
     //check if the current date is 24 hours more than the one stored in the database
     if (
       UserBeingVisited.visitorPasswordCreatedAt + 24 * 60 * 60 * 1000 <

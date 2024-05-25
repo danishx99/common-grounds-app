@@ -42,7 +42,7 @@ describe("isStaff middleware", () => {
 
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.sendFile).toHaveBeenCalledWith(
-      path.join(__dirname, "../../client/401notLoggedIn.html")
+      path.join(__dirname, "../../client/html/error/401notLoggedIn.html")
     );
     expect(next).not.toHaveBeenCalled();
   });
@@ -54,7 +54,7 @@ describe("isStaff middleware", () => {
 
     expect(res.status).toHaveBeenCalledWith(403);
     expect(res.sendFile).toHaveBeenCalledWith(
-      path.join(__dirname, "../../client/403forbidden.html")
+      path.join(__dirname, "../../client/html/error/403forbidden.html")
     );
     expect(next).not.toHaveBeenCalled();
   });

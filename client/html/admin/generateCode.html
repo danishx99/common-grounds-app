@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
 
     <!--Fontawesome for icons-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -18,10 +18,10 @@
 
 </head>
 
-<body class="bg-[#001B0C] flex flex-col justify-start h-svh">
+<body class="bg-[#001B0C] flex flex-col justify-center h-svh">
 
-    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full">
-        <img id="logo" src="./assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
+    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full absolute top-0 ">
+        <img id="logo" src="../../assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
         <button type="button" id="logout"
             class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
             Logout
@@ -39,28 +39,48 @@
                 <!--Alert box-->
                 <div class="alert-box" id="alert" role="alert"></div>
 
-                <h2 class="main-heading">Send Notification</h2>
+                <img src="../../assets/back-button-svgrepo-com.svg" alt="" id="back"
+                    class="w-6 cursor-pointer mb-[4%] mt-[2%] hover:opacity-50">
+                <h2 class="main-heading">Generate Code</h2>
+
 
                 <section class="flex flex-col form-main">
 
-                    <label class="standard-label" for="title">Title</label>
-                    <input type="text" class="standard-input" id="title" name="title">
+                    <!-- Drop down for role -->
+                    <label class="standard-label" for="role">Select Account Type</label>
+                    <select class="standard-input" name="account_types" id="role">
+                        <option value="Resident">Resident</option>
+                        <option value="Staff">Staff</option>
+                        <option value="Admin">Admin</option>
+                    </select>
 
-                    <div class="w-full relative mb-[4%]">
-                        <label class="standard-label" for="description">Description</label>
-                        <textarea class="standard-input appearance-none w-full relative" id="description"
-                            name="description" rows="5" cols="30"></textarea>
-                        <p id="char-count" class="z-10 absolute bottom-0 right-0 pb-1 pr-2 text-xs text-right">250
-                            characters
-                            remaining</p>
+                    <!-- Place for generated code to appear -->
+
+                    <label class="standard-label" for="codePlaceholder">Code</label>
+                    <div class="relative mt-1">
+                        <input type="text"
+                            class="standard-input w-80 px-4 py-2 pr-10 rounded-full border-gray-300 bg-gray-100"
+                            id="codePlaceholder" name="code" value="" readonly>
+                        <img src="../../assets/copy.png" alt="copy" id="copyCode"
+                            class=" absolute right-8 top-4 transform -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600 w-4 h-4">
                     </div>
 
-                    <button id="submitNotificationButton" class="green-button w-full">
-                        Send Notification
+                    <!--Agreement check for admin to acknowledge why the code is generated-->
+                    <!--
+     <div class="mb-6 flex items-center">
+            <input type="checkbox" id="agreement" class="form-checkbox mr-2">
+            <label for="agreement" class="text-gray-700 font-bold">I acknowledge that this code will only be given to valid users.</label>
+        </div>
+    
+       -->
+
+
+                    <button id="generateCodeButton" class="green-button w-full">
+                        Generate Code
                         <svg aria-hidden="true"
                             class="w-6 h-6 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]"
                             viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            id="loaderNotification">
+                            id="loaderGenerateCode">
                             <path
                                 d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
                                 fill="currentColor" />
@@ -70,19 +90,32 @@
                         </svg>
                     </button>
 
+
+
                 </section>
+
+
+
+
+
+                <section class="form-footer">
+                    <p class="text-xs text-center"> This code should be used by a valid user to sign up for an account
+                    </p>
+                </section>
+
+
 
             </form>
         </section>
 
 
         <article class="w-[40%] items-center justify-start md:flex hidden h-full mr-[5%] mt-[3%]">
-            <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
+            <img class="" src="../../assets/commonGround-aesthetic.png" alt="big-logo">
         </article>
     </section>
 
 
-    <script src="./javascript/sendNotification.js"></script>
+    <script src="../../javascript/generateCode.js"></script>
 </body>
 
 </html>

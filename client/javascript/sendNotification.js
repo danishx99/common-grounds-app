@@ -4,6 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var logo = document.getElementById("logo");
   const textArea = document.getElementById("description");
   const charCount = document.getElementById("char-count");
+  const back = document.getElementById("back");
+
+  back.addEventListener("click", function () {
+    window.location.href = "/";
+  });
 
   // Update character count on input
   textArea.addEventListener("input", () => {

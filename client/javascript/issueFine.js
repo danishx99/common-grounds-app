@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Redirect to fines page
           setTimeout(() => {
-              window.location.href = "/admin/manageFines";
+            window.location.href = "/admin/manageFines";
           }, 1000);
         }
       })

@@ -1,21 +1,21 @@
 var loginWithGoogleButton = document.getElementById("login-with-google");
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCtpyCzfGywbnGc4MQl3Sv_jDt_3JPSxl0",
+  authDomain: "commongrounds-420608.firebaseapp.com",
+  projectId: "commongrounds-420608",
+  storageBucket: "commongrounds-420608.appspot.com",
+  messagingSenderId: "940662765230",
+  appId: "1:940662765230:web:71339aa44caa538d541f3f",
+  measurementId: "G-3ZSK3L2G23",
+};
+
+// Initialize Firebase
+
+firebase.initializeApp(firebaseConfig);
+
 loginWithGoogleButton.addEventListener("click", function (event) {
   event.preventDefault();
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCtpyCzfGywbnGc4MQl3Sv_jDt_3JPSxl0",
-    authDomain: "commongrounds-420608.firebaseapp.com",
-    projectId: "commongrounds-420608",
-    storageBucket: "commongrounds-420608.appspot.com",
-    messagingSenderId: "940662765230",
-    appId: "1:940662765230:web:71339aa44caa538d541f3f",
-    measurementId: "G-3ZSK3L2G23",
-  };
-
-  // Initialize Firebase
-
-  firebase.initializeApp(firebaseConfig);
 
   const auth = firebase.auth();
 
@@ -61,13 +61,13 @@ loginWithGoogleButton.addEventListener("click", function (event) {
             alert.className =
               "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
 
-               //Check for data.redirect and redirect
-        if (data.redirect) {
-          setTimeout(() => {
-            window.location.href = data.redirect.toLowerCase();
-          }, 1000);
-        }
-      }
+            //Check for data.redirect and redirect
+            if (data.redirect) {
+              setTimeout(() => {
+                window.location.href = data.redirect.toLowerCase();
+              }, 1000);
+            }
+          }
         })
         .catch((error) => {
           console.log("Error:", error);

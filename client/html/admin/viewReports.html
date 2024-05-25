@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,9 +20,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <style>
-
-        
-    
         .wrapper {
             width: 200px;
             height: 60px;
@@ -119,7 +116,7 @@
 <body class="bg-[#001B0C] flex flex-col justify-start items-center h-screen">
 
     <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full sticky top-0 z-10">
-        <img id="logo" src="./assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
+        <img id="logo" src="../../assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
         <button type="button" id="logout"
             class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
             Logout
@@ -152,9 +149,9 @@
             </div>
         </div>
     </div>
- 
-     <!-- Select input for choosing year -->
-     <div class="flex justify-center items-center mt-10">
+
+    <!-- Select input for choosing year -->
+    <div class="flex justify-center items-center mt-10">
         <label for="year" class="text-white whitespace-nowrap">Select year:</label>
         <select name="year" id="year" class="form-select ml-2">
             <option value="2024">2024</option>
@@ -168,17 +165,19 @@
 
     <!--Buttons for exporting as pdf and csv-->
     <div class="flex justify-center items-center mt-5">
-        <button id="exportPdf" class="bg-[#004621] hover:bg-green-700 text-white py-2 px-4 rounded-md mr-4">Export as PDF</button>
-        <button id="exportCsv" class="bg-[#004621] hover:bg-green-700 text-white py-2 px-4 rounded-md">Export as CSV</button>
+        <button id="exportPdf" class="bg-[#004621] hover:bg-green-700 text-white py-2 px-4 rounded-md mr-4">Export as
+            PDF</button>
+        <button id="exportCsv" class="bg-[#004621] hover:bg-green-700 text-white py-2 px-4 rounded-md">Export as
+            CSV</button>
     </div>
-    
+
 
 
     <!-- Graph Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 p-4 w-full">
         <div class="bg-white p-4 rounded-lg shadow-lg flex justify-center items-center">
             <canvas id="chartAllFines">
-                
+
             </canvas>
             <div id="loaderAllFines" class="wrapper hidden">
                 <div class="circle"></div>
@@ -192,7 +191,7 @@
 
         <div class="bg-white p-4 rounded-lg shadow-lg flex justify-center items-center">
             <canvas id="chartIssues">
-              
+
             </canvas>
 
             <div id="loaderIssues" class="wrapper hidden ">
@@ -208,7 +207,7 @@
         <div class="bg-white p-4 rounded-lg shadow-lg flex justify-center items-center">
 
             <canvas id="chartVisitors">
-                
+
             </canvas>
 
             <div id="loaderVisitors" class="wrapper hidden ">
@@ -220,22 +219,23 @@
                 <div class="shadow"></div>
             </div>
         </div>
-        
+
         <div class="bg-white p-4 rounded-lg shadow-lg flex-col justify-center items-center">
-            
-                <!--Error message span in red-->
-                <div id="errorFines" class="text-red-500 hidden">Please enter a valid user code.</div>
-              
-                
-            <div class="flex items-center justify-center">
 
-                <label for="userCode" class="block text-sm font-medium text-gray-700 mr-4 text-nowrap">User Code:</label>
-                <input type="text" id="userCode" name="userCode" class="mr-4 p-2 border border-gray-300 rounded-md" placeholder="Enter user code...">
-                <button id="submitButtonFines" class="mt-2 w-full px-4 green-button text-white">Submit</button>
+            <!--Error message span in red-->
+            <div id="errorFines" class="text-red-500 hidden">Please enter a valid user code.</div>
 
-               
 
-                <svg aria-hidden="true"
+            <div class="flex items-center justify-center max-sm:flex-col">
+
+                <div class="flex items-center justify-between mb-2">
+                    <label for="userCode" class=" block text-sm font-medium text-gray-700 mr-4 text-nowrap">User
+                        Code:</label>
+                    <input type="text" id="userCode" name="userCode" class="mr-4 p-2 border border-gray-300 rounded-md"
+                        placeholder="Enter user code...">
+                </div>
+                <button id="submitButtonFines" class="mt-2 w-72 px-4 green-button text-white">Submit
+                    <svg aria-hidden="true"
                         class="w-6 h-6 ml-2 hidden text-green-200 animate-spin dark:text-gray-600 fill-[#004621]"
                         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loaderSubmit">
                         <path
@@ -245,15 +245,16 @@
                             d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
                             fill="currentFill" />
                     </svg>
+                </button>
             </div>
-        
+
             <canvas id="chartFinesForUser" class=""></canvas>
-        
-            
+
+
         </div>
-        
-   
-    <script src="./javascript/viewReports.js"></script>
+
+
+        <script src="../../javascript/viewReports.js"></script>
 </body>
 
 </html>

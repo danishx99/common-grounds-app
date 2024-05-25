@@ -81,13 +81,13 @@ fetch("/api/visitors/getAllVisitors")
 
       tableBody.innerHTML += `
                     <tr id="row_${user.identificationNumber}" class="bg-white border-b hover:bg-gray-200 ">
-                    <th scope="row" class="px-3 py-1 font-medium text-gray-900 text-center ">
+                    <th scope="row" class="px-3 py-1 font-medium text-gray-900 text-left ">
                         ${user.name}
                     </th>
-                    <td class="px-6 py-2.5 text-center w-[15%]">
+                    <td class="px-6 py-2.5 text-left ">
                         ${formatDate(user.checkInTime)}
                     </td>
-                    <td id="checkout_${user.identificationNumber}" class="px-4 py-1 text-center w-[15%]">
+                    <td id="checkout_${user.identificationNumber}" class="px-4 py-1 text-left">
                         ${user.checkOutTime ? formatDate(user.checkOutTime) : 
 
                           `<div class='flex justify-center'>
@@ -110,13 +110,13 @@ fetch("/api/visitors/getAllVisitors")
                         
                         } 
                     </td>
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-5 py-2.5 text-left">
                         ${user.identificationNumber}
                     </td>
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-5 py-2.5 text-left">
                     ${user.cellPhoneNumber}
                    </td>
-                   <td class="px-5 py-2.5 text-center w-[15%]">
+                   <td class="px-5 py-2.5 text-left">
                    ${user.userCode}
                   </td>
 
@@ -270,3 +270,28 @@ fetch("/api/visitors/getAllVisitors")
     //show error in form of modal
     showErrorModal("An error occurred. Please try again later.");
   });
+
+   //Table search functionality
+   let search = document.getElementById("table-search");
+   search.addEventListener("keyup", function () {
+     let value = search.value.toLowerCase().trim();
+     let rows = document.querySelectorAll("tbody tr");
+ 
+     rows.forEach((row) => {
+       let rowText = row.textContent.toLowerCase().trim();
+       console.log("Row text: ", rowText); 
+
+       if(rowText === "") {
+        
+
+       }
+ 
+ 
+       if (rowText.includes(value)) {
+         row.style.display = "";
+       } else {
+         row.style.display = "none";
+
+       }
+     });
+   });

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Grounds Residential Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
+
+
+    <style>
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+
+</head>
+
+<body class="bg-[#001B0C] flex flex-col items-center justify-center ">
+
+    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full">
+        <img id="logo" src="../../assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
+        <button type="button" id="logout"
+            class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
+            Logout
+        </button>
+    </header>
+
+    <h1 id="heading" class="text-white text-3xl md:text-4xl lg:text-5xl mt-8 font-extrabold text-center">
+        Welcome to your staff dashboard!
+    </h1>
+
+    <section class="my-12 mx-8">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+
+            <div id="manageIssues"
+                class="min-h-48 w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">Manage Issues</h2>
+                <img class="w-16" src="../../assets/logIssue.png" alt="Manage Issues">
+            </div>
+
+
+            <div id="sendNotification"
+                class="min-h-48 w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">Send Notification</h2>
+                <img class="w-16" src="../../assets/announce.png" alt="Send Notification">
+            </div>
+            <div id="setUpFacialAuth"
+                class="min-h-48 w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-2xl mb-4 text-center">Set Up Facial Authentication</h2>
+                <img class="w-16" src="../../assets/authentication.png" alt="">
+            </div>
+
+
+
+        </div>
+
+
+    </section>
+
+    <script src="../../javascript/staff.js"></script>
+</body>
+
+</html>

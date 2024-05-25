@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var logout = document.getElementById("logout");
   var logo = document.getElementById("logo");
   const manageIssues = document.getElementById("manageIssues");
+  var setUpFacialAuth = document.getElementById("setUpFacialAuth");
   var heading = document.getElementById("heading");
   var sendNotification = document.getElementById("sendNotification");
 
@@ -39,5 +40,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   logo.addEventListener("click", function () {
     window.location.href = "/staff";
+  });
+
+  setUpFacialAuth.addEventListener("click", function () {
+    window.location.href = "/staff/register-face";
   });
 });

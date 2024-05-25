@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 </head>
@@ -21,7 +21,7 @@
         class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
 
         <header class="mb-9 ml-5 mt-[2%]">
-            <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
+            <img src="../../assets/logo-white-transparent.png" class="h-12" alt="logo">
         </header>
 
         <form class="bg-white rounded-3xl py-6 px-9 lg:w-[70%] xl:w-[50%] md:w-[90%] w-[100%]" id='create-new-acc'
@@ -32,7 +32,7 @@
 
             <div id="firebaseui-auth-container"></div>
 
-            <img src="./assets/back-button-svgrepo-com.svg" alt="" id="back"
+            <img src="../../assets/back-button-svgrepo-com.svg" alt="" id="back"
                 class="w-6 cursor-pointer mb-[4%] mt-[2%] hidden hover:opacity-50">
             <h2 class="main-heading">Create New Account</h2>
 
@@ -57,7 +57,7 @@
                 <label for="psw" class="standard-label">Create Password</label>
                 <div class="relative">
                     <input type="password" id="psw" name="psw" class="w-full standard-input">
-                    <img src="./assets/eye-close.png" alt="Show Password" id="eyeicon"
+                    <img src="../../assets/eye-close.png" alt="Show Password" id="eyeicon"
                         class="absolute top-2 right-3 w-5 h-4 cursor-pointer hover:opacity-75">
                 </div>
 
@@ -68,10 +68,10 @@
                     eyeicon.addEventListener('click', () => {
                         if (psw.type === 'password') {
                             psw.type = 'text';
-                            eyeicon.src = './assets/eye-open.png';
+                            eyeicon.src = '../../assets/eye-open.png';
                         } else {
                             psw.type = 'password';
-                            eyeicon.src = './assets/eye-close.png';
+                            eyeicon.src = '../../assets/eye-close.png';
                         }
                     });
 
@@ -80,7 +80,7 @@
                 <label class="standard-label" for="psw-confirm">Confirm Password</label>
                 <div class="relative mb-4">
                     <input type="password" class="standard-input w-full" id="psw-confirm" name="psw-confirm">
-                    <img src="./assets/eye-close.png" id="eyeiconConfirm"
+                    <img src="../../assets/eye-close.png" id="eyeiconConfirm"
                         class="absolute top-2 right-3 w-5 h-4 cursor-pointer hover:opacity-75">
                 </div>
 
@@ -91,11 +91,11 @@
                     eyeiconConfirm.addEventListener('click', () => {
                         if (pswC.type === 'password') {
                             pswC.type = 'text';
-                            eyeiconConfirm.src = './assets/eye-open.png';
+                            eyeiconConfirm.src = '../../assets/eye-open.png';
 
                         } else {
                             pswC.type = 'password';
-                            eyeiconConfirm.src = './assets/eye-close.png';
+                            eyeiconConfirm.src = '../../assets/eye-close.png';
                         }
                     });
                 </script>
@@ -119,7 +119,7 @@
                 </section>
 
                 <button id="proceed-with-google" class="green-button w-full">
-                    <img src="./assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google <svg aria-hidden="true"
+                    <img src="../../assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google <svg aria-hidden="true"
                         class="w-6 h-6 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]"
                         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loaderGoogle">
                         <path
@@ -166,7 +166,7 @@
                 </button>
                 <button id="register-with-google"
                     class="items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white p-2 font-bold w-full hidden">
-                    <img src="./assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google <svg aria-hidden="true"
+                    <img src="../../assets/googleLogo.png" class="w-4 mr-2" alt="logo">Google <svg aria-hidden="true"
                         class="w-6 h-6 ml-2 hidden  text-gray-200 animate-spin dark:text-gray-600 fill-[#004621]"
                         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg" id="loaderGoogle">
                         <path
@@ -183,12 +183,12 @@
     </section>
 
     <article class="right-logo">
-        <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
+        <img class="" src="../../assets/commonGround-aesthetic.png" alt="big-logo">
 
     </article>
 
-    <script src="./javascript/register.js"></script>
-    <script src="./javascript/registerWithGoogle.js"></script>
+    <script src="../../javascript/register.js"></script>
+    <script src="../../javascript/registerWithGoogle.js"></script>
 </body>
 
 </html>

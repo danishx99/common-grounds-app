@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
 </head>
 
 <body class="bg-[#001B0C] flex items-center justify-center p-[2%] h-svh">
@@ -20,7 +20,7 @@
         class="px-14 w-[60%] flex flex-col items-center justify-evenly max-sm:px-8 max-sm:w-[100%] max-md:w-[90%] md:w-[75%] h-full">
 
         <header class="ml-5 mt-[2%]">
-            <img src="./assets/logo-white-transparent.png" class="h-12" alt="logo">
+            <img src="../../assets/logo-white-transparent.png" class="h-12" alt="logo">
         </header>
 
         <section
@@ -28,12 +28,12 @@
             id="create-new-acc" action="#">
 
 
-            <h2 class="font-black text-center text-gray-600 mb-[10%] text-5xl">403</h2>
+            <h2 class="font-black text-center text-gray-600 mb-[10%] text-5xl">401</h2>
 
-            <p class="text-base font-bold text-center text-gray-600 mb-[20%]">You are not authorised to access this resource!</p>
+            <p class="text-base font-bold text-center text-gray-600 mb-[20%]">You are not logged in!</p>
 
-            <button id="home" class="green-button w-full">
-                Home
+            <button id="login" class="green-button w-full">
+                Login
             </button>
 
 
@@ -42,13 +42,13 @@
 
 
     <article class="w-[40%] items-center justify-start md:flex hidden h-full mr-[5%] mt-[7.5%]">
-        <img class="" src="./assets/commonGround-aesthetic.png" alt="big-logo">
+        <img class="" src="../../assets/commonGround-aesthetic.png" alt="big-logo">
     </article>
 
     <script>
-        let home = document.getElementById('home');
-        home.addEventListener('click', () => {
-            window.location.href = '/';
+        let login = document.getElementById('login');
+        login.addEventListener('click', () => {
+            window.location.href = '/login';
         });
     </script>
 

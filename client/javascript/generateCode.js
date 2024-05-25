@@ -2,6 +2,27 @@ document.addEventListener("DOMContentLoaded", function () {
   var generateCodeButton = document.getElementById("generateCodeButton");
   var logo = document.getElementById("logo");
   var logout = document.getElementById("logout");
+  const back = document.getElementById("back");
+  const copyCode = document.getElementById("copyCode");
+
+  copyCode.addEventListener("click", function () {
+    const code = document.getElementById("codePlaceholder");
+    //check if code is empty
+    if (!(code.value === "")) {
+      code.select();
+      code.setSelectionRange(0, 99999); /* For mobile devices */
+      document.execCommand("copy");
+      var alert = document.getElementById("alert");
+      alert.style.display = "block";
+      alert.innerText = "User code copied ";
+      alert.className =
+        "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+    }
+  });
+
+  back.addEventListener("click", function () {
+    window.location.href = "/admin";
+  });
 
   logout.addEventListener("click", function () {
     //get request to /clear

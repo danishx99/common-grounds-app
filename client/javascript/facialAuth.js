@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         navigator.mediaDevices.getUserMedia({video: true, audio: false})
         .then((stream) => {
             video.srcObject = stream;
+            video.setAttribute('autoplay', '');
+            video.setAttribute('muted', '');
+            video.setAttribute('playsinline', '');
         })
         .catch((err) => {
             console.log("An error occurred: " + err);
@@ -21,7 +24,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
-    captureButton.addEventListener('click', () => {
+    captureButton.addEventListener('click', (event) => {
+
+        event.preventDefault();
         // Dynamically set the canvas size to match the video's dimensions
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
@@ -44,6 +49,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loader.style.display = "flex";
         console.log("Verify button clicked");
 
+        const email= document.getElementById('email').value;
+        // Check email field not empty
+        if(email === "") {
+            var alert = document.getElementById("alert");
+            alert.style.display = "block";
+            alert.innerText = "Please enter your email";
+            alert.className =
+                "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+            loader.style.display = "none";
+            return;
+        }
+        // Check if email meets requirements to be an email
+        const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!EMAIL_REGEX.test(email)) {
+        var alert = document.getElementById("alert");
+        alert.style.display = "block";
+        alert.innerText = "Please provide a valid email";
+        alert.className =
+            "bg-red-100 border hidden border-red-400 text-red-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
+        return;
+        }
+
         
 
         // return;
@@ -55,7 +82,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             },
             body: JSON.stringify({
                 image: base64String,
-                email: document.getElementById('email').value,
+                email: email,
 
             }),
         })

@@ -28,4 +28,11 @@ router.get(
   (req, res) => notificationController.getUnreadNotifications(req, res)
 );
 
+//Get unread notifications
+router.get(
+  "/getExtremeWeatherNotifications",
+  (req, res, next) => resident.isResident(req, res, next),              // only residents get extreme weather notifications
+  (req, res) => notificationController.getExtremeWeatherNotifications(req, res)
+);
+
 module.exports = router;

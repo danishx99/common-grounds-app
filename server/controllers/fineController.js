@@ -28,6 +28,11 @@ exports.issueFine = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    //check if user isn't a resident
+    if (userToFine.role !== "Resident") {
+      return res.status(400).json({ error: "Cannot fine a non-resident" });
+    }
+
     const newFine = new Fine({
       title,
       amount,
@@ -73,7 +78,6 @@ exports.getUserFines = async (req, res) => {
       isPaid: 1,
       dateIssued: -1,
     });
-    
 
     fines.forEach((fine) => {
       fine.isRead = true;

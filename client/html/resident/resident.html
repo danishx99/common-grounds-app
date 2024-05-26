@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Grounds Residential Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
+
+    <style>
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+
+</head>
+
+
+<body id="body" class="bg-[#001B0C] flex flex-col items-center justify-center">
+
+    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full">
+        <img id="logo" src="../../assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
+
+        <div class="flex items-center justify-center mb-2 relative">
+            <div class="relative"> <img class="w-7 h-7 cursor-pointer" src="../../assets/bell.png" id="notification"
+                    alt="">
+                <span id="redCircle" class="hidden absolute bottom-0 right-0 w-3 h-3 rounded-full bg-red-500"></span>
+            </div>
+            <div id="dropdownHover"
+                class="hidden absolute top-full right-0 z-10 bg-gray-300 divide-y divide-gray-100 rounded-lg shadow w-52 mt-4">
+                <ul id="notificationList" class="py-2 text-sm text-black">
+
+                </ul>
+            </div>
+            <button type="button" id="logout"
+                class="flex items-center ml-2 justify-center bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
+                Logout
+            </button>
+        </div>
+
+
+        <script>
+            const notificationIcon = document.getElementById("notification");
+            const dropdownHover = document.getElementById("dropdownHover");
+
+            notificationIcon.addEventListener("click", () => {
+                dropdownHover.classList.toggle("hidden");
+                //add classes flex, justify-center, and items-center to the dropdownHover
+                dropdownHover.classList.add("flex");
+                dropdownHover.classList.add("justify-center");
+                dropdownHover.classList.add("items-center");
+            });
+
+            //click anywhere on the screen to close the dropdown
+            window.addEventListener("click", (e) => {
+                if (!notificationIcon.contains(e.target)) {
+                    dropdownHover.classList.add("hidden");
+                }
+            });
+
+        </script>
+    </header>
+
+
+    <h1 id="heading" class="text-white text-3xl md:text-4xl lg:text-5xl mt-8 font-extrabold text-center">
+        Welcome to your resident dashboard!
+    </h1>
+
+    <section class="my-12 mx-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+
+            <div id="visitorCode"
+                class="min-h-48 w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-xl mb-4 text-center">Generate Visitor Password</h2>
+                <img class="w-20" src="../../assets/access-control.png" alt="">
+            </div>
+
+            <div id="logIssue"
+                class="min-h-48 w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-xl mb-4 text-center">Manage Issues</h2>
+                <img class="w-16" src="../../assets/logIssue.png" alt="">
+            </div>
+
+            <div id="viewFines"
+                class="min-h-48 w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-xl mb-4 text-center">View Fines</h2>
+                <img class="w-16" src="../../assets/fine.png" alt="">
+            </div>
+
+            <div id="viewNotifications"
+                class="min-h-48 w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-xl mb-4 text-center">View Notifications</h2>
+                <img class="w-16" src="../../assets/announce.png" alt="">
+            </div>
+            <div id="setUpFacialAuth"
+                class="min-h-48 w-full max-w-xs cursor-pointer bg-white text-black rounded-xl p-6 flex flex-col items-center shadow-lg hover-lift transition-transform duration-300">
+                <h2 class="font-extrabold text-xl mb-4 text-center">Set Up Facial Authentication</h2>
+                <img class="w-16" src="../../assets/authentication.png" alt="">
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <script src="../../javascript/resident.js"></script>
+</body>
+
+</html>

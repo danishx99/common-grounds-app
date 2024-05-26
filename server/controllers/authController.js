@@ -1,5 +1,18 @@
-// Import necessary modules from the Firebase SDK
+const faceapi = require("@vladmandic/face-api");
+const canvas = require("../node_modules/canvas");
+const { Canvas, Image, ImageData, createCanvas, loadImage } = canvas;
+faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
+const tf = require("@tensorflow/tfjs-node");
+(async () => {
+  await tf.setBackend("tensorflow");
+  await tf.ready();
+  console.log("TensorFlow backend set to tensorflow and is ready");
+})();
+
+const path = require("path");
+
+// console.log(faceapi.nets);
 const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require("jsonwebtoken"); // For generating JSON Web Tokens
 const dotenv = require("dotenv"); // For accessing environment variables
@@ -13,16 +26,6 @@ var http = require("http");
 var https = require("https");
 
 dotenv.config();
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCtpyCzfGywbnGc4MQl3Sv_jDt_3JPSxl0",
-//   authDomain: "commongrounds-420608.firebaseapp.com",
-//   projectId: "commongrounds-420608",
-//   storageBucket: "commongrounds-420608.appspot.com",
-//   messagingSenderId: "940662765230",
-//   appId: "1:940662765230:web:71339aa44caa538d541f3f",
-//   measurementId: "G-3ZSK3L2G23",
-// };
 
 exports.registerUser = async (req, res) => {
   try {
@@ -73,12 +76,15 @@ exports.registerUser = async (req, res) => {
     const codeCheck = await Code.findOne({ userCode: code });
 
     if (!codeCheck) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "Invalid code. Please contact management for further assistance",
-        });
+      return res.status(400).json({
+        error: "Invalid code. Please contact management for further assistance",
+      });
+    }
+
+    // check that codeCheck was not made more than 24 hours ago
+
+    if (Date.now() - codeCheck.createdAt > 86400000) {
+      return res.status(400).json({ error: "Registration code has expired" });
     }
 
     //Check for mismatch between account role and type of code provided
@@ -99,7 +105,6 @@ exports.registerUser = async (req, res) => {
       email,
       role,
       userCode: code,
-      faceId,
     });
 
     // Save the new user to the database
@@ -204,12 +209,14 @@ exports.registerWithGoogle = async (req, res) => {
     const codeCheck = await Code.findOne({ userCode: code });
 
     if (!codeCheck) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "Invalid code. Please contact management for further assistance",
-        });
+      return res.status(400).json({
+        error: "Invalid code. Please contact management for further assistance",
+      });
+    }
+
+    // check that codeCheck was not made more than 24 hours ago
+    if (Date.now() - codeCheck.createdAt > 86400000) {
+      return res.status(400).json({ error: "Registration code has expired" });
     }
 
     //Check for mismatch between account role and type of code provided
@@ -413,175 +420,211 @@ exports.resetPassword = async (req, res) => {
 // Register face endpoint calls this function
 
 exports.registerFace = async (req, res) => {
-  try {
-    const image = req.body.image; // Assuming the image is sent in the request body
+  console.log("Registering face");
+  // image is a  base64 string
+  const { image } = req.body;
 
-    const msDetectOptions = {
-      host: process.env.FACE_API_HOST,
-      method: "POST",
-      port: 443,
-      path: process.env.FACE_API_PATH_DETECT,
-      headers: {
-        "Content-Type": "application/octet-stream",
-        "Content-Length": Buffer.byteLength(image),
-        "Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY,
-      },
-    };
+  //start a timer in ms
+  let start = Date.now();
 
-    console.log("1");
+  await Promise.all([
+    // Load the model weights from a local file
+    faceapi.nets.ssdMobilenetv1.loadFromDisk(
+      path.join(__dirname, "../face-models")
+    ),
+    faceapi.nets.faceLandmark68Net.loadFromDisk(
+      path.join(__dirname, "../face-models")
+    ),
+    faceapi.nets.faceRecognitionNet.loadFromDisk(
+      path.join(__dirname, "../face-models")
+    ),
+    faceapi.nets.ageGenderNet.loadFromDisk(
+      path.join(__dirname, "../face-models")
+    ),
+  ]);
 
+  //end the timer
+  let end = Date.now();
+  console.log("Time taken to load models: ", end - start);
 
-    const msDetectData = await new Promise((resolve, reject) => {
-      const msDetectReq = https.request(msDetectOptions, (msDetectResponse) => {
-        msDetectResponse.setEncoding("utf8");
-        let msDetectData = "";
-        msDetectResponse.on("data", (chunk) => {
-          msDetectData += chunk;
-        });
-        msDetectResponse.on("end", () => {
-          console.log("Face registered successfully");
-          resolve(JSON.parse(msDetectData));
-        });
-      });
+  //start new timer
+  start = Date.now();
 
-      msDetectReq.on("error", (error) => {
-        reject(error);
-      });
+  //get Current logged in user
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const currUserCode = decoded.userCode;
 
-      msDetectReq.write(image);
-      msDetectReq.end();
-    });
+  // Check if user exists
+  const userToUpdate = await User.findOne({ userCode: currUserCode });
 
-    console.log("2")
-
-    // Handle the response data
-    if (msDetectData.error) {
-      // Handle error
-      console.error("Error registering face:", msDetectData.error);
-      res.status(500).send(msDetectData.error);
-    } else {
-      // Handle success
-      // Assuming the response contains a faceId
-      const faceId = msDetectData.faceId;
-
-      // Find the user in the database and update their faceId
-      const user = await User.findById(req.user.id); // just confirm this is fine
-      user.faceId = faceId;
-      await user.save();
-
-      res.status(200).send({ message: "Face registered successfully", faceId });
-    }
-  } catch (error) {
-    // Handle any other errors
-    res.status(500).send(error.message);
+  if (!userToUpdate) {
+    return res.status(404).json({ error: "User not found" });
   }
+
+  // Remove the data URL prefix and decode the Base64 string
+  const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+  const imgBuffer = Buffer.from(base64Data, "base64");
+
+  // Use canvas to load the image
+  const img = await loadImage(imgBuffer);
+
+  // Create a canvas and draw the image onto it
+  const imgCanvas = createCanvas(img.width, img.height);
+  const ctx = imgCanvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, img.width, img.height);
+
+  //end the timer
+  end = Date.now();
+  console.log("Time taken to load image: ", end - start);
+
+  //start timer
+
+  start = Date.now();
+
+  // Now you can process the image with face-api.js
+  const imageAIData = await faceapi.detectSingleFace(imgCanvas);
+
+  //end the timer
+  end = Date.now();
+  console.log("Time taken to detect face: ", end - start);
+
+  if (!imageAIData) {
+    return res.status(404).json({ error: "No face detected" });
+  }
+  // update userImage
+  console.log("A face detected");
+  userToUpdate.userImage = image;
+  await userToUpdate.save();
+  res
+    .status(200)
+    .json({ message: "Facial authentication set up successfully" });
 };
-
-// verify face endpoint calls this function
-// still busy with this function
-// exports.verifyFace = async (req, res) => {
-//   try {
-//     // this function takes in 2 face ID's & compares them-- do we have 2 face Id's tho?
-//       const { faceId1, faceId2 } = req.body; // Assuming face IDs are sent in the request body
-
-//       const verifyOptions = {
-//           host: process.env.FACE_API_HOST,
-//           method: 'POST',
-//           port: 443,
-//           path: process.env.FACE_API_PATH_VERIFY,
-//           headers: {
-//               'Content-Type': 'application/json',
-//               'Ocp-Apim-Subscription-Key': process.env.FACE_API_KEY
-//           }
-//       };
-
-//       const verifyData = await new Promise((resolve, reject) => {
-//           const verifyReq = https.request(verifyOptions, (verifyResponse) => {
-//               verifyResponse.setEncoding('utf8');
-//               let verifyData = '';
-//               verifyResponse.on('data', (chunk) => {
-//                   verifyData += chunk;
-//               });
-//               verifyResponse.on('end', () => {
-//                   resolve(JSON.parse(verifyData));
-//               });
-//           });
-
-//           verifyReq.on('error', (error) => {
-//               reject(error);
-//           });
-
-//           const verifyBody = JSON.stringify({
-//               faceId1: faceId1,
-//               faceId2: faceId2
-//           });
-
-//           verifyReq.write(verifyBody);
-//           verifyReq.end();
-//       });
-
-//       // Handle the response data
-//       if (verifyData.error) {
-//           // Handle error
-//           res.status(500).send(verifyData.error);
-//       } else {
-//           // Handle success
-//           res.status(200).send(verifyData);
-//       }
-//   } catch (error) {
-//       // Handle any other errors
-//       res.status(500).send(error.message);
-//   }
-// };
 
 // Verify face endpoint calls this function
 
-exports.verifyFace = async()=>{
-  //we need to load our models using await
-  const { image, email} = req.body;
+exports.verifyFace = async (req, res) => {
+  try {
+    console.log("Verifying face ...");
+    const { image, email } = req.body;
+    // should probably chnage from loading from uri to loading from disk
+    await Promise.all([
+      // Load the model weights from a local file
+      faceapi.nets.ssdMobilenetv1.loadFromDisk(
+        path.join(__dirname, "../face-models")
+      ),
+      faceapi.nets.faceLandmark68Net.loadFromDisk(
+        path.join(__dirname, "../face-models")
+      ),
+      faceapi.nets.faceRecognitionNet.loadFromDisk(
+        path.join(__dirname, "../face-models")
+      ),
+      faceapi.nets.ageGenderNet.loadFromDisk(
+        path.join(__dirname, "../face-models")
+      ),
+    ]);
 
-  await Promise.all([
-      faceapi.nets.ssdMobilenetv1.loadFromUri('../face-models'),
-      faceapi.nets.faceLandmark68Net.loadFromUri('../face-models'),
-      faceapi.nets.faceRecognitionNet.loadFromUri('../face-models'),
-      faceapi.nets.ageGenderNet.loadFromUri('../face-models'),
-  ])
+    const user = await User.findOne({ email });
+    // grab face & send data to detectFaces method
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (!user.userImage) {
+      return res.status(404).json({ error: "User has not registered a face" });
+    }
+    const refImage = user.userImage; // we know you are this guy
 
-  // grab face & send data to detectFaces method
+    // Remove the data URL prefix and decode the Base64 string of the image you uploaded
+    const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+    const imgBuffer = Buffer.from(base64Data, "base64");
+    const img = await loadImage(imgBuffer);
+    const imgCanvas = createCanvas(img.width, img.height);
+    const ctx = imgCanvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
 
-  // const refImage= document.getElementById("image");// this is the image the user uploads 
+    // check ther's actually a face in the image
+    const imageAIData = await faceapi.detectSingleFace(imgCanvas);
 
-  const facesToCheckImage = await fetchUserImageByEmail(email);
-  
-// first decode image from base64 string
-  let refImageAIData= await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors();
-  let facesToCheckImageAIData= await faceapi.detectAllFaces(facesToCheckImage).withFaceLandmarks().withFaceDescriptors();
+    if (!imageAIData) {
+      return res.status(404).json({ error: "No face detected" });
+    }
 
-  // here we make a face matcher of the reference image & compare that to the face we want to check
-  let faceMatcher= new faceapi.FaceMatcher(refImageAIData);
-  facesToCheckImageAIData= faceapi.resizeResults(facesToCheckImageAIData, facesToCheckImage);
-  
+    // Second image processing --remove data URL prefix and decode the Base64 string from the image from db
+    const base64DataSecondImage = refImage.replace(
+      /^data:image\/\w+;base64,/,
+      ""
+    );
+    const imgBufferSecondImage = Buffer.from(base64DataSecondImage, "base64");
+    const imgSecondImage = await loadImage(imgBufferSecondImage);
+    const imgCanvasSecondImage = createCanvas(
+      imgSecondImage.width,
+      imgSecondImage.height
+    );
+    const ctxSecondImage = imgCanvasSecondImage.getContext("2d");
+    ctxSecondImage.drawImage(
+      imgSecondImage,
+      0,
+      0,
+      imgSecondImage.width,
+      imgSecondImage.height
+    );
 
-  //loop all faces in image to check & compare faces
-  facesToCheckImageAIData.forEach(face=>{
-      
-      const {descriptor, detection}= face;
+    let refImageAIData = await faceapi
+      .detectAllFaces(imgCanvasSecondImage)
+      .withFaceLandmarks()
+      .withFaceDescriptors(); // image from the db
+    let faceToCheckImageAIData = await faceapi
+      .detectAllFaces(imgCanvas)
+      .withFaceLandmarks()
+      .withFaceDescriptors(); // image you uploaded
 
-      // make a label using the default 
-      let label= faceMatcher.findBestMatch(descriptor).toString();
-      console.log(label);
+    // here we make a face matcher of the reference image & compare that to the face we want to check
+    let faceMatcher = new faceapi.FaceMatcher(refImageAIData);
+    // return res.status(200).json({ message: "I am under the water" });
+    faceToCheckImageAIData = faceapi.resizeResults(
+      faceToCheckImageAIData,
+      imgCanvas
+    );
+
+    faceToCheckImageAIData.forEach((face) => {
+      const { descriptor, detection } = face;
+
+      // make a label using the default
+      let label = faceMatcher.findBestMatch(descriptor).toString();
+      // console.log(label);
 
       // If the face belongs to the person (not "unknown")
-  if (!label.includes("unknown")) {
-      // login user
-      console.log("User logged in.");
-      
-  } else {
-      alert('Face did not match. Please try again.');
-  }
-  })
-  
+      if (!label.includes("unknown")) {
+        // login user
+        console.log("User logged in.");
+        // Generate a JWT token and return it as a secure cookie
+        const token = jwt.sign(
+          { userCode: user.userCode, role: user.role },
+          process.env.JWT_SECRET,
+          { expiresIn: "24h" }
+        );
 
+        // Set token as an HttpOnly cookie
+        res.cookie("token", token, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000,
+        }); // 24 hours
+
+        // Return a success message
+        // res.json({ success: true, redirect: user.role });
+        res.status(200).json({ message: "User authenticated successfully" });
+      } else {
+        console.log("Face did not match. Please try again.");
+        // show error message on the front end
+        return res
+          .status(404)
+          .json({ error: "Face did not match. Please try again." });
+      }
+    });
+  } catch (error) {
+    console.log("Error verifying user:", error);
+    res.status(500).json({ error: "Error verifying user." + error });
+  }
 };
 
 //generate code for user registration
@@ -609,60 +652,78 @@ exports.generateCode = async (req, res) => {
     console.log("Error generating code:", error);
     res.status(500).json({ error: "Error generating code" });
   }
-}
+};
 
 //generate password for visitors
 exports.generateVisitorPassword = async (req, res) => {
-  
-    try {
-      const token = req.cookies.token;
+  try {
+    const token = req.cookies.token;
 
-      const verified = jwt.verify(token, process.env.JWT_SECRET);
-      let userCode = verified.userCode;
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    let userCode = verified.userCode;
 
-      //Find the user corresponding to this user code
+    //Find the user corresponding to this user code
 
-      const user = await User.findOne({ userCode });
+    const user = await User.findOne({ userCode });
 
+    //Check how much time is left
+    var millisecondsInAnHour = 3600000;
 
-      //Check how much time is left
-      var millisecondsInAnHour = 3600000;
+    // Calculate time left in milliseconds
+    var timeLeftInMilliseconds =
+      86400000 - (Date.now() - user.visitorPasswordCreatedAt);
 
-      // Calculate time left in milliseconds
-      var timeLeftInMilliseconds = 86400000 - (Date.now() - user.visitorPasswordCreatedAt);
+    // Convert milliseconds to hours
+    var timeLeftInHours = timeLeftInMilliseconds / millisecondsInAnHour;
 
-      // Convert milliseconds to hours
-      var timeLeftInHours = timeLeftInMilliseconds / millisecondsInAnHour;
+    // Round to the nearest half hour
+    var timeLeftInHalfHours = Math.round(timeLeftInHours * 2) / 2;
 
-      // Round to the nearest half hour
-      var timeLeftInHalfHours = Math.round(timeLeftInHours * 2) / 2;
-
-      //Check if password has been generated in the last 24 hours
-      if (user.visitorPassword && (Date.now() - user.visitorPasswordCreatedAt) < 86400000) {
-        return res.status(400).json({ message: `See visitor password below. It remains valid for about ${timeLeftInHalfHours} more hours.`, password: user.visitorPassword});
-      }
-
-      //A visitor password has already been generated recently. Please note that it remains valid for 24 hours from its initial generation.
-
-      //Generate a 5 digit password for the visitor
-      const password = Math.floor(10000 + Math.random() * 90000);
-
-      //Store the password and current date/time in the user's record
-      user.visitorPassword = password;
-      user.visitorPasswordCreatedAt = Date.now();
-
-      await user.save();
-
-      res.json({ password : password });
-
-    } catch (error) {
-      console.log("Error generating visitor password:", error);
-      res.status(500).json({ error: "Error generating visitor password" });
+    //Check if password has been generated in the last 24 hours
+    if (
+      user.visitorPassword &&
+      Date.now() - user.visitorPasswordCreatedAt < 86400000
+    ) {
+      return res.status(400).json({
+        message: `See visitor password below. It remains valid for about ${timeLeftInHalfHours} more hours.`,
+        password: user.visitorPassword,
+      });
     }
 
+    //A visitor password has already been generated recently. Please note that it remains valid for 24 hours from its initial generation.
+
+    //Generate a 5 digit password for the visitor
+    const password = Math.floor(10000 + Math.random() * 90000);
+
+    //Store the password and current date/time in the user's record
+    user.visitorPassword = password;
+    user.visitorPasswordCreatedAt = Date.now();
+
+    await user.save();
+
+    res.json({ password: password });
+  } catch (error) {
+    console.log("Error generating visitor password:", error);
+    res.status(500).json({ error: "Error generating visitor password" });
+  }
+};
+
+async function loadImages(image) {
+  try {
+    var actualImage = new Image();
+    actualImage.src = Buffer.from(image, "base64");
+
+    // Create a promise that resolves when the image finishes loading
+    const imageLoadPromise = new Promise((resolve, reject) => {
+      actualImage.onload = resolve;
+      actualImage.onerror = reject;
+    });
+
+    // Wait for the image to finish loading
+    await imageLoadPromise;
+
+    return actualImage;
+  } catch (error) {
+    console.log("Error creating image object:", error);
+  }
 }
-
-      
-      
-  
-

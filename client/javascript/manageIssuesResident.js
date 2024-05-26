@@ -72,42 +72,54 @@ fetch("/api/issues/getUserIssues")
 
     // Define your status-color mapping
     const statusColors = {
-      "Issued": "text-red-500",
+      Issued: "text-red-500",
       "In Progress": "text-yellow-400",
-      "Completed": "text-green-500",
+      Completed: "text-green-500",
     };
 
     issues.forEach((issue) => {
-
       let color = statusColors[issue.status];
 
       tableBody.innerHTML += `
                     <tr class="bg-white border-b hover:bg-gray-200 ">
-                    <th scope="row" class="px-5 py-1 font-medium text-gray-900 text-center ">
+                    <th scope="row" class="px-5 py-1 font-medium text-gray-900 text-left ">
                         ${issue.title}
                     </th>
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-5 py-2.5 text-left ">
                         ${issue.description}
                     </td>
-                    <td class="px-5 py-1 text-center w-[15%] font-bold ${color}" >
+                    <td class="px-5 py-1 text-left font-bold ${color}" >
                         ${issue.status}
                     </td>
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-5 py-2.5 text-left">
                         ${formatDate(issue.dateIssued)}
                     </td>
                 </tr>`;
     });
-
   })
   .catch((error) => {
-    
     issueInfo.classList.add("hidden");
     mainLoader.classList.add("hidden");
-   
 
     console.log("Error:", error);
     //show error in form of modal
     showErrorModal("An error occurred. Please try again later.");
-    
-
   });
+
+//Table search functionality
+let search = document.getElementById("table-search");
+search.addEventListener("keyup", function () {
+  let value = search.value.toLowerCase().trim();
+  let rows = document.querySelectorAll("tbody tr");
+
+  rows.forEach((row) => {
+    let rowText = row.textContent.toLowerCase().trim();
+    console.log("Row text: ", rowText);
+
+    if (rowText.includes(value)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+});

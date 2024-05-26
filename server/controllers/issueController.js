@@ -48,7 +48,12 @@ exports.getAllIssues = async (req, res) => {
     // loop through each issue, and find the name and surname using the userCode stored in the reportedBy field
     for (let i = 0; i < issues.length; i++) {
       let user = await User.findOne({ userCode: issues[i].reportedBy });
-      let name = user.name + " " + user.surname;
+      let name;
+      if (!user) {
+        name = "Unknown User";
+      } else {
+        name = user.name + " " + user.surname;
+      }
       issues[i] = { ...issues[i], name };
     }
 

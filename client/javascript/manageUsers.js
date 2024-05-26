@@ -67,16 +67,16 @@ fetch("/api/users/getAllUsers")
 
       tableBody.innerHTML += `
                     <tr id="row_${user.userCode}" class="bg-white border-b hover:bg-gray-200 ">
-                    <th scope="row" class="px-3 py-1 font-medium text-gray-900 text-center ">
+                    <th scope="row" class="px-3 py-1 font-medium text-gray-900 text-left ">
                         ${user.name} ${user.surname}
                     </th>
-                    <td class="px-6 py-1 text-center w-[15%]">
+                    <td class="px-6 py-1 text-left">
                         ${user.email}
                     </td>
-                    <td id="userCode_${user.userCode}" class="px-4 py-1 text-center w-[15%]">
+                    <td id="userCode_${user.userCode}" class="px-4 py-1 text-left">
                         ${user.userCode}
                     </td>
-                    <td class="px-5 py-1 text-center w-[15%]">
+                    <td class="px-5 py-1 text-left">
                         <select class="py-1.5 text-center text-xs rounded-3xl bg-gray-100 w-[100%] border-black" name=""
                             id="select_${user.userCode}">
                             <option value="${user.role}">${user.role}</option>
@@ -86,7 +86,7 @@ fetch("/api/users/getAllUsers")
                     </td>
 
 
-                    <td class="px-6 py-1 text-center w-[15%] mx-auto">
+                    <td class="px-0 py-1 text-left mx-auto">
                         <div class="flex justify-center">
                         <img id="update_${user.userCode}" src="${updateImage}" class="w-6 h-6 cursor-pointer">
                          <svg aria-hidden="true"
@@ -106,7 +106,7 @@ fetch("/api/users/getAllUsers")
                         </div>
                     </td>
 
-                    <td class="px-6 py-1 text-center w-[15%] ">
+                    <td class="px-0 py-1 text-center">
                         <div class="flex justify-center" >
                             <img id="delete_${user.userCode}" src="${deleteImage}" class="w-6 h-6 cursor-pointer"> 
                         <svg aria-hidden="true"
@@ -303,4 +303,29 @@ fetch("/api/users/getAllUsers")
     
     //show error in form of modal
     showErrorModal("An error occurred. Please try again later.");
+  });
+
+
+  //Table search functionality
+  let search = document.getElementById("table-search");
+  search.addEventListener("keyup", function () {
+    let value = search.value.toLowerCase().trim();
+    let rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach((row) => {
+      // Clone the row to manipulate and remove dropdown values
+      let rowClone = row.cloneNode(true);
+      rowClone.querySelectorAll("select").forEach(select => select.remove());
+
+      // Get the text content of the cloned row (without dropdown values)
+      let rowText = rowClone.textContent.toLowerCase().trim();
+      console.log("Row text: ", rowText); 
+
+
+      if (rowText.includes(value)) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
   });

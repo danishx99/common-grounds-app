@@ -98,27 +98,27 @@ fetch("/api/issues/getAllIssues")
       tableBody.innerHTML += `
                     <tr class="bg-white border-b hover:bg-gray-200 ">
 
-                    <th scope="row" class="px-5 py-1 font-medium text-gray-900 text-center ">
+                    <th scope="row" class="px-5 py-1 font-medium text-gray-900 text-left ">
                         ${issue._doc.title}
                     </th>
 
-                    <td class="px-5 py-2.5 text-center w-[10%]">
+                    <td class="px-5 py-2.5 text-left">
                         ${issue._doc.description}
                     </td>
 
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-5 py-2.5 text-left">
                         ${issue.name}
                     </td>
 
-                    <td class="px-5 py-2.5 text-center w-[15%]">
+                    <td class="px-5 py-2.5 text-left">
                         ${issue._doc.reportedBy}
                     </td>
 
-                      <td class="px-5 py-2.5 text-center w-[15%]">
+                      <td class="px-5 py-2.5 text-left">
                         ${formatDate(issue._doc.dateIssued)}
                     </td>
 
-                    <td class="px-5 py-1 text-center w-[15%] font-bold" >
+                    <td class="px-5 py-1 text-center  font-bold" >
 
                     <div class="flex justify-evenly class="">
                         <select class="py-1.5 text-center text-xs rounded-3xl bg-gray-100 w-[65%]  border-black " name=""  >
@@ -257,3 +257,42 @@ fetch("/api/issues/getAllIssues")
     //show error in form of modal
     showErrorModal("An error occurred. Please try again later.");
   });
+
+
+// Search functionality
+let search = document.getElementById("table-search");
+search.addEventListener("keyup", function () {
+    let value = search.value.toLowerCase().trim();
+    let rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach((row) => {
+        // Clone the row to manipulate and remove dropdown values
+        let rowClone = row.cloneNode(true);
+        
+        // Remove the text within dropdowns for main search
+        rowClone.querySelectorAll("select").forEach(select => select.remove());
+        
+        // Get the text content of the cloned row (without dropdown values)
+        let rowText = rowClone.textContent.toLowerCase().trim();
+
+        // Additionally get the text content of the status dropdown
+        let statusText = "";
+        let statusSelect = row.querySelector("select");
+        if (statusSelect) {
+            statusText = statusSelect.options[statusSelect.selectedIndex].text.toLowerCase().trim();
+        }
+
+        // Combine the row text and status text for searching
+        let combinedText = rowText + " " + statusText;
+
+        // Debugging: Log the row text to see the contents
+        console.log("Row text: ", combinedText);
+
+        // Check if the combined text includes the search value
+        if (combinedText.includes(value)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+});

@@ -73,7 +73,7 @@ var cameraButton = document.getElementById("camera_button");
 cameraButton.addEventListener("click", function (event) {
   // redirect to facialAuth page
   setTimeout(() => {
-    window.location.href = '/facialAuth';
+    window.location.href = '/verify-face';
     }, 0);
 
 });

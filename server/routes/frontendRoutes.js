@@ -16,45 +16,41 @@ router.get("/", (req, res) => {
 
 //login route
 router.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/login.html"));
-});
-
-// login with google route
-router.get("/login-with-google", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/loginWithGoogle.html"));
+  res.sendFile(path.join(__dirname, "../../client/html/auth/login.html"));
 });
 
 //forgot password route
 router.get("/forgot-password", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/forgotPassword.html"));
+  res.sendFile(
+    path.join(__dirname, "../../client/html/auth/forgotPassword.html")
+  );
 });
 
 //reset password route
 router.get("/reset-password", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/resetPassword.html"));
+  res.sendFile(
+    path.join(__dirname, "../../client/html/auth/resetPassword.html")
+  );
 });
 
 //user registration route
 router.get("/register", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/register.html"));
+  res.sendFile(path.join(__dirname, "../../client/html/auth/register.html"));
 });
 
 //user Facial Registration Login route
-router.get("/facialAuth", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/facialAuth.html"));
+router.get("/verify-face", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../client/html/auth/facialAuth.html"));
 });
 
-//user Facial Registration Registration route
-router.get("/setUpFacialAuth", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/setUpFacialAuth.html"));
-});
+//dashboard pages
 
 //Admin frontend route
 router.get(
   "/admin",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/admin.html"));
+    res.sendFile(path.join(__dirname, "../../client/html/admin/admin.html"));
   }
 );
 
@@ -62,14 +58,18 @@ router.get(
 router.get(
   "/resident",
   (req, res, next) => resident.isResident(req, res, next),
-  (req, res) => res.sendFile(path.join(__dirname, "../../client/resident.html"))
+  (req, res) =>
+    res.sendFile(
+      path.join(__dirname, "../../client/html/resident/resident.html")
+    )
 );
 
 //Staff frontend route
 router.get(
   "/staff",
   (req, res, next) => staff.isStaff(req, res, next),
-  (req, res) => res.sendFile(path.join(__dirname, "../../client/staff.html"))
+  (req, res) =>
+    res.sendFile(path.join(__dirname, "../../client/html/staff/staff.html"))
 );
 
 /* Admin Frontend Routes */
@@ -79,7 +79,9 @@ router.get(
   "/admin/generateCode",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/generateCode.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/admin/generateCode.html")
+    );
   }
 );
 
@@ -88,7 +90,9 @@ router.get(
   "/admin/manageUsers",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/manageUsers.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/admin/manageUsers.html")
+    );
   }
 );
 
@@ -97,24 +101,21 @@ router.get(
   "/admin/checkInVisitor",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/checkInVisitor.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/admin/checkInVisitor.html")
+    );
   }
 );
 
 //Admin page for managing visitors(E.g. viewing visitor details, logging them out when they leave, etc.)
-router.get(
-  "/admin/visitors",
-  (req, res, next) => admin.isAdmin(req, res, next),
-  (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/visitors.html"));
-  }
-);
 
 router.get(
   "/admin/manageVisitors",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/manageVisitors.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/admin/manageVisitors.html")
+    );
   }
 );
 
@@ -123,7 +124,9 @@ router.get(
   "/admin/issueFine",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/issueFine.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/admin/issueFine.html")
+    );
   }
 );
 
@@ -132,7 +135,9 @@ router.get(
   "/admin/manageFines",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/manageFines.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/admin/manageFines.html")
+    );
   }
 );
 
@@ -141,7 +146,9 @@ router.get(
   "/admin/sendNotification",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/sendNotification.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/user/sendNotification.html")
+    );
   }
 );
 
@@ -150,7 +157,9 @@ router.get(
   "/admin/viewReports",
   (req, res, next) => admin.isAdmin(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/viewReports.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/admin/viewReports.html")
+    );
   }
 );
 
@@ -162,7 +171,10 @@ router.get(
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => {
     res.sendFile(
-      path.join(__dirname, "../../client/generateVisitorPassword.html")
+      path.join(
+        __dirname,
+        "../../client/html/resident/generateVisitorPassword.html"
+      )
     );
   }
 );
@@ -173,7 +185,10 @@ router.get(
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => {
     res.sendFile(
-      path.join(__dirname, "../../client/manageIssuesResident.html")
+      path.join(
+        __dirname,
+        "../../client/html/resident/manageIssuesResident.html"
+      )
     );
   }
 );
@@ -183,7 +198,9 @@ router.get(
   "/resident/logIssue",
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/logIssue.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/resident/logIssue.html")
+    );
   }
 );
 
@@ -192,17 +209,19 @@ router.get(
   "/resident/viewFines",
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/viewFines.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/resident/viewFines.html")
+    );
   }
 );
-
-
 
 router.get(
   "/resident/viewNotifications",
   (req, res, next) => resident.isResident(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/viewNotifications.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/resident/viewNotifications.html")
+    );
   }
 );
 
@@ -211,7 +230,9 @@ router.get(
   "/staff/manageIssues",
   (req, res, next) => staff.isStaff(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/manageIssuesStaff.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/staff/manageIssuesStaff.html")
+    );
   }
 );
 
@@ -219,9 +240,40 @@ router.get(
   "/staff/sendNotification",
   (req, res, next) => staff.isStaff(req, res, next),
   (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/sendNotification.html"));
+    res.sendFile(
+      path.join(__dirname, "../../client/html/user/sendNotification.html")
+    );
   }
 );
 
+router.get(
+  "/staff/register-face",
+  (req, res, next) => staff.isStaff(req, res, next),
+  (req, res) => {
+    res.sendFile(
+      path.join(__dirname, "../../client/html/user/setUpFacialAuth.html")
+    );
+  }
+);
+
+router.get(
+  "/resident/register-face",
+  (req, res, next) => resident.isResident(req, res, next),
+  (req, res) => {
+    res.sendFile(
+      path.join(__dirname, "../../client/html/user/setUpFacialAuth.html")
+    );
+  }
+);
+
+router.get(
+  "/admin/register-face",
+  (req, res, next) => admin.isAdmin(req, res, next),
+  (req, res) => {
+    res.sendFile(
+      path.join(__dirname, "../../client/html/user/setUpFacialAuth.html")
+    );
+  }
+);
 
 module.exports = router;

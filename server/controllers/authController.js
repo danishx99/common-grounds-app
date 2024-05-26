@@ -534,7 +534,7 @@ exports.verifyFace = async (req, res) => {
     const ctx = imgCanvas.getContext("2d");
     ctx.drawImage(img, 0, 0, img.width, img.height);
 
-    // Now you can process the image with face-api.js
+    // check ther's actually a face in the image
   const imageAIData = await faceapi.detectSingleFace(imgCanvas);
 
   if (!imageAIData) {

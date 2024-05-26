@@ -1,18 +1,17 @@
 // Import necessary modules from the Firebase SDK
+const tf = require("@tensorflow/tfjs-node");
 
-// require('@tensorflow/tfjs-node'); // ig we kinda need this so find a way to make it work
-const faceapi = require('@vladmandic/face-api');
+
+const faceapi = require("face-api.js");
 const canvas = require("../node_modules/canvas");
 const { Canvas, Image, ImageData, createCanvas, loadImage } = canvas;
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
-const tf=require('@tensorflow/tfjs-node');
 
 (async () => {
-  await tf.setBackend('tensorflow');
+  await tf.setBackend("tensorflow");
   await tf.ready();
-  console.log('TensorFlow backend set to tensorflow and is ready');
+  console.log("TensorFlow backend set to tensorflow and is ready");
 })();
-
 
 const path = require("path");
 
@@ -547,11 +546,11 @@ exports.verifyFace = async (req, res) => {
     ctx.drawImage(img, 0, 0, img.width, img.height);
 
     // check ther's actually a face in the image
-  const imageAIData = await faceapi.detectSingleFace(imgCanvas);
+    const imageAIData = await faceapi.detectSingleFace(imgCanvas);
 
-  if (!imageAIData) {
-    return res.status(404).json({ error: "No face detected" });
-  }
+    if (!imageAIData) {
+      return res.status(404).json({ error: "No face detected" });
+    }
 
     // Second image processing --remove data URL prefix and decode the Base64 string from the image from db
     const base64DataSecondImage = refImage.replace(
@@ -572,8 +571,6 @@ exports.verifyFace = async (req, res) => {
       imgSecondImage.width,
       imgSecondImage.height
     );
-
-
 
     let refImageAIData = await faceapi
       .detectAllFaces(imgCanvasSecondImage)

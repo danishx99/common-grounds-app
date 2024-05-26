@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     captureButton.addEventListener('click', (event) => {
 
         event.preventDefault();
+        video.pause();
         // Dynamically set the canvas size to match the video's dimensions
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;

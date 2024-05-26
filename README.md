@@ -35,10 +35,9 @@ Follow these steps to install the project dependencies and start the development
 1. **Clone the Repository**:
     ```bash
     git clone https://github.com/danishx99/common-grounds-app.git
-    cd your_repository
     ```
 
-2. **Navigate to the Server Directory**:
+2. **After cloning, navigate to the Server Directory**:
     ```bash
     cd server
     ```

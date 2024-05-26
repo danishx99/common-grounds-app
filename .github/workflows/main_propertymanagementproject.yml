@@ -64,6 +64,9 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: Expand-Archive -Path release.zip -DestinationPath .
+      
+      - name: Remove the zip file
+        run: Remove-Item -Path release.zip
 
       - name: Login to Azure
         uses: azure/login@v1
@@ -73,7 +76,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_25E039E03C644A08B6DD4255E8CC6E61 }}
 
       - name: "Deploy to Azure Web App"
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
           app-name: "propertymanagementproject"

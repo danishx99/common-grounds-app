@@ -74,4 +74,4 @@ jobs:
           app-name: 'propertymanagementproject'
           slot-name: 'Production'
           package: .
-          
+

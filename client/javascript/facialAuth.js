@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     video.pause();
 
     event.preventDefault();
+    video.pause();
     // Dynamically set the canvas size to match the video's dimensions
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;

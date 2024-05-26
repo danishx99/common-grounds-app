@@ -94,12 +94,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (data.message === "User authenticated successfully") {
           var alert = document.getElementById("alert");
           alert.style.display = "block";
-          alert.innerText = "User authenticated successfully";
+          alert.innerText = "User authenticated successfully. Redirecting...";
           alert.className =
             "bg-green-100 border hidden border-green-400 text-green-700 px-2 py-2 rounded-2xl text-center mb-[4%]";
           setTimeout(() => {
             window.location.href = "/";
-          }, 5000);
+          }, 1500);
         } else if (data.error) {
           var alert = document.getElementById("alert");
           alert.style.display = "block";

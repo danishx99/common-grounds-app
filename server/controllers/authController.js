@@ -23,16 +23,6 @@ var https = require("https");
 
 dotenv.config();
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCtpyCzfGywbnGc4MQl3Sv_jDt_3JPSxl0",
-//   authDomain: "commongrounds-420608.firebaseapp.com",
-//   projectId: "commongrounds-420608",
-//   storageBucket: "commongrounds-420608.appspot.com",
-//   messagingSenderId: "940662765230",
-//   appId: "1:940662765230:web:71339aa44caa538d541f3f",
-//   measurementId: "G-3ZSK3L2G23",
-// };
-
 exports.registerUser = async (req, res) => {
   try {
     const {
@@ -220,7 +210,6 @@ exports.registerWithGoogle = async (req, res) => {
       });
     }
 
-    
     // check that codeCheck was not made more than 24 hours ago
     if (Date.now() - codeCheck.createdAt > 86400000) {
       return res.status(400).json({ error: "Registration code has expired" });
@@ -431,6 +420,9 @@ exports.registerFace = async (req, res) => {
   // image is a  base64 string
   const { image } = req.body;
 
+  //start a timer in ms
+  let start = Date.now();
+
   await Promise.all([
     // Load the model weights from a local file
     faceapi.nets.ssdMobilenetv1.loadFromDisk(
@@ -446,6 +438,14 @@ exports.registerFace = async (req, res) => {
       path.join(__dirname, "../face-models")
     ),
   ]);
+
+  //end the timer
+  let end = Date.now();
+  console.log("Time taken to load models: ", end - start);
+
+  //start new timer
+  start = Date.now();
+
   //get Current logged in user
   const token = req.cookies.token;
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -470,8 +470,20 @@ exports.registerFace = async (req, res) => {
   const ctx = imgCanvas.getContext("2d");
   ctx.drawImage(img, 0, 0, img.width, img.height);
 
+  //end the timer
+  end = Date.now();
+  console.log("Time taken to load image: ", end - start);
+
+  //start timer
+
+  start = Date.now();
+
   // Now you can process the image with face-api.js
   const imageAIData = await faceapi.detectSingleFace(imgCanvas);
+
+  //end the timer
+  end = Date.now();
+  console.log("Time taken to detect face: ", end - start);
 
   if (!imageAIData) {
     return res.status(404).json({ error: "No face detected" });
@@ -591,9 +603,11 @@ exports.verifyFace = async (req, res) => {
         // res.json({ success: true, redirect: user.role });
         res.status(200).json({ message: "User authenticated successfully" });
       } else {
-        console.log("Face did not match. Please try again."); 
+        console.log("Face did not match. Please try again.");
         // show error message on the front end
-        return res.status(404).json({ error: "Face did not match. Please try again." });
+        return res
+          .status(404)
+          .json({ error: "Face did not match. Please try again." });
       }
     });
   } catch (error) {

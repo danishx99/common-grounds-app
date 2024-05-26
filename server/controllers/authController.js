@@ -591,7 +591,9 @@ exports.verifyFace = async (req, res) => {
         // res.json({ success: true, redirect: user.role });
         res.status(200).json({ message: "User authenticated successfully" });
       } else {
-        console.log("Face did not match. Please try again."); // show error message on the front end
+        console.log("Face did not match. Please try again."); 
+        // show error message on the front end
+        return res.status(404).json({ error: "Face did not match. Please try again." });
       }
     });
   } catch (error) {

@@ -100,12 +100,51 @@ fetch("/api/notifications/getNotifications")
                   
 
                       <td class="px-4 py-2.5 text-center w-[10%]">
-                        ${notification.issuedBy}
+                       <span class="code">${notification.issuedBy}</span> 
+                     
+
                     </td>
 
 
                 </tr>`;
+
     });
+
+   // <div data-popover id="popover-left" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 -left-52 top-1/2 transform -translate-y-1/2">
+    //      <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+    //          <h2 class="font-semibold text-gray-900 dark:text-white">Popover left</h3>
+    //      </div>
+    //      <div class="px-3 py-2">
+    //          <p>And here's some amazing content. It's very engaging. Right?</p>
+    //      </div>
+    //      <div data-popper-arrow></div>
+    //  </div>
+
+    // const codes = document.querySelectorAll(".code");
+    // const popovers = document.querySelectorAll("[data-popover]");
+
+    
+    
+    // codes.forEach((code, index) => {
+    //   const code_ = code.textContent;
+    //   code.addEventListener("mouseover", () => {
+    //     popoverstitle = popovers[index].querySelector("h2");
+    //     popoverstitle.textContent = code_;
+    //     popovers[index].classList.remove("invisible");
+    //     popovers[index].classList.remove("invisible");
+    //     popovers[index].classList.add("visible");
+    //     popovers[index].classList.add("opacity-100");
+    //   });
+
+    //   code.addEventListener("mouseout", () => {
+    //     popovers[index].classList.remove("visible");
+    //     popovers[index].classList.add("invisible");
+    //     popovers[index].classList.remove("opacity-100");
+    //   });
+    // });
+   
+
+    
 
   })
   .catch((error) => {
@@ -114,5 +153,4 @@ fetch("/api/notifications/getNotifications")
     //show error in form of modal
     showErrorModal("An error occurred. Please try again later.");
   });
-
 

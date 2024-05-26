@@ -37,25 +37,25 @@ exports.getNotifications = async (req, res) => {
     const userCode = verified.userCode;
 
     //add userCode to viewedBy array in notifications
-    notifications.forEach(async (notification) => {
+    notifications.forEach((notification) => {
       if (!notification.viewedBy.includes(userCode)) {
         notification.viewedBy.push(userCode);
-        await notification.save();
+        notification.save();
       }
     });
 
-    for (var i = 0; i < notifications.length; i++) {
-      //Get the user name and surname that issued the notification
-      let userCode = notifications[i].issuedBy;
-      let user = await User.findOne({ userCode: userCode });
-      if (!user) {
-        user = { name: "Unknown", surname: "Unknown" };
-      }
-      // console.log("user", user);
-      console.log(user.name + " " + user.surname);
+    // for (var i = 0; i < notifications.length; i++) {
+    //   //Get the user name and surname that issued the notification
+    //   let userCode = notifications[i].issuedBy;
+    //   let user = await User.findOne({ userCode: userCode });
+    //   if (!user) {
+    //     user = { name: "Unknown", surname: "Unknown" };
+    //   }
+    //   // console.log("user", user);
+    //   console.log(user.name + " " + user.surname);
 
-      notifications[i].issuedBy = user.name + " " + user.surname;
-    }
+    //   notifications[i].issuedBy = user.name + " " + user.surname;
+    // }
 
     res.status(200).json({ notifications: notifications });
   } catch (error) {

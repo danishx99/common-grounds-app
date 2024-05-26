@@ -1,5 +1,3 @@
-// Import necessary modules from the Firebase SDK
-
 const faceapi = require("@vladmandic/face-api");
 const canvas = require("../node_modules/canvas");
 const { Canvas, Image, ImageData, createCanvas, loadImage } = canvas;

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm i && cd .. && nodemon --watch client --watch server --watch app.js app.js",
     "test": "jest",
-    "build": "npm rebuild"
+    "build": "npm rebuild",
+    "packageInstall": "cd server && npm i"
   },
   "author": "Qais",
   "license": "ISC",

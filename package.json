@@ -4,9 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npm i && cd .. && nodemon --watch client --watch server --watch app.js app.js",
+    "start": "node app.js",
     "test": "jest",
-    "build": "npm rebuild",
     "packageInstall": "cd server && npm i"
   },
   "author": "Qais",

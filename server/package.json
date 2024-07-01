@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "jest",
-    "packageInstall": "cd server && npm i"
+    "test": "jest"
   },
   "author": "Qais",
   "license": "ISC",

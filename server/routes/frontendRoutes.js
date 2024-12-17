@@ -11,7 +11,9 @@ const { homeRedirect } = require("../middleware/homeRedirect");
 
 //home route
 router.get("/", (req, res) => {
+  //if logged in, redirect to the appropriate dashboard, if logged out, redirect to login page
   homeRedirect(req, res);
+
 });
 
 //login route

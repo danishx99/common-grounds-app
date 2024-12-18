@@ -69,11 +69,11 @@ submitButton.addEventListener("click", function (event) {
     });
 });
 
-var cameraButton = document.getElementById("camera_button");
-cameraButton.addEventListener("click", function (event) {
-  // redirect to facialAuth page
-  setTimeout(() => {
-    window.location.href = '/verify-face';
-    }, 0);
+// var cameraButton = document.getElementById("camera_button");
+// cameraButton.addEventListener("click", function (event) {
+//   // redirect to facialAuth page
+//   setTimeout(() => {
+//     window.location.href = '/verify-face';
+//     }, 0);
 
-});
+// });

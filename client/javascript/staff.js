@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "/staff";
   });
 
-  setUpFacialAuth.addEventListener("click", function () {
-    window.location.href = "/staff/register-face";
-  });
+  // setUpFacialAuth.addEventListener("click", function () {
+  //   window.location.href = "/staff/register-face";
+  // });
 });

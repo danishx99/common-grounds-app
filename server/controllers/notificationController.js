@@ -31,6 +31,9 @@ exports.getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find();
 
+    //sort notifications by date (newest first)
+    notifications.sort((a, b) => b.createdAt - a.createdAt);
+
     //Get current user
     const token = req.cookies.token;
     const verified = jwt.verify(token, process.env.JWT_SECRET);

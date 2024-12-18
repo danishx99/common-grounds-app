@@ -5,6 +5,8 @@ dotenv.config();
 
 const User = require("../models/User");
 
+const path = require("path");
+
 // Check if the user is an admin
 exports.homeRedirect = async (req, res) => {
   try {

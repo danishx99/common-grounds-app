@@ -76,8 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Error:", error);
     });
 
-  setUpFacialAuth.addEventListener("click", function () {
-    window.location.href = "/admin/register-face";
-  });
-
+  // setUpFacialAuth.addEventListener("click", function () {
+  //   window.location.href = "/admin/register-face";
+  // });
 });

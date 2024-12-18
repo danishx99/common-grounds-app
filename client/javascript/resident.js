@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "/resident/viewNotifications";
   });
 
-  setUpFacialAuth.addEventListener("click", function () {
-    window.location.href = "/resident/register-face";
-  });
+  // setUpFacialAuth.addEventListener("click", function () {
+  //   window.location.href = "/resident/register-face";
+  // });
 
   const fetchNotifications = async () => {
     //get request to /api/fines/hasUnreadFines

@@ -1,1 +1,150 @@
-<h1>Landing Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Grounds Residential Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../src/output.css">
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card {
+            background-color: #fff;
+            color: #000;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px;
+            max-width: 80%;
+        }
+
+
+
+        .hero-image {
+            max-width: 45%;
+        }
+    </style>
+</head>
+
+<body class="bg-[#001B0C] flex flex-col items-center text-white">
+
+    <!-- Header -->
+    <header class="border-b-2 p-4 bg-white border-white flex justify-between w-full">
+        <img id="logo" src="../../assets/logo-black-transparent.png" class="h-12 cursor-pointer" alt="logo">
+        <button type="button" id="login"
+            class="flex items-center justify-center mb-2 bg-[#004621] hover:bg-green-700 rounded-3xl text-white py-2 px-4 font-bold">
+            Login
+        </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero text-white p-8 ">
+        <!-- Text Section -->
+        <div class="hero-text flex flex-col w-1/2 max-md:w-full max-md:items-center ">
+            <h1 class="text-5xl max-md:text-3xl font-extrabold leading-tight text-center md:text-left w-full">
+                Simplify Residential Management
+            </h1>
+            <p class="text-lg text-gray-300 mt-4 text-center md:text-left w-full">
+                Common Grounds Residential Management helps communities stay connected and organized. From admin tools
+                to resident features, we provide everything you need to manage your residential community effectively.
+            </p>
+            <button id="getStarted"
+                class="green-button mt-6 w-40 py-2 px-4 bg-[#004621] hover:bg-green-700 rounded text-white font-bold">
+                Get Started
+            </button>
+        </div>
+
+        <!-- Image Section -->
+        <div class="hero-image max-md:hidden md:w-1/2 mt-8 md:mt-0 flex justify-center0">
+            <img src="../../assets/commonGround-aesthetic.png" alt="Residential Management"
+                class="max-w-full h-auto rounded-lg shadow-lg">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="my-12 w-full space-y-12">
+        <!-- Admin Card -->
+        <div class="feature-card hover-lift">
+            <h2 class="text-3xl font-extrabold mb-4 text-center">Admin Features</h2>
+            <ul class="list-disc list-inside text-gray-800 space-y-2">
+                <li>Generate registration codes for onboarding new users</li>
+                <li>Manage user accounts and permissions</li>
+                <li>Manage visitor permissions</li>
+                <li>Send notifications to residents</li>
+                <li>View detailed reports and analytics</li>
+                <li>Handle fines and compliance</li>
+            </ul>
+        </div>
+
+        <!-- Resident Card -->
+        <div class="feature-card hover-lift">
+            <h2 class="text-3xl font-extrabold mb-4 text-center">Resident Features</h2>
+            <ul class="list-disc list-inside text-gray-800 space-y-2">
+                <li>Register visitors for smooth entry</li>
+                <li>Submit maintenance requests and track status</li>
+                <li>Receive important community notifications</li>
+                <li>Track personal fines and status</li>
+            </ul>
+        </div>
+
+        <!-- Staff Card -->
+        <div class="feature-card hover-lift">
+            <h2 class="text-3xl font-extrabold mb-4 text-center">Staff Features</h2>
+            <ul class="list-disc list-inside text-gray-800 space-y-2">
+                <li>Handle issues reported by residents</li>
+                <li>Send out important notifications to residents</li>
+            </ul>
+        </div>
+
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-12 text-sm max-md:text-xs w-full bg-[#004621] text-white py-4 text-center">
+        <p>&copy; 2024 Common Grounds Residential Management. All rights reserved.</p>
+    </footer>
+
+</body>
+
+<script>
+    let getStarted = document.getElementById('getStarted');
+    let login = document.getElementById('login');
+
+    getStarted.addEventListener('click', () => {
+        window.location.href = "/register";
+    });
+
+    login.addEventListener('click', () => {
+        window.location.href = "/login";
+    });
+</script>
+
+</html>
